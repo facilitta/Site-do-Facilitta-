@@ -73,10 +73,10 @@
     }
     .hero-video {
       position: absolute;
-      top: -20%;
+      top: -10%;
       left: 0;
       width: 100%;
-      height: 140%;
+      height: 120%;
       object-fit: cover;
       object-position: center;
       z-index: 0;
@@ -343,6 +343,28 @@
     .hero .hero-eyebrow { color: rgba(255,255,255,0.85) !important; }
     .hero .hero-title { color: #ffffff !important; }
     .hero .hero-title strong { color: #ffffff !important; }
+
+    /* ── TAGLINE ── */
+    .tagline-section {
+      background: #ffffff;
+      padding: 100px 64px;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .tagline-section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .tagline-text {
+      font-size: clamp(32px, 4vw, 56px);
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      color: #2B2B2B;
+      line-height: 1.1;
+    }
+    .tagline-text span { color: var(--red); }
   </style>
 </head>
 <body>
@@ -372,6 +394,12 @@
       <strong>cursado do Brasil.</strong>
     </h1>
   </div>
+</section>
+
+
+<!-- TAGLINE -->
+<section class="tagline-section reveal">
+  <p class="tagline-text">Seu sonho, <span>mais perto.</span></p>
 </section>
 
 <!-- QUEM SOMOS -->
@@ -555,7 +583,7 @@
   if (heroVideo) {
     window.addEventListener('scroll', () => {
       const scrollY = window.scrollY;
-      heroVideo.style.transform = `translateY(${scrollY * 0.4}px)`;
+      heroVideo.style.transform = `translateY(${scrollY * 0.15}px)`;
     }, { passive: true });
   }
 </script>

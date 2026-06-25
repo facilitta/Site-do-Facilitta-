@@ -66,7 +66,16 @@
     /* ── HERO PARALLAX STEPS ── */
     .hero-wrapper {
       position: relative;
-      height: 300vh; /* 3x viewport para scroll suave */
+      height: 220vh;
+    }
+    .hero-wrapper::after {
+      content: "";
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 180px;
+      background: linear-gradient(to bottom, transparent, #ffffff);
+      z-index: 10;
+      pointer-events: none;
     }
     .hero-video-container {
       position: sticky;
@@ -76,10 +85,11 @@
       overflow: hidden;
       z-index: 0;
     }
+
     .hero-video {
       position: absolute;
-      top: -10%; left: 0;
-      width: 100%; height: 120%;
+      top: 0; left: 0;
+      width: 100%; height: 110%;
       object-fit: cover;
       object-position: center;
       will-change: transform;
@@ -406,7 +416,7 @@
   <!-- Etapa 2: Seu sonho -->
   <div class="hero-step" id="step2">
     <div class="hero-step-content">
-      <h2 class="hero-tagline">Seu sonho,<br/>mais perto.</h2>
+      <h2 class="hero-tagline">Seu sonho, mais perto.</h2>
     </div>
   </div>
 </div>
@@ -601,7 +611,7 @@
 
       // Parallax suave no vídeo
       if (heroVideo) {
-        heroVideo.style.transform = `translateY(${scrollY * 0.15}px)`;
+        heroVideo.style.transform = `translateY(${scrollY * 0.08}px)`;
       }
 
       // Etapa 1: fade out ao rolar

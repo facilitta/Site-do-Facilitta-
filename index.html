@@ -327,10 +327,12 @@
       .program-card-inner { padding: 32px; }
     }
     @media (max-width: 768px) {
-      nav { padding: 0 16px; height: 60px; }
-      .nav-links { gap: 20px; }
-      .nav-links a { font-size: 13px; }
-      .nav-right { gap: 8px; }
+      nav { padding: 0 14px; height: 60px; }
+      .nav-links { position: static; transform: none; gap: 14px; }
+      .nav-links a { font-size: 11px; }
+      .nav-insta { display: none; }
+      .nav-right { gap: 6px; }
+      .nav-cta { font-size: 12px; padding: 8px 14px; }
       .hero { padding: 130px 20px 64px; min-height: 70vh; }
       .about-section { grid-template-columns: 1fr; }
       .about-photo { min-height: 300px; }
@@ -375,6 +377,11 @@
     /* Hero com vídeo — textos brancos */
     .hero-title { color: #ffffff !important; }
     .hero-title strong { color: #ffffff !important; }
+
+    .hero-video::-webkit-media-controls { display: none !important; }
+    .hero-video::-webkit-media-controls-enclosure { display: none !important; }
+    .hero-video::--webkit-media-controls-panel { display: none !important; }
+    video::-webkit-media-controls { display: none !important; }
   </style>
 </head>
 <body>
@@ -396,7 +403,7 @@
 <div class="hero-wrapper">
   <!-- Vídeo fixo durante o scroll -->
   <div class="hero-video-container">
-    <video class="hero-video" autoplay muted loop playsinline preload="auto">
+    <video class="hero-video" autoplay muted loop playsinline webkit-playsinline preload="auto" disablepictureinpicture>
       <source src="/mixkit-students-walking-in-a-university-4519-hd-ready.mp4" type="video/mp4">
     </video>
     <div class="hero-overlay"></div>

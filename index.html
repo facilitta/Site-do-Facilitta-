@@ -251,44 +251,49 @@
 
     /* ── CARDS GRID ── */
     .programs-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: 380px 230px;
-      gap: 12px;
-      max-width: 960px;
-      margin: 0 auto;
-    }
-    .program-card {
-      display: block;
-      border-radius: 20px;
-      overflow: hidden;
-      cursor: pointer;
-      text-decoration: none;
-      transition: transform 0.18s ease, box-shadow 0.18s ease;
-    }
-    .program-card:hover {
-      transform: scale(1.013);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.18);
-    }
-    .program-card img.card-img {
-      width: 100%;
-      height: 100%;
-      display: block;
-    }
-    /* Cards com foto: cover, âncora específica */
-    .card-hs  img.card-img { object-fit: cover; object-position: center center; }
-    .card-pos img.card-img { object-fit: cover; object-position: left bottom; }
-    /* Cards sem foto: contain + fundo escuro */
-    .card-ing { background: #1E1E1E; }
-    .card-ing img.card-img { object-fit: contain; object-position: center center; }
-    .card-tec { background: #1E1E1E; }
-    .card-tec img.card-img { object-fit: contain; object-position: center center; }
-    /* Posições no grid 2×2 */
-    .card-hs  { grid-column: 1; grid-row: 1; }
-    .card-ing { grid-column: 2; grid-row: 1; }
-    .card-tec { grid-column: 1; grid-row: 2; }
-    .card-pos { grid-column: 2; grid-row: 2; }
+  display: flex;
+  gap: 12px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+.programs-col {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 12px;
+}
+.program-card {
+  display: block;
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.program-card:hover {
+  transform: scale(1.013);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+}
+.program-card img.card-img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+/* Alturas individuais por card */.card-hs  { height: 380px; }  /* col 1 — grande */
+.card-tec { height: 230px; }  /* col 1 — pequeno */
+.card-ing { height: 230px; }  /* col 2 — pequeno */
+.card-pos { height: 380px; }  /* col 2 — grande */
 
+/* Cards com foto */
+.card-hs  img.card-img { object-fit: cover; object-position: center center; }
+.card-pos img.card-img { object-fit: cover; object-position: left bottom; }
+/* Cards sem foto */
+.card-ing { background: #1E1E1E; }
+.card-ing img.card-img { object-fit: contain; object-position: center center; }
+.card-tec { background: #1E1E1E; }
+.card-tec img.card-img { object-fit: contain; object-position: center center; }
+
+    
     /* FOOTER */
     footer {
       background: var(--red);
@@ -430,70 +435,29 @@
 </section>
 
 <!-- PROGRAMAS -->
-<section class="programs" id="programas">
-  <h2 class="section-title section-title-center reveal">Conheça o Facilitta</h2>
+<div class="programs-grid">
 
-  <div class="video-block reveal">
-    <video controls preload="metadata" style="display:none;">
-      <source src="COLOQUE_AQUI_O_LINK_DO_GITHUB.mp4" type="video/mp4">
-    </video>
-    <div class="video-block-placeholder" id="videoPlaceholder" onclick="playVideo()">
-      <!-- Staircase texture background -->
-      <svg class="video-stair-bg" viewBox="0 0 820 461" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-        <rect width="820" height="461" fill="#1E1E1E"/>
-        <rect x="0" y="380" width="820" height="5" fill="rgba(232,57,29,0.1)"/>
-        <rect x="0" y="300" width="640" height="5" fill="rgba(232,57,29,0.09)"/>
-        <rect x="0" y="220" width="480" height="5" fill="rgba(232,57,29,0.07)"/>
-        <rect x="0" y="140" width="340" height="5" fill="rgba(232,57,29,0.06)"/>
-        <rect x="0" y="60" width="200" height="5" fill="rgba(232,57,29,0.04)"/>
-        <rect x="640" y="300" width="5" height="85" fill="rgba(232,57,29,0.09)"/>
-        <rect x="480" y="220" width="5" height="85" fill="rgba(232,57,29,0.07)"/>
-        <rect x="340" y="140" width="5" height="85" fill="rgba(232,57,29,0.06)"/>
-        <rect x="200" y="60" width="5" height="85" fill="rgba(232,57,29,0.04)"/>
-        <rect x="0" y="0" width="820" height="461" fill="url(#vgrad)"/>
-        <defs>
-          <radialGradient id="vgrad" cx="50%" cy="50%" r="60%">
-            <stop offset="0%" stop-color="rgba(30,30,30,0)"/>
-            <stop offset="100%" stop-color="rgba(15,15,15,0.7)"/>
-          </radialGradient>
-        </defs>
-      </svg>
-      <div class="video-play-btn">
-        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-          <path d="M10 7l13 7-13 7V7z" fill="white"/>
-        </svg>
-      </div>
-      <div class="video-play-label">Assistir apresentacao</div>
-    </div>
-  </div>
-
-  <div class="section-eyebrow section-eyebrow-center programs-label-big">Programas</div>
-
-  <div class="programs-grid">
-
-    <!-- High School — col 1 linha 1 (grande, com foto) -->
+  <div class="programs-col">
+    <!-- Col 1: grande em cima, pequeno embaixo -->
     <a href="highschool.html" class="program-card card-hs reveal">
-      <img class="card-img" src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/refs/heads/main/IMG_2088.png" alt="Diploma do High School Americano" />
+      <img class="card-img" src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/refs/heads/main/IMG_4272.png" alt="Diploma do High School Americano" />
     </a>
-
-    <!-- Curso de Inglês — col 2 linha 1 (grande, sem foto) -->
-    <a href="#" class="program-card card-ing reveal">
-      <img class="card-img" src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/refs/heads/main/IMG_2090.png" alt="Curso de Inglês" />
-    </a>
-
-    <!-- Curso Técnico — col 1 linha 2 (pequeno, sem foto) -->
     <a href="#" class="program-card card-tec reveal">
-      <img class="card-img" src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/refs/heads/main/IMG_2087.png" alt="Curso Técnico" />
+      <img class="card-img" src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/refs/heads/main/IMG_4271.png" alt="Curso Técnico" />
     </a>
-
-    <!-- Pós Graduação — col 2 linha 2 (pequeno, com foto) -->
-    <a href="#" class="program-card card-pos reveal">
-      <img class="card-img" src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/refs/heads/main/IMG_2089.png" alt="Pós Graduação no Exterior" />
-    </a>
-
   </div>
-</section>
 
+  <div class="programs-col">
+    <!-- Col 2: pequeno em cima, grande embaixo -->
+    <a href="#" class="program-card card-ing reveal">
+      <img class="card-img" src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/refs/heads/main/IMG_4274.png" alt="Curso de Inglês" />
+    </a>
+    <a href="#" class="program-card card-pos reveal">
+      <img class="card-img" src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/refs/heads/main/IMG_4273.png" alt="Pós Graduação no Exterior" />
+    </a>
+  </div>
+
+</div>
 <!-- FOOTER -->
 <footer>
   <p>© 2026 Facilitta Academy. Todos os direitos reservados.</p>

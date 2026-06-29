@@ -27,21 +27,20 @@
     * { font-style: normal !important; }
 
 /* NAV */
-nav {
- position: fixed; top: 0; left: 0; right: 0; z-index: 100;
- display: flex; align-items: center; justify-content: space-between;
- padding: 0 48px; height: 76px;
- background: rgba(255,255,255,0.96);
- backdrop-filter: blur(16px);
- border-bottom: 1px solid rgba(0,0,0,0.07);
-}
-.nav-logo { display: flex; align-items: center; }
-.nav-logo img { height: 38px; width: auto; display: block; object-fit: contain; }
-.nav-links {
- position: absolute; left: 50%; transform: translateX(-50%);
- display: flex; align-items: center; gap: 40px;
- white-space: nowrap;
-}
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px; height: 76px;
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(0,0,0,0.07);
+    }
+    .nav-logo { display: flex; align-items: center; }
+    .nav-logo img { height: 38px; width: auto; display: block; object-fit: contain; }
+    .nav-links {
+      position: absolute; left: 50%; transform: translateX(-50%);
+      display: flex; align-items: center; gap: 40px;
+    }
 .nav-links a {
  font-size: 14px; font-weight: 500; color: var(--dark);
  text-decoration: none; opacity: 0.6; transition: opacity .2s;

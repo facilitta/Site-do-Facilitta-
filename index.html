@@ -73,7 +73,17 @@ nav {
   font-size: 14px; font-weight: 500;
   color: var(--dark); text-decoration: none;
   opacity: 0.7; transition: opacity .2s, background .2s;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
 }
+.nav-dropdown-menu a:last-child {
+  border-bottom: none;
+}
+.nav-dropdown-menu a:hover { 
+  opacity: 1; 
+  background: rgba(232,57,29,0.08);
+  color: var(--red);
+}
+
 .nav-dropdown-menu a:hover { opacity: 1; background: rgba(232,57,29,0.06); }
 .nav-dropdown:hover .nav-dropdown-menu { display: block; }
 

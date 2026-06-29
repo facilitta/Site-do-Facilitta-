@@ -93,10 +93,16 @@ nav {
   background: rgba(232,57,29,0.08);
 }
 .nav-dropdown-menu a {
-  display: block; padding: 12px 20px;
-  font-size: 14px; font-weight: 500;
-  color: var(--dark); text-decoration: none;
-  opacity: 0.7; transition: opacity .2s, background .2s;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--dark);
+  text-decoration: none;
+  opacity: 0.7;
+  transition: opacity .2s, background .2s;
   border-bottom: 1px solid rgba(0,0,0,0.06);
   white-space: nowrap;
 }
@@ -107,6 +113,18 @@ nav {
   opacity: 1; 
   background: rgba(232,57,29,0.08);
   color: var(--red);
+}
+
+.dropdown-logo {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  flex-shrink: 0;
+  transition: transform 0.4s ease-in-out;
+}
+
+.nav-dropdown-menu a:hover .dropdown-logo {
+  transform: rotate(180deg);
 }
 
 .nav-cta {
@@ -495,12 +513,16 @@ nav {
     <div class="nav-dropdown">
   <a class="nav-dropdown-toggle">Programas</a>
   <div class="nav-dropdown-menu">
-    <a href="highschool.html">High School</a>
-    <a href="#">Pós Graduação</a>
-    <a href="#">English Classes</a>
-    <a href="#">Cursos Técnicos</a>
+    <div class="nav-dropdown">
+  <a class="nav-dropdown-toggle">Programas</a>
+  <div class="nav-dropdown-menu">
+    <a href="highschool.html"><img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/logo_f_rasterizada.png" alt="" class="dropdown-logo">High School</a>
+    <a href="#"><img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/logo_f_rasterizada.png" alt="" class="dropdown-logo">Pós Graduação</a>
+    <a href="#"><img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/logo_f_rasterizada.png" alt="" class="dropdown-logo">English Classes</a>
+    <a href="#"><img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/logo_f_rasterizada.png" alt="" class="dropdown-logo">Cursos Técnicos</a>
   </div>
 </div>
+
 
     <a href="contato.html">Contato</a>
   </div>

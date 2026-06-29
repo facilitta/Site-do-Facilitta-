@@ -84,24 +84,33 @@ nav {
   color: var(--red);
 }
 /* DROPDOWN */
-.nav-dropdown { position: relative; }
+.nav-dropdown { 
+  position: relative;
+  padding: 8px 0;
+  margin: 0 -8px;
+}
 .nav-dropdown-toggle {
   font-size: 14px; font-weight: 500; color: var(--dark);
-  text-decoration: none; opacity: 0.6; transition: opacity .2s;
+  text-decoration: none; opacity: 0.6; transition: opacity .2s, background .2s;
   cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 8px 8px 0 0;
 }
-.nav-dropdown:hover .nav-dropdown-toggle { opacity: 1; }
+.nav-dropdown:hover .nav-dropdown-toggle { 
+  opacity: 1;
+  background: rgba(232,57,29,0.08);
+}
 .nav-dropdown-menu {
   display: none;
   position: absolute;
-  top: calc(100% + 16px);
+  top: calc(100% - 8px);
   left: 50%; transform: translateX(-50%);
   background: #fff;
   border: 1px solid rgba(0,0,0,0.08);
-  border-radius: 12px;
+  border-radius: 0 0 12px 12px;
   box-shadow: 0 8px 24px rgba(0,0,0,0.10);
   padding: 8px 0;
-  min-width: 180px;
+  min-width: 200px;
   z-index: 200;
   pointer-events: none;
 }
@@ -110,7 +119,7 @@ nav {
   pointer-events: auto;
 }
 .nav-dropdown-menu a {
-  display: block; padding: 10px 20px;
+  display: block; padding: 12px 20px;
   font-size: 14px; font-weight: 500;
   color: var(--dark); text-decoration: none;
   opacity: 0.7; transition: opacity .2s, background .2s;
@@ -124,40 +133,6 @@ nav {
   background: rgba(232,57,29,0.08);
   color: var(--red);
 }
-
-.nav-cta {
-  background: var(--red); color: #fff; font-size: 14px; font-weight: 700;
-  padding: 10px 22px; border-radius: 100px; text-decoration: none;
-  transition: opacity .2s, transform .15s;
-}
-.nav-cta:hover { opacity: 0.88; transform: scale(1.02); }
-.nav-cta-wa {
-  display: flex; align-items: center; justify-content: center;
-  width: 42px; height: 42px; border-radius: 50%;
-  background: rgba(232,57,29,0.08);
-  transition: background .2s, transform .15s;
-}
-.nav-cta-wa:hover { background: rgba(232,57,29,0.14); transform: scale(1.05); }
-.nav-cta-wa img { width: 24px; height: 24px; object-fit: contain; }
-.nav-social { display: flex; align-items: center; gap: 10px; }
-
-
-.nav-cta {
-  background: var(--red); color: #fff; font-size: 14px; font-weight: 700;
-  padding: 10px 22px; border-radius: 100px; text-decoration: none;
-  transition: opacity .2s, transform .15s;
-}
-.nav-cta:hover { opacity: 0.88; transform: scale(1.02); }
-.nav-cta-wa {
-  display: flex; align-items: center; justify-content: center;
-  width: 42px; height: 42px; border-radius: 50%;
-  background: rgba(232,57,29,0.08);
-  transition: background .2s, transform .15s;
-}
-.nav-cta-wa:hover { background: rgba(232,57,29,0.14); transform: scale(1.05); }
-.nav-cta-wa img { width: 24px; height: 24px; object-fit: contain; }
-.nav-social { display: flex; align-items: center; gap: 10px; }
-
 
     /* HERO */
     /* ── HERO PARALLAX STEPS ── */

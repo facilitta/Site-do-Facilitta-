@@ -388,14 +388,25 @@
       object-fit: cover;
       z-index: 0;
     }
+    /* Container isolado para blend funcionar */
+    .clip-blend-container {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      isolation: isolate;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
     /* Camada preta por cima do vídeo */
     .clip-overlay {
       position: absolute;
       inset: 0;
       background: #000;
       z-index: 1;
+      mix-blend-mode: normal;
     }
-    /* Texto com letras transparentes revelando o vídeo */
+    /* Texto branco com multiply: onde é branco mostra o vídeo, onde é preto bloqueia */
     .clip-cutout {
       position: relative;
       z-index: 2;
@@ -405,8 +416,8 @@
       line-height: 0.92;
       text-align: center;
       padding: 0 32px;
-      color: #000;
-      mix-blend-mode: screen;
+      color: #fff;
+      mix-blend-mode: multiply;
       will-change: transform;
       transform-origin: center center;
     }
@@ -559,6 +570,10 @@
 <!-- SEÇÃO TEXTO CLIPADO -->
 <section class="clip-section" id="clipSection">
   <div class="clip-sticky">
+    <video class="clip-video-bg" autoplay muted loop playsinline webkit-playsinline preload="auto">
+      <source src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/8061030-hd_1920_1080_25fps.mp4" type="video/mp4">
+    </video>
+    <div class="clip-overlay"></div>
     <h2 class="clip-cutout" id="clipText">O ensino<br/>médio é<br/>só o começo.</h2>
   </div>
 </section>

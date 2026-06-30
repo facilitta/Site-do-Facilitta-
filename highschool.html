@@ -629,13 +629,18 @@
     const p = progress < 0.9 ? progress : 0.9 + (progress - 0.9) * 5; const clamped = Math.min(p, 1); const scale = 2500 * Math.pow(1 - clamped, 10) + 1;
     draw(scale);
 
-    // Mensagem 1: aparece entre 92% e 96% do scroll
-    const msg1Opacity = Math.max(0, Math.min(1, (progress - 0.92) / 0.04));
-    // Mensagem 2: aparece entre 96% e 100% do scroll
-    const msg2Opacity = Math.max(0, Math.min(1, (progress - 0.96) / 0.04));
+    // Fade do canvas e mensagens
+    const canvasOpacity = Math.max(0, Math.min(1, 1 - (progress - 0.88) / 0.04));
+    canvas.style.opacity = canvasOpacity;
 
-    if (msg1) msg1.style.opacity = scale <= 5 ? msg1Opacity : 0;
-    if (msg2) msg2.style.opacity = scale <= 5 ? msg2Opacity : 0;
+    // Mensagem 1: aparece entre 92% e 96%, some entre 96% e 100%
+    const msg1In = Math.max(0, Math.min(1, (progress - 0.92) / 0.03));
+    const msg1Out = Math.max(0, Math.min(1, (progress - 0.96) / 0.03));
+    if (msg1) msg1.style.opacity = msg1In - msg1Out;
+
+    // Mensagem 2: aparece após 96%
+    const msg2In = Math.max(0, Math.min(1, (progress - 0.96) / 0.03));
+    if (msg2) msg2.style.opacity = msg2In;
 
   }, { passive: true });
 })();

@@ -572,7 +572,7 @@
   const ctx = canvas.getContext('2d');
   const lines = ['O ensino', 'médio é', 'só o começo.'];
 
-  function draw() {
+  function draw(scale) {
     const W = canvas.offsetWidth;
     const H = canvas.offsetHeight;
     canvas.width = W;
@@ -582,10 +582,11 @@
     ctx.fillStyle = '#000';
     ctx.fillRect(0, 0, W, H);
 
-    // Recorta as letras
+    // Recorta as letras com zoom
     ctx.globalCompositeOperation = 'destination-out';
 
-    const fontSize = Math.min(W * 0.16, 220);
+    const baseFontSize = Math.min(W * 0.16, 220);
+    const fontSize = baseFontSize * scale;
     ctx.font = `900 ${fontSize}px Inter, sans-serif`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
@@ -601,8 +602,23 @@
     ctx.globalCompositeOperation = 'source-over';
   }
 
-  draw();
-  window.addEventListener('resize', draw);
+  draw(2.5);
+  window.addEventListener('resize', () => {
+    const section = document.getElementById('clipSection');
+    const rect = section.getBoundingClientRect();
+    const progress = Math.max(0, Math.min(1, -rect.top / (section.offsetHeight - window.innerHeight)));
+    const scale = 2.5 - (progress * 1.5);
+    draw(scale);
+  });
+
+  const section = document.getElementById('clipSection');
+  window.addEventListener('scroll', function() {
+    if (!section) return;
+    const rect = section.getBoundingClientRect();
+    const progress = Math.max(0, Math.min(1, -rect.top / (section.offsetHeight - window.innerHeight)));
+    const scale = 2.5 - (progress * 1.5);
+    draw(scale);
+  }, { passive: true });
 })();
 </script>
 

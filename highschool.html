@@ -585,7 +585,7 @@
     // Recorta as letras com zoom
     ctx.globalCompositeOperation = 'destination-out';
 
-    const baseFontSize = Math.min(W * 0.16, 220);
+    const baseFontSize = Math.min(W * 0.06, 80);
     const fontSize = baseFontSize * scale;
     ctx.font = `900 ${fontSize}px Inter, sans-serif`;
     ctx.textAlign = 'center';
@@ -602,12 +602,12 @@
     ctx.globalCompositeOperation = 'source-over';
   }
 
-  draw(2.5);
+  draw(10);
   window.addEventListener('resize', () => {
     const section = document.getElementById('clipSection');
     const rect = section.getBoundingClientRect();
     const progress = Math.max(0, Math.min(1, -rect.top / (section.offsetHeight - window.innerHeight)));
-    const scale = 2.5 - (progress * 1.5);
+    const scale = 10 - (progress * 9);
     draw(scale);
   });
 
@@ -616,7 +616,7 @@
     if (!section) return;
     const rect = section.getBoundingClientRect();
     const progress = Math.max(0, Math.min(1, -rect.top / (section.offsetHeight - window.innerHeight)));
-    const scale = 2.5 - (progress * 1.5);
+    const scale = 10 - (progress * 9);
     draw(scale);
   }, { passive: true });
 })();

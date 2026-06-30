@@ -634,12 +634,12 @@
     // Canvas permanece visível sempre
     canvas.style.opacity = 1;
 
-    // Mensagem 1: aparece em 92% e fica permanente
-    const msg1In = Math.max(0, Math.min(1, (progress - 0.92) / 0.03));
+    // Mensagem 1: aparece em 80% e fica permanente
+    const msg1In = Math.max(0, Math.min(1, (progress - 0.80) / 0.03));
     if (msg1) msg1.style.opacity = msg1In;
 
-    // Mensagem 2: aparece após 96%
-    const msg2In = Math.max(0, Math.min(1, (progress - 0.96) / 0.03));
+    // Mensagem 2: aparece após 90%
+    const msg2In = Math.max(0, Math.min(1, (progress - 0.90) / 0.03));
     if (msg2) msg2.style.opacity = msg2In;
 
   }, { passive: true });

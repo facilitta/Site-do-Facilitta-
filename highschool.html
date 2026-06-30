@@ -321,32 +321,41 @@
     /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
       .hero-text {
-        padding: 32px 24px 100px;
+        padding: 24px 20px 220px;
         align-items: center;
         text-align: center;
+        justify-content: flex-end;
       }
       .hero-title {
-        font-size: clamp(30px, 9vw, 44px);
+        font-size: clamp(26px, 7.5vw, 38px);
         white-space: normal;
         text-align: center;
+        margin-bottom: 12px;
       }
       .hero-sub {
-        font-size: 16px;
+        font-size: 14px;
         text-align: center;
       }
       .hero-bullets {
-        left: 0;
-        right: 0;
-        bottom: 96px;
+        left: 16px;
+        right: 16px;
+        bottom: 90px;
         display: flex;
         justify-content: center;
       }
       .buy-btn {
-        max-width: 280px;
+        max-width: 100%;
       }
-      .videos-title { padding: 0 24px; }
-      .videos-scroll { padding: 0 24px 20px; }
-      .video-card { flex: 0 0 280px; }
+      .wa-float {
+        bottom: 24px;
+        right: 16px;
+        width: 48px;
+        height: 48px;
+      }
+      .wa-float img { width: 26px; height: 26px; }
+      .videos-title { padding: 0 20px; }
+      .videos-scroll { padding: 0 20px 20px; gap: 12px; }
+      .video-card { flex: 0 0 85%; }
     }
 
     /* ── SEÇÃO TEXTO CLIPADO ── */

@@ -320,9 +320,30 @@
 
     /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
-      .hero-text { padding: 28px 24px 80px; }
-      .hero-title { font-size: clamp(36px, 8vw, 56px); }
-      .hero-bullets { right: 24px; bottom: 96px; }
+      .hero-text {
+        padding: 32px 24px 100px;
+        align-items: center;
+        text-align: center;
+      }
+      .hero-title {
+        font-size: clamp(30px, 9vw, 44px);
+        white-space: normal;
+        text-align: center;
+      }
+      .hero-sub {
+        font-size: 16px;
+        text-align: center;
+      }
+      .hero-bullets {
+        left: 0;
+        right: 0;
+        bottom: 96px;
+        display: flex;
+        justify-content: center;
+      }
+      .buy-btn {
+        max-width: 280px;
+      }
       .videos-title { padding: 0 24px; }
       .videos-scroll { padding: 0 24px 20px; }
       .video-card { flex: 0 0 280px; }

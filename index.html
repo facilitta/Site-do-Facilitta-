@@ -128,15 +128,6 @@ nav {
 }
 .nav-cta:hover { opacity: 0.88; transform: scale(1.02); }
 
-.nav-insta {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  flex-shrink: 0;
-}
-
 .nav-right { display: flex; align-items: center; gap: 20px; }
 
 /* MOBILE NAV */
@@ -454,12 +445,11 @@ nav {
     .nav-right { display: flex; align-items: center; gap: 14px; justify-content: flex-end; }
     .nav-insta {
       display: flex; align-items: center; justify-content: center;
-      width: 36px; height: 36px; border-radius: 50%;
-      background: rgba(232,57,29,0.08);
-      transition: background .2s, transform .15s;
+      width: 48px; height: 48px; border-radius: 50%;
+      overflow: hidden;
+      flex-shrink: 0;
     }
-    .nav-insta:hover { background: rgba(232,57,29,0.15); transform: scale(1.05); }
-    .nav-insta img { width: 20px; height: 20px; object-fit: contain; display: block; }
+    .nav-insta img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
     /* Hero com vídeo — textos brancos */
     .hero-title { color: #ffffff !important; }

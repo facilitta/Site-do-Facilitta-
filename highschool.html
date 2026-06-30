@@ -602,12 +602,12 @@
     ctx.globalCompositeOperation = 'source-over';
   }
 
-  draw(250);
+  draw(2500);
   window.addEventListener('resize', () => {
     const section = document.getElementById('clipSection');
     const rect = section.getBoundingClientRect();
     const progress = Math.max(0, Math.min(1, -rect.top / (section.offsetHeight - window.innerHeight)));
-    const scale = 250 - (progress * 249);
+    const scale = 2500 - (progress * 2499);
     draw(scale);
   });
 
@@ -616,7 +616,7 @@
     if (!section) return;
     const rect = section.getBoundingClientRect();
     const progress = Math.max(0, Math.min(1, -rect.top / (section.offsetHeight - window.innerHeight)));
-    const scale = 250 - (progress * 249);
+    const scale = 2500 - (progress * 2499);
     draw(scale);
   }, { passive: true });
 })();

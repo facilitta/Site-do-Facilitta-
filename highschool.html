@@ -367,7 +367,7 @@
     /* ── SEÇÃO TEXTO CLIPADO COM VÍDEO ── */
     .clip-section {
       position: relative;
-      height: 1000vh;
+      height: 1500vh;
       background: #000;
     }
     .clip-sticky {
@@ -563,6 +563,13 @@
       <source src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/8061030-hd_1920_1080_25fps.mp4" type="video/mp4">
     </video>
     <canvas id="clipCanvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:1;"></canvas>
+    <!-- Mensagens em fade -->
+    <div id="clipMsg1" style="position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.6s ease;padding:0 48px;">
+      <p style="color:#fff;font-size:clamp(20px,2.5vw,36px);font-weight:600;text-align:center;line-height:1.4;max-width:800px;">O Facilitta High School oferece todo o serviço de Entrada para as melhores faculdades dos Estados Unidos.</p>
+    </div>
+    <div id="clipMsg2" style="position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.6s ease;padding:0 48px;">
+      <p style="color:#fff;font-size:clamp(14px,1.5vw,22px);font-weight:400;text-align:center;line-height:1.4;">(Descontos exclusivos e especiais)</p>
+    </div>
   </div>
 </section>
 
@@ -612,12 +619,24 @@
   });
 
   const section = document.getElementById('clipSection');
+  const msg1 = document.getElementById('clipMsg1');
+  const msg2 = document.getElementById('clipMsg2');
+
   window.addEventListener('scroll', function() {
     if (!section) return;
     const rect = section.getBoundingClientRect();
     const progress = Math.max(0, Math.min(1, -rect.top / (section.offsetHeight - window.innerHeight)));
     const p = progress < 0.9 ? progress : 0.9 + (progress - 0.9) * 5; const clamped = Math.min(p, 1); const scale = 2500 * Math.pow(1 - clamped, 10) + 1;
     draw(scale);
+
+    // Mensagem 1: aparece entre 92% e 96% do scroll
+    const msg1Opacity = Math.max(0, Math.min(1, (progress - 0.92) / 0.04));
+    // Mensagem 2: aparece entre 96% e 100% do scroll
+    const msg2Opacity = Math.max(0, Math.min(1, (progress - 0.96) / 0.04));
+
+    if (msg1) msg1.style.opacity = scale <= 5 ? msg1Opacity : 0;
+    if (msg2) msg2.style.opacity = scale <= 5 ? msg2Opacity : 0;
+
   }, { passive: true });
 })();
 </script>

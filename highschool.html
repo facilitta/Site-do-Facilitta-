@@ -616,7 +616,7 @@
     const section = document.getElementById('clipSection');
     const rect = section.getBoundingClientRect();
     const progress = Math.max(0, Math.min(1, -rect.top / (section.offsetHeight - window.innerHeight)));
-    const p = progress < 0.9 ? progress : 0.9 + (progress - 0.9) * 5; const clamped = Math.min(p, 1); const scale = 2500 * Math.pow(1 - clamped, 10) + 1;
+    const boost = progress < 0.4 ? progress * 4 : 0.4 * 4 + (progress - 0.4) * (0.6 / 0.6); const boosted = Math.min(boost, 1); const late = boosted > 0.9 ? 0.9 + (boosted - 0.9) * 5 : boosted; const clamped = Math.min(late, 1); const scale = 2500 * Math.pow(1 - clamped, 10) + 1;
     draw(scale);
   });
 
@@ -628,7 +628,7 @@
     if (!section) return;
     const rect = section.getBoundingClientRect();
     const progress = Math.max(0, Math.min(1, -rect.top / (section.offsetHeight - window.innerHeight)));
-    const p = progress < 0.9 ? progress : 0.9 + (progress - 0.9) * 5; const clamped = Math.min(p, 1); const scale = 2500 * Math.pow(1 - clamped, 10) + 1;
+    const boost = progress < 0.4 ? progress * 4 : 0.4 * 4 + (progress - 0.4) * (0.6 / 0.6); const boosted = Math.min(boost, 1); const late = boosted > 0.9 ? 0.9 + (boosted - 0.9) * 5 : boosted; const clamped = Math.min(late, 1); const scale = 2500 * Math.pow(1 - clamped, 10) + 1;
     draw(scale);
 
     // Canvas permanece visível sempre

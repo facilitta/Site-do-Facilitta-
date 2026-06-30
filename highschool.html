@@ -17,7 +17,7 @@
       --white: #FFFFFF;
     }
 
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; scroll-snap-type: y proximity; }
     body { font-family: "Inter", sans-serif; background: var(--white); color: var(--dark); overflow-x: hidden; }
     * { font-style: normal !important; }
 
@@ -647,7 +647,7 @@
 </script>
 
 <!-- SEÇÃO COMPARATIVO -->
-<section id="comparativo" style="background:#f5f5f7; padding: 100px 64px;">
+<section id="comparativo" style="background:#f5f5f7; padding: 100px 64px; scroll-snap-align: start; scroll-snap-stop: always;">
 
   <!-- Comparativo de preços -->
   <div style="display:flex; gap:48px; max-width:1000px; margin:0 auto 100px; align-items:flex-start;">

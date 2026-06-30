@@ -375,11 +375,7 @@
       top: 0;
       height: 100vh;
       overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
-    /* Vídeo de fundo */
     .clip-video-bg {
       position: absolute;
       inset: 0;
@@ -388,26 +384,22 @@
       object-fit: cover;
       z-index: 0;
     }
-    /* Container isolado para blend funcionar */
-    .clip-blend-container {
+    /* Fundo preto com buraco nas letras via SVG mask */
+    .clip-mask-layer {
       position: absolute;
       inset: 0;
       z-index: 1;
-      isolation: isolate;
       display: flex;
       align-items: center;
       justify-content: center;
     }
-    /* Camada preta por cima do vídeo */
-    .clip-overlay {
+    .clip-mask-layer svg {
+      width: 100%;
+      height: 100%;
       position: absolute;
       inset: 0;
-      background: #000;
-      z-index: 1;
-      mix-blend-mode: normal;
     }
-    /* Texto branco com multiply: onde é branco mostra o vídeo, onde é preto bloqueia */
-    .clip-cutout {
+    .clip-text-display {
       position: relative;
       z-index: 2;
       font-size: clamp(80px, 16vw, 220px);
@@ -415,11 +407,8 @@
       letter-spacing: -4px;
       line-height: 0.92;
       text-align: center;
-      padding: 0 32px;
-      color: #fff;
-      mix-blend-mode: multiply;
-      will-change: transform;
-      transform-origin: center center;
+      color: transparent;
+      pointer-events: none;
     }
 
     /* ── BOTÃO COMPRA ── */
@@ -573,10 +562,49 @@
     <video class="clip-video-bg" autoplay muted loop playsinline webkit-playsinline preload="auto">
       <source src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/8061030-hd_1920_1080_25fps.mp4" type="video/mp4">
     </video>
-    <div class="clip-overlay"></div>
-    <h2 class="clip-cutout" id="clipText">O ensino<br/>médio é<br/>só o começo.</h2>
+    <canvas id="clipCanvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:1;"></canvas>
   </div>
 </section>
+
+<script>
+(function() {
+  const canvas = document.getElementById('clipCanvas');
+  const ctx = canvas.getContext('2d');
+  const lines = ['O ensino', 'médio é', 'só o começo.'];
+
+  function draw() {
+    const W = canvas.offsetWidth;
+    const H = canvas.offsetHeight;
+    canvas.width = W;
+    canvas.height = H;
+
+    // Fundo preto
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, W, H);
+
+    // Recorta as letras
+    ctx.globalCompositeOperation = 'destination-out';
+
+    const fontSize = Math.min(W * 0.16, 220);
+    ctx.font = `900 ${fontSize}px Inter, sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+
+    const lineHeight = fontSize * 0.95;
+    const totalH = lines.length * lineHeight;
+    const startY = (H - totalH) / 2 + lineHeight / 2;
+
+    lines.forEach((line, i) => {
+      ctx.fillText(line, W / 2, startY + i * lineHeight);
+    });
+
+    ctx.globalCompositeOperation = 'source-over';
+  }
+
+  draw();
+  window.addEventListener('resize', draw);
+})();
+</script>
 
 <!-- FOOTER -->
 <footer>

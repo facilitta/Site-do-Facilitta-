@@ -13,159 +13,145 @@
     :root {
       --red: #E8391D;
       --red-2: #C42E15;
-      --red-3: #A82410;
-      --red-4: #8C1B0C;
       --dark: #2B2B2B;
       --white: #FFFFFF;
-      --off-white: #F7F6F4;
-      --gray: #EBEBEB;
-      --gray-text: #999;
     }
 
     html { scroll-behavior: smooth; }
     body { font-family: "Inter", sans-serif; background: var(--white); color: var(--dark); overflow-x: hidden; }
     * { font-style: normal !important; }
 
-/* NAV */
-nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 48px; height: 76px;
-  background: rgba(255,255,255,0.96);
-  backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(0,0,0,0.07);
-}
-.nav-logo { display: flex; align-items: center; }
-.nav-logo img { height: 38px; width: auto; display: block; object-fit: contain; }
-.nav-links {
-  position: absolute; left: 50%; transform: translateX(-50%);
-  display: flex; align-items: center; gap: 40px;
-  white-space: nowrap;
-}
-.nav-links a {
-  font-size: 14px; font-weight: 500; color: var(--dark);
-  text-decoration: none; opacity: 0.6; transition: opacity .2s;
-}
-.nav-links a:hover { opacity: 1; }
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px; height: 76px;
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(0,0,0,0.07);
+    }
+    .nav-logo { display: flex; align-items: center; }
+    .nav-logo img { height: 38px; width: auto; display: block; object-fit: contain; }
+    .nav-links {
+      position: absolute; left: 50%; transform: translateX(-50%);
+      display: flex; align-items: center; gap: 40px;
+      white-space: nowrap;
+    }
+    .nav-links a {
+      font-size: 14px; font-weight: 500; color: var(--dark);
+      text-decoration: none; opacity: 0.6; transition: opacity .2s;
+    }
+    .nav-links a:hover { opacity: 1; }
 
-/* DROPDOWN */
-.nav-dropdown { 
-  position: relative;
-  padding: 8px 0;
-  margin: 0 -8px;
-  white-space: nowrap;
-}
-.nav-dropdown-toggle {
-  font-size: 14px; font-weight: 500; color: var(--dark);
-  text-decoration: none; opacity: 0.6; transition: opacity .2s, background .2s;
-  cursor: pointer;
-  padding: 8px 12px;
-  border-radius: 8px 8px 0 0;
-  display: block;
-  white-space: nowrap;
-}
-.nav-dropdown:hover .nav-dropdown-toggle { 
-  opacity: 1;
-  background: rgba(232,57,29,0.08);
-}
-.nav-dropdown-menu {
-  display: none;
-  position: absolute;
-  top: calc(100% - 8px);
-  left: 50%; transform: translateX(-50%);
-  background: #fff;
-  border: 1px solid rgba(0,0,0,0.08);
-  border-radius: 0 0 12px 12px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.10);
-  padding: 8px 0;
-  min-width: 200px;
-  z-index: 200;
-  pointer-events: none;
-}
-.nav-dropdown:hover .nav-dropdown-menu {
-  display: block;
-  pointer-events: auto;
-}
-.nav-dropdown.active .nav-dropdown-menu {
-  display: block;
-  pointer-events: auto;
-}
-.nav-dropdown.active .nav-dropdown-toggle {
-  opacity: 1;
-  background: rgba(232,57,29,0.08);
-}
-.nav-dropdown-menu a {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 20px;
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--dark);
-  text-decoration: none;
-  opacity: 0.7;
-  transition: opacity .2s, background .2s;
-  border-bottom: 1px solid rgba(0,0,0,0.06);
-  white-space: nowrap;
-}
-.nav-dropdown-menu a:last-child { border-bottom: none; }
-.nav-dropdown-menu a:hover { 
-  opacity: 1; 
-  background: rgba(232,57,29,0.08);
-  color: var(--red);
-}
-.dropdown-logo {
-  width: 18px; height: 18px;
-  object-fit: contain; flex-shrink: 0;
-  transition: transform 0.4s ease-in-out;
-}
-.nav-dropdown-menu a:hover .dropdown-logo { transform: rotate(180deg); }
+    /* DROPDOWN */
+    .nav-dropdown { 
+      position: relative;
+      padding: 8px 0;
+      margin: 0 -8px;
+      white-space: nowrap;
+    }
+    .nav-dropdown-toggle {
+      font-size: 14px; font-weight: 500; color: var(--dark);
+      text-decoration: none; opacity: 0.6; transition: opacity .2s, background .2s;
+      cursor: pointer;
+      padding: 8px 12px;
+      border-radius: 8px 8px 0 0;
+      display: block;
+      white-space: nowrap;
+    }
+    .nav-dropdown:hover .nav-dropdown-toggle { 
+      opacity: 1;
+      background: rgba(232,57,29,0.08);
+    }
+    .nav-dropdown-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% - 8px);
+      left: 50%; transform: translateX(-50%);
+      background: #fff;
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 0 0 12px 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.10);
+      padding: 8px 0;
+      min-width: 200px;
+      z-index: 200;
+      pointer-events: none;
+    }
+    .nav-dropdown:hover .nav-dropdown-menu {
+      display: block;
+      pointer-events: auto;
+    }
+    .nav-dropdown.active .nav-dropdown-menu {
+      display: block;
+      pointer-events: auto;
+    }
+    .nav-dropdown.active .nav-dropdown-toggle {
+      opacity: 1;
+      background: rgba(232,57,29,0.08);
+    }
+    .nav-dropdown-menu a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 20px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--dark);
+      text-decoration: none;
+      opacity: 0.7;
+      transition: opacity .2s, background .2s;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      white-space: nowrap;
+    }
+    .nav-dropdown-menu a:last-child { border-bottom: none; }
+    .nav-dropdown-menu a:hover { 
+      opacity: 1; 
+      background: rgba(232,57,29,0.08);
+      color: var(--red);
+    }
+    .dropdown-logo {
+      width: 18px; height: 18px;
+      object-fit: contain; flex-shrink: 0;
+      transition: transform 0.4s ease-in-out;
+    }
+    .nav-dropdown-menu a:hover .dropdown-logo { transform: rotate(180deg); }
 
-.nav-cta {
-  background: var(--red); color: #fff; font-size: 14px; font-weight: 700;
-  padding: 10px 22px; border-radius: 100px; text-decoration: none;
-  transition: opacity .2s, transform .15s; white-space: nowrap;
-}
-.nav-cta:hover { opacity: 0.88; transform: scale(1.02); }
+    .nav-cta {
+      background: var(--red); color: #fff; font-size: 14px; font-weight: 700;
+      padding: 10px 22px; border-radius: 100px; text-decoration: none;
+      transition: opacity .2s, transform .15s; white-space: nowrap;
+    }
+    .nav-cta:hover { opacity: 0.88; transform: scale(1.02); }
 
-.nav-insta {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  flex-shrink: 0;
-}
+    .nav-insta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+    .nav-insta svg {
+      width: 24px;
+      height: 24px;
+      display: block;
+      color: var(--red);
+    }
 
-.nav-insta svg {
-  width: 24px;
-  height: 24px;
-  display: block;
-  color: var(--red);
-}
+    .nav-right { display: flex; align-items: center; gap: 20px; }
 
-.nav-cta-wa {
-  display: flex; align-items: center; justify-content: center;
-  width: 42px; height: 42px; border-radius: 50%;
-  background: rgba(232,57,29,0.08);
-  transition: background .2s, transform .15s; flex-shrink: 0;
-}
-.nav-cta-wa:hover { background: rgba(232,57,29,0.14); transform: scale(1.05); }
-.nav-cta-wa img { width: 24px; height: 24px; object-fit: contain; }
-.nav-social { display: flex; align-items: center; gap: 10px; }
-
-/* MOBILE */
-@media (max-width: 768px) {
-  nav { padding: 0 20px; height: 64px; }
-  .nav-links { gap: 20px; }
-  .nav-links a { font-size: 13px; }
-  .nav-dropdown-toggle { font-size: 13px; padding: 6px 10px; }
-  .nav-dropdown-menu { min-width: 160px; }
-  .nav-dropdown-menu a { padding: 10px 16px; font-size: 13px; }
-  .nav-cta { padding: 8px 16px; font-size: 13px; }
-  .nav-cta-wa { width: 38px; height: 38px; }
-  .nav-cta-wa img { width: 20px; height: 20px; }
-}
+    /* MOBILE NAV */
+    @media (max-width: 768px) {
+      nav { padding: 0 14px; height: 60px; }
+      .nav-links { position: static; transform: none; gap: 14px; }
+      .nav-links a { font-size: 11px; }
+      .nav-dropdown-toggle { font-size: 13px; padding: 6px 10px; }
+      .nav-dropdown-menu { min-width: 160px; }
+      .nav-dropdown-menu a { padding: 10px 16px; font-size: 13px; }
+      .nav-insta { display: none; }
+      .nav-right { gap: 6px; }
+      .nav-cta { font-size: 12px; padding: 8px 14px; }
+    }
 
     /* ── HERO VIDEO ── */
     .hero-section {
@@ -221,13 +207,6 @@ nav {
       right: 48px;
       bottom: 48px;
     }
-    .hero-bullet {
-      font-size: 15px; font-weight: 500;
-      color: rgba(255,255,255,0.85);
-      text-align: right;
-      display: block;
-    }
-
     .hero-sub {
       font-size: 13px; color: rgba(255,255,255,0.5);
       margin-top: 8px;
@@ -332,12 +311,6 @@ nav {
 
     /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
-      nav { padding: 0 14px; height: 60px; }
-      .nav-links { position: static; transform: none; gap: 14px; }
-      .nav-links a { font-size: 11px; }
-      .nav-insta { display: none; }
-      .nav-right { gap: 6px; }
-      .nav-cta { font-size: 12px; padding: 8px 14px; }
       .hero-text { padding: 28px 24px; }
       .hero-title { font-size: clamp(36px, 8vw, 56px); }
       .hero-bullets { right: 24px; bottom: 28px; }
@@ -346,72 +319,6 @@ nav {
       .video-card { flex: 0 0 280px; }
     }
 
-
-
-    /* ── SEÇÃO TEXTO JANELA ── */
-    .clip-section {
-      position: relative;
-      height: 300vh;
-      background: #000;
-    }
-    .clip-sticky {
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      overflow: hidden;
-    }
-    /* Imagem estática no fundo */
-    .clip-bg {
-      position: absolute;
-      inset: 0;
-      background-image: url("https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/refs/heads/main/delta.png");
-      background-size: cover;
-      background-position: center;
-      background-attachment: local;
-    }
-    /* Máscara preta com buraco nas letras */
-    .clip-mask {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .clip-text {
-      font-size: clamp(80px, 16vw, 220px);
-      font-weight: 900;
-      letter-spacing: -4px;
-      line-height: 0.92;
-      text-align: center;
-      color: #000;
-      mix-blend-mode: multiply;
-      background: transparent;
-      will-change: transform;
-      transform-origin: center center;
-    }
-    .clip-wrapper {
-      position: absolute;
-      inset: 0;
-      background: #000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .clip-cutout {
-      font-size: clamp(80px, 16vw, 220px);
-      font-weight: 900;
-      letter-spacing: -4px;
-      line-height: 0.92;
-      text-align: center;
-      padding: 0 32px;
-      /* Texto transparente recortando o fundo preto */
-      color: transparent;
-      background: #000;
-      -webkit-background-clip: text;
-      background-clip: text;
-      will-change: transform;
-      transform-origin: center center;
-    }
     /* ── SEÇÃO TEXTO CLIPADO ── */
     .clip-section {
       position: relative;
@@ -455,7 +362,7 @@ nav {
       padding: 6px 6px 6px 14px;
       gap: 10px;
       text-decoration: none;
-      transition: transform .2s, ;
+      transition: transform .2s;
       max-width: 260px;
       width: 100%;
     }
@@ -513,15 +420,15 @@ nav {
   </div>
   <div class="nav-right">
     <a class="nav-insta" href="https://instagram.com/" target="_blank" aria-label="Instagram">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="#E8391D"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.266.069 1.646.069 4.85 0 3.204-.012 3.584-.07 4.85-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073
-
-
-                                                                                                          
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="#E8391D"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.266.069 1.646.069 4.85 0 3.204-.012 3.584-.07 4.85-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.322a1.44 1.44 0 110-2.881 1.44 1.44 0 010 2.881z"/></svg>
+    </a>
+    <a href="#" class="nav-cta">Inscreva-se</a>
+  </div>
+</nav>
 
 <!-- HERO VIDEO FULL WIDTH -->
 <section class="hero-section">
   <div class="hero-video-placeholder">
-    <!-- COLOQUE O VÍDEO AQUI -->
     <video autoplay muted loop playsinline webkit-playsinline preload="auto" style="width:100%;height:100%;object-fit:cover;display:block;">
       <source src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/refs/heads/main/mixkit-students-walking-in-a-university-4519-hd-ready.mp4" type="video/mp4">
     </video>
@@ -548,7 +455,6 @@ nav {
   <p class="videos-title">O que é o Facilitta High School?</p>
   <div class="videos-scroll">
 
-    <!-- Vídeo 1 -->
     <div class="video-card">
       <div class="video-card-placeholder">
         <div class="play-btn">
@@ -559,7 +465,6 @@ nav {
       </div>
     </div>
 
-    <!-- Vídeo 2 -->
     <div class="video-card">
       <div class="video-card-placeholder">
         <div class="play-btn">
@@ -570,7 +475,6 @@ nav {
       </div>
     </div>
 
-    <!-- Vídeo 3 -->
     <div class="video-card">
       <div class="video-card-placeholder">
         <div class="play-btn">
@@ -583,11 +487,6 @@ nav {
 
   </div>
 </section>
-
-
-
-
-
 
 <!-- SEÇÃO TEXTO CLIPADO -->
 <section class="clip-section" id="clipSection">
@@ -595,7 +494,6 @@ nav {
     <h2 class="clip-cutout" id="clipText">O ensino<br/>médio é<br/>só o começo.</h2>
   </div>
 </section>
-
 
 <!-- FOOTER -->
 <footer>
@@ -614,13 +512,11 @@ nav {
   </svg>
 </a>
 
-</script>
+<a class="wa-float" href="https://wa.me/" target="_blank" aria-label="Fale pelo WhatsApp">
+  <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIj4KICA8cGF0aCBmaWxsPSIjZmZmZmZmIiBkPSJNMTIgMEM1LjM3MyAwIDAgNS4zNzMgMCAxMmMwIDIuMTIzLjU1NSA0LjExNiAxLjUyNCA1Ljg0N0wwIDI0bDYuMzEtMS41MDdBMTEuOTQ1IDExLjk0NSAwIDAgMCAxMiAyNGM2LjYyNyAwIDEyLTUuMzczIDEyLTEyUzE4LjYyNyAwIDEyIDB6bTAgMjJjLTEuODUgMC0zLjU4Ny0uNS01LjA4Mi0xLjM3MWwtLjM2NC0uMjEzLTMuNzQyLjg5NC45NDQtMy42NS0uMjM2LS4zNzVBOS45NiA5Ljk2IDAgMCAxIDIgMTJDMiA2LjQ3NyA2LjQ3NyAyIDEyIDJzMTAgNC40NzcgMTAgMTAtNC40NzcgMTAtMTAgMTB6bTUuNDA2LTcuMzg3Yy0uMjk3LS4xNDgtMS43NTYtLjg2Ni0yLjAyOC0uOTY1LS4yNzItLjA5OS0uNDctLjE0OC0uNjY4LjE0OS0uMTk4LjI5Ni0uNzY3Ljk2NC0uOTQgMS4xNjMtLjE3NC4xOTgtLjM0Ny4yMjMtLjY0NC4wNzQtLjI5Ny0uMTQ4LTEuMjU1LS40NjMtMi4zOS0xLjQ3NS0uODgzLS43ODgtMS40OC0xLjc2MS0xLjY1My0yLjA1OS0uMTczLS4yOTctLjAxOS0uNDU4LjEzLS42MDYuMTM0LS4xMzMuMjk3LS4zNDcuNDQ2LS41MjEuMTQ5LS4xNzQuMTk4LS4yOTguMjk3LS40OTcuMS0uMTk4LjA1LS4zNzItLjAyNS0uNTIxLS4wNzQtLjE0OC0uNjY4LTEuNjExLS45MTYtMi4yMDYtLjI0MS0uNTc5LS40ODYtLjUwMS0uNjY4LS41MWwtLjU3LS4wMWMtLjE5OCAwLS41Mi4wNzQtLjc5Mi4zNzItLjI3Mi4yOTgtMS4wNCAxLjAxNi0xLjA0IDIuNDc5IDAgMS40NjMgMS4wNjUgMi44NzYgMS4yMTMgMy4wNzQuMTQ5LjE5OCAyLjA5NiAzLjIgNS4wNzcgNC40ODcuNzA5LjMwNiAxLjI2My40ODkgMS42OTQuNjI2LjcxMi4yMjYgMS4zNi4xOTQgMS44NzIuMTE4LjU3MS0uMDg1IDEuNzU4LS43MTkgMi4wMDYtMS40MTMuMjQ4LS42OTUuMjQ4LTEuMjkuMTczLTEuNDEzLS4wNzQtLjEyNC0uMjcyLS4xOTgtLjU3LS4zNDd6Ii8+Cjwvc3ZnPg==" alt="WhatsApp" />
+</a>
 
-<a class="wa-float" href="https://wa.me/" target="_blank" aria-label="Fale pelo WhatsApp"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIj4KICA8cGF0aCBmaWxsPSIjZmZmZmZmIiBkPSJNMTIgMEM1LjM3MyAwIDAgNS4zNzMgMCAxMmMwIDIuMTIzLjU1NSA0LjExNiAxLjUyNCA1Ljg0N0wwIDI0bDYuMzEtMS41MDdBMTEuOTQ1IDExLjk0NSAwIDAgMCAxMiAyNGM2LjYyNyAwIDEyLTUuMzczIDEyLTEyUzE4LjYyNyAwIDEyIDB6bTAgMjJjLTEuODUgMC0zLjU4Ny0uNS01LjA4Mi0xLjM3MWwtLjM2NC0uMjEzLTMuNzQyLjg5NC45NDQtMy42NS0uMjM2LS4zNzVBOS45NiA5Ljk2IDAgMCAxIDIgMTJDMiA2LjQ3NyA2LjQ3NyAyIDEyIDJzMTAgNC40NzcgMTAgMTAtNC40NzcgMTAtMTAgMTB6bTUuNDA2LTcuMzg3Yy0uMjk3LS4xNDgtMS43NTYtLjg2Ni0yLjAyOC0uOTY1LS4yNzItLjA5OS0uNDctLjE0OC0uNjY4LjE0OS0uMTk4LjI5Ni0uNzY3Ljk2NC0uOTQgMS4xNjMtLjE3NC4xOTgtLjM0Ny4yMjMtLjY0NC4wNzQtLjI5Ny0uMTQ4LTEuMjU1LS40NjMtMi4zOS0xLjQ3NS0uODgzLS43ODgtMS40OC0xLjc2MS0xLjY1My0yLjA1OS0uMTczLS4yOTctLjAxOS0uNDU4LjEzLS42MDYuMTM0LS4xMzMuMjk3LS4zNDcuNDQ2LS41MjEuMTQ5LS4xNzQuMTk4LS4yOTguMjk3LS40OTcuMS0uMTk4LjA1LS4zNzItLjAyNS0uNTIxLS4wNzQtLjE0OC0uNjY4LTEuNjExLS45MTYtMi4yMDYtLjI0MS0uNTc5LS40ODYtLjUwMS0uNjY4LS41MWwtLjU3LS4wMWMtLjE5OCAwLS41Mi4wNzQtLjc5Mi4zNzItLjI3Mi4yOTgtMS4wNCAxLjAxNi0xLjA0IDIuNDc5IDAgMS40NjMgMS4wNjUgMi44NzYgMS4yMTMgMy4wNzQuMTQ5LjE5OCAyLjA5NiAzLjIgNS4wNzcgNC40ODcuNzA5LjMwNiAxLjI2My40ODkgMS42OTQuNjI2LjcxMi4yMjYgMS4zNi4xOTQgMS44NzIuMTE4LjU3MS0uMDg1IDEuNzU4LS43MTkgMi4wMDYtMS40MTMuMjQ4LS42OTUuMjQ4LTEuMjkuMTczLTEuNDEzLS4wNzQtLjEyNC0uMjcyLS4xOTgtLjU3LS4zNDd6Ii8+Cjwvc3ZnPg==" alt="WhatsApp" /></a>
-
-<script>
-  
-  <!-- DROPDOWN SCRIPT -->
+<!-- DROPDOWN SCRIPT -->
 <script>
   const navDropdown = document.querySelector('.nav-dropdown');
   const navDropdownToggle = document.querySelector('.nav-dropdown-toggle');
@@ -643,43 +539,5 @@ nav {
   });
 </script>
 
-<!-- DROPDOWN SCRIPT -->
-<script>
-  const navDropdowns = document.querySelectorAll('.nav-dropdown');
-  
-  navDropdowns.forEach(dropdown => {
-    const toggle = dropdown.querySelector('.nav-dropdown-toggle');
-    const menu = dropdown.querySelector('.nav-dropdown-menu');
-    
-    if (toggle) {
-      toggle.addEventListener('click', (e) => {
-        e.preventDefault();
-        dropdown.classList.toggle('active');
-      });
-    }
-    
-    if (menu) {
-      menu.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-          dropdown.classList.remove('active');
-        });
-      });
-    }
-  });
-  
-  document.addEventListener('click', (e) => {
-    navDropdowns.forEach(dropdown => {
-      if (!dropdown.contains(e.target)) {
-        dropdown.classList.remove('active');
-      }
-    });
-  });
-</script>
-
-<a class="wa-float" href="https://wa.me/" target="_blank" aria-label="Fale pelo WhatsApp"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIj4KICA8cGF0aCBmaWxsPSIjZmZmZmZmIiBkPSJNMTIgMEM1LjM3MyAwIDAgNS4zNzMgMCAxMmMwIDIuMTIzLjU1NSA0LjExNiAxLjUyNCA1Ljg0N0wwIDI0bDYuMzEtMS41MDdBMTEuOTQ1IDExLjk0NSAwIDAgMCAxMiAyNGM2LjYyNyAwIDEyLTUuMzczIDEyLTEyUzE4LjYyNyAwIDEyIDB6bTAgMjJjLTEuODUgMC0zLjU4Ny0uNS01LjA4Mi0xLjM3MWwtLjM2NC0uMjEzLTMuNzQyLjg5NC45NDQtMy42NS0uMjM2LS4zNzVBOS45NiA5Ljk2IDAgMCAxIDIgMTJDMiA2LjQ3NyA2LjQ3NyAyIDEyIDJzMTAgNC40NzcgMTAgMTAtNC40NzcgMTAtMTAgMTB6bTUuNDA2LTcuMzg3Yy0uMjk3LS4xNDgtMS43NTYtLjg2Ni0yLjAyOC0uOTY1LS4yNzItLjA5OS0uNDctLjE0OC0uNjY4LjE0OS0uMTk4LjI5Ni0uNzY3Ljk2NC0uOTQgMS4xNjMtLjE3NC4xOTgtLjM0Ny4yMjMtLjY0NC4wNzQtLjI5Ny0uMTQ4LTEuMjU1LS40NjMtMi4zOS0xLjQ3NS0uODgzLS43ODgtMS40OC0xLjc2MS0xLjY1My0yLjA1OS0uMTczLS4yOTctLjAxOS0uNDU4LjEzLS42MDYuMTM0LS4xMzMuMjk3LS4zNDcuNDQ2LS41MjEuMTQ5LS4xNzQuMTk4LS4yOTguMjk3LS40OTcuMS0uMTk4LjA1LS4zNzItLjAyNS0uNTIxLS4wNzQtLjE0OC0uNjY4LTEuNjExLS45MTYtMi4yMDYtLjI0MS0uNTc5LS40ODYtLjUwMS0uNjY4LS41MWwtLjU3LS4wMWMtLjE5OCAwLS41Mi4wNzQtLjc5Mi4zNzItLjI3Mi4yOTgtMS4wNCAxLjAxNi0xLjA0IDIuNDc5IDAgMS40NjMgMS4wNjUgMi44NzYgMS4yMTMgMy4wNzQuMTQ5LjE5OCAyLjA5NiAzLjIgNS4wNzcgNC40ODcuNzA5LjMwNiAxLjI2My40ODkgMS42OTQuNjI2LjcxMi4yMjYgMS4zNi4xOTQgMS44NzIuMTE4LjU3MS0uMDg1IDEuNzU4LS43MTkgMi4wMDYtMS40MTMuMjQ4LS42OTUuMjQ4LTEuMjkuMTczLTEuNDEzLS4wNzQtLjEyNC0uMjcyLS4xOTgtLjU3LS4zNDd6Ii8+Cjwvc3ZnPg==" alt="WhatsApp" /></a>
-
-
-</body>
-</html>
 </body>
 </html>

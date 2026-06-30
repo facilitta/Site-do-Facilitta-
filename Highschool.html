@@ -611,5 +611,39 @@
     clipText.style.transform = 'scale(' + scale + ')';
   }, { passive: true });
 </script>
+
+  <!-- DROPDOWN SCRIPT -->
+<script>
+  const navDropdowns = document.querySelectorAll('.nav-dropdown');
+  
+  navDropdowns.forEach(dropdown => {
+    const toggle = dropdown.querySelector('.nav-dropdown-toggle');
+    const menu = dropdown.querySelector('.nav-dropdown-menu');
+    
+    if (toggle) {
+      toggle.addEventListener('click', (e) => {
+        e.preventDefault();
+        dropdown.classList.toggle('active');
+      });
+    }
+    
+    if (menu) {
+      menu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          dropdown.classList.remove('active');
+        });
+      });
+    }
+  });
+  
+  document.addEventListener('click', (e) => {
+    navDropdowns.forEach(dropdown => {
+      if (!dropdown.contains(e.target)) {
+        dropdown.classList.remove('active');
+      }
+    });
+  });
+</script>
+
 </body>
 </html>

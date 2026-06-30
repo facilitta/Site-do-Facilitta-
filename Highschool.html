@@ -478,7 +478,7 @@
 <!-- NAV -->
 <nav>
   <a href="index.html" class="nav-logo">
-    <img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/3bb43462545281a309d2cc01038f28fae25a627c/IMG_2105.jpeg" alt="Facilitta Academy" />
+    <img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/IMG_2105.jpeg" alt="Facilitta Academy" />
   </a>
   <div class="nav-links">
     <div class="nav-dropdown">
@@ -499,6 +499,29 @@
     <a href="#" class="nav-cta">Inscreva-se</a>
   </div>
 </nav>
+
+<!-- DROPDOWN SCRIPT -->
+<script>
+  const navDropdown = document.querySelector('.nav-dropdown');
+  const navDropdownToggle = document.querySelector('.nav-dropdown-toggle');
+
+  navDropdownToggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    navDropdown.classList.toggle('active');
+  });
+
+  document.querySelectorAll('.nav-dropdown-menu a').forEach(link => {
+    link.addEventListener('click', () => {
+      navDropdown.classList.remove('active');
+    });
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!navDropdown.contains(e.target)) {
+      navDropdown.classList.remove('active');
+    }
+  });
+</script>
 
 
 <!-- HERO VIDEO FULL WIDTH -->

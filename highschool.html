@@ -607,7 +607,7 @@
     const section = document.getElementById('clipSection');
     const rect = section.getBoundingClientRect();
     const progress = Math.max(0, Math.min(1, -rect.top / (section.offsetHeight - window.innerHeight)));
-    const scale = 2500 - (progress * 2499);
+    const eased = Math.pow(progress, 0.15); const scale = 2500 - (eased * 2499);
     draw(scale);
   });
 
@@ -616,7 +616,7 @@
     if (!section) return;
     const rect = section.getBoundingClientRect();
     const progress = Math.max(0, Math.min(1, -rect.top / (section.offsetHeight - window.innerHeight)));
-    const scale = 2500 - (progress * 2499);
+    const eased = Math.pow(progress, 0.15); const scale = 2500 - (eased * 2499);
     draw(scale);
   }, { passive: true });
 })();

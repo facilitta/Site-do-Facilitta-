@@ -246,14 +246,18 @@
       display: flex;
       gap: 20px;
       overflow-x: auto;
-      padding: 0 0 20px;
       scroll-snap-type: x mandatory;
       -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
+      padding-left: 56px;
+      padding-right: 56px;
+      padding-bottom: 20px;
+      scroll-padding-left: 56px;
+      box-sizing: border-box;
     }
     .videos-scroll::-webkit-scrollbar { display: none; }
     .video-card {
-      flex: 0 0 75%;
+      flex: 0 0 calc(75% - 28px);
       scroll-snap-align: start;
       border-radius: 16px;
       overflow: hidden;
@@ -504,7 +508,6 @@
 <section class="videos-section">
   <p class="videos-title">O que é o Facilitta High School?</p>
   <div class="videos-scroll">
-    <div style="flex-shrink:0; width:56px;"></div>
 
     <div class="video-card">
       <div class="video-card-placeholder">

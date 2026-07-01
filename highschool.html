@@ -17,7 +17,7 @@
       --white: #FFFFFF;
     }
 
-    html { scroll-behavior: smooth; scroll-snap-type: y proximity; }
+    html { scroll-behavior: smooth; }
     body { font-family: "Inter", sans-serif; background: var(--white); color: var(--dark); overflow-x: hidden; }
     * { font-style: normal !important; }
 
@@ -634,12 +634,12 @@
     // Canvas permanece visível sempre
     canvas.style.opacity = 1;
 
-    // Mensagem 1: aparece em 70% e fica permanente
-    const msg1In = Math.max(0, Math.min(1, (progress - 0.70) / 0.03));
+    // Mensagem 1: aparece em 60% e fica permanente
+    const msg1In = Math.max(0, Math.min(1, (progress - 0.60) / 0.03));
     if (msg1) msg1.style.opacity = msg1In;
 
-    // Mensagem 2: aparece após 82%
-    const msg2In = Math.max(0, Math.min(1, (progress - 0.82) / 0.03));
+    // Mensagem 2: aparece após 72%
+    const msg2In = Math.max(0, Math.min(1, (progress - 0.72) / 0.03));
     if (msg2) msg2.style.opacity = msg2In;
 
   }, { passive: true });
@@ -647,7 +647,7 @@
 </script>
 
 <!-- SEÇÃO COMPARATIVO -->
-<section id="comparativo" style="background:#f5f5f7; padding: 100px 64px; scroll-snap-align: start; scroll-snap-stop: always;">
+<section id="comparativo" style="background:#f5f5f7; padding: 100px 64px;">
 
   <!-- Comparativo de preços -->
   <div style="display:flex; gap:48px; max-width:1000px; margin:0 auto 100px; align-items:flex-start;">
@@ -692,7 +692,20 @@
 </section>
 
 <script>
-// Fade + slide up ao entrar na viewport
+// Travar scroll ao chegar na seção comparativo
+const comparativo = document.getElementById('comparativo');
+let snapLocked = false;
+
+window.addEventListener('scroll', function() {
+  if (!comparativo || snapLocked) return;
+  const rect = comparativo.getBoundingClientRect();
+  if (rect.top > 0 && rect.top < window.innerHeight * 0.3) {
+    snapLocked = true;
+    window.scrollTo({ top: window.scrollY + rect.top, behavior: 'smooth' });
+    setTimeout(() => { snapLocked = false; }, 1000);
+  }
+}, { passive: true });
+
 const compCols = document.querySelectorAll('.comp-col');
 const compObserver = new IntersectionObserver((entries) => {
   entries.forEach(e => {

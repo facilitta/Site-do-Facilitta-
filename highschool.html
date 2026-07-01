@@ -652,15 +652,15 @@
 
     <!-- Imagem de fundo com zoom -->
     <img id="escolhasImg" src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/Oculosfundobranco.jpg"
-      style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transform-origin:center center; will-change:transform;" />
+      style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center bottom; transform-origin:center center; will-change:transform;" />
 
     <!-- Overlay escuro -->
     <div style="position:absolute; inset:0; background:rgba(0,0,0,0.0);"></div>
 
-    <!-- Texto alinhado à esquerda -->
-    <div style="position:absolute; inset:0; display:flex; align-items:center; padding:64px 72px; z-index:2;">
+    <!-- Texto alinhado à esquerda embaixo -->
+    <div style="position:absolute; inset:0; display:flex; align-items:flex-end; padding:64px 72px; z-index:2;">
       <div>
-        <h2 id="escolhasText" style="font-size:clamp(24px,3.5vw,52px); font-weight:900; line-height:1.1; letter-spacing:-1px; opacity:0; will-change:opacity;">
+        <h2 id="escolhasText" style="font-size:clamp(24px,3.5vw,52px); font-weight:900; line-height:1.1; letter-spacing:-1px; opacity:0; will-change:opacity; color:#1d1d1f;">
           Faça <span style="color:#E8391D;">escolhas</span><br/>poderosas<br/>Para um <span style="color:#E8391D;">futuro</span><br/>poderoso
         </h2>
       </div>
@@ -671,33 +671,62 @@
 
 <!-- LIVRO + TEXTO -->
 <section style="background:#f5f5f7; padding:100px 64px;">
-  <div style="max-width:960px; margin:0 auto; display:flex; gap:64px; align-items:center;">
+  <div style="max-width:960px; margin:0 auto; display:flex; gap:72px; align-items:center;">
 
     <!-- Livro à esquerda -->
     <div style="flex:1; display:flex; justify-content:center;">
       <img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/Livro.jpeg" alt="Manual American High School" style="max-width:340px; width:100%; border-radius:16px; box-shadow: 0 24px 60px rgba(0,0,0,0.2), 0 8px 20px rgba(0,0,0,0.1);" />
     </div>
 
-    <!-- Texto à direita animado -->
-    <div id="livroTexto" style="flex:1; opacity:0; transform:translateX(40px); transition: opacity 0.8s ease, transform 0.8s ease;">
-      <p style="font-size:clamp(18px,2.5vw,28px); font-weight:600; color:#1d1d1f; line-height:1.5;">Tire seu sonho de estudar nos Estados Unidos da América do papel.</p>
-    </div>
+    <!-- Conteúdo à direita -->
+    <div style="flex:1; display:flex; flex-direction:column; gap:40px;">
 
+      <!-- Frase de impacto -->
+      <div class="livro-item" style="opacity:0; transform:translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease;">
+        <p style="font-size:clamp(22px,2.8vw,36px); font-weight:800; color:#1d1d1f; line-height:1.3; letter-spacing:-0.5px;">Tire seu sonho do papel.<br/><span style="color:#E8391D;">Comece hoje.</span></p>
+      </div>
+
+      <!-- Divisor -->
+      <div class="livro-item" style="height:1px; background:#e0e0e0; opacity:0; transition: opacity 0.7s ease 0.1s;"></div>
+
+      <!-- Estatísticas -->
+      <div class="livro-item" style="display:flex; gap:32px; opacity:0; transform:translateY(24px); transition: opacity 0.7s ease 0.2s, transform 0.7s ease 0.2s;">
+        <div>
+          <p style="font-size:clamp(28px,3.5vw,48px); font-weight:900; color:#E8391D; line-height:1;">121</p>
+          <p style="font-size:13px; color:#888; margin-top:4px; line-height:1.4;">universidades<br/>parceiras</p>
+        </div>
+        <div style="width:1px; background:#e0e0e0;"></div>
+        <div>
+          <p style="font-size:clamp(28px,3.5vw,48px); font-weight:900; color:#E8391D; line-height:1;">$7mil</p>
+          <p style="font-size:13px; color:#888; margin-top:4px; line-height:1.4;">programa<br/>completo</p>
+        </div>
+        <div style="width:1px; background:#e0e0e0;"></div>
+        <div>
+          <p style="font-size:clamp(28px,3.5vw,48px); font-weight:900; color:#E8391D; line-height:1;">100%</p>
+          <p style="font-size:13px; color:#888; margin-top:4px; line-height:1.4;">online do<br/>Brasil</p>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="livro-item" style="opacity:0; transform:translateY(24px); transition: opacity 0.7s ease 0.3s, transform 0.7s ease 0.3s;">
+        <a href="#" style="display:inline-block; background:#E8391D; color:#fff; font-size:15px; font-weight:700; padding:14px 32px; border-radius:100px; text-decoration:none;">Comprar agora</a>
+      </div>
+
+    </div>
   </div>
 </section>
 
 <script>
-const livroTexto = document.getElementById('livroTexto');
+const livroItems = document.querySelectorAll('.livro-item');
 const livroObserver = new IntersectionObserver((entries) => {
   entries.forEach(e => {
     if (e.isIntersecting) {
-      livroTexto.style.opacity = '1';
-      livroTexto.style.transform = 'translateX(0)';
-      livroObserver.disconnect();
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
     }
   });
-}, { threshold: 0.3 });
-livroObserver.observe(livroTexto);
+}, { threshold: 0.2 });
+livroItems.forEach(el => livroObserver.observe(el));
 </script>
 
 <script>

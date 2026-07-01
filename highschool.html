@@ -646,6 +646,66 @@
 })();
 </script>
 
+<!-- SEÇÃO COMPARATIVO -->
+<section id="comparativo" style="background:#f5f5f7; padding: 100px 64px;">
+  <div style="display:flex; gap:48px; max-width:1000px; margin:0 auto; align-items:flex-start;">
+
+    <!-- Coluna Intercâmbio Tradicional -->
+    <div class="comp-col" style="flex:1; opacity:0; transform:translateY(40px); transition: opacity 0.7s ease, transform 0.7s ease;">
+      <p style="font-size:13px; font-weight:500; color:#86868b; margin-bottom:12px;">Intercâmbio Tradicional</p>
+      <p style="font-size:clamp(40px,5vw,64px); font-weight:700; color:#1d1d1f; line-height:1; margin-bottom:24px;">$<span id="counter1">0</span> mil <span style="font-size:clamp(16px,2vw,22px); font-weight:400; color:#86868b;">/ Ano</span></p>
+      <p style="font-size:14px; color:#555; line-height:1.7; margin-bottom:16px;">Essa é a média de valores cobrados em serviços tradicionais de intercâmbio presenciais.</p>
+      <p style="font-size:13px; color:#86868b; line-height:1.6;">*Esses serviços não garantem o diploma de High School Americano.</p>
+    </div>
+
+    <!-- Divisor -->
+    <div style="width:1px; background:#d2d2d7; align-self:stretch; margin-top:40px;"></div>
+
+    <!-- Coluna Facilitta -->
+    <div class="comp-col" style="flex:1; text-align:right; opacity:0; transform:translateY(40px); transition: opacity 0.7s ease 0.2s, transform 0.7s ease 0.2s;">
+      <p style="font-size:13px; font-weight:500; color:#86868b; margin-bottom:12px;"><strong style="color:#E8391D;">Facilitta</strong> High School</p>
+      <p style="font-size:clamp(40px,5vw,64px); font-weight:700; color:#1d1d1f; line-height:1; margin-bottom:24px;">$<span id="counter2">0</span> mil <span style="font-size:clamp(16px,2vw,22px); font-weight:400; color:#86868b;">Completo</span></p>
+      <p style="font-size:14px; color:#555; line-height:1.7; margin-bottom:16px; text-align:right;">Serviço completo com o processo de entrada nas faculdades e assessoria inclusos.</p>
+      <p style="font-size:13px; color:#555; line-height:1.6; text-align:right;">Documentação e diploma garantidos ao final do curso</p>
+    </div>
+
+  </div>
+</section>
+
+<script>
+const compCols = document.querySelectorAll('.comp-col');
+const compObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.15 });
+compCols.forEach(el => compObserver.observe(el));
+
+function animateCounter(el, target, duration) {
+  let start = 0;
+  const step = target / (duration / 16);
+  const timer = setInterval(() => {
+    start += step;
+    if (start >= target) { start = target; clearInterval(timer); }
+    el.textContent = Math.round(start);
+  }, 16);
+}
+
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      animateCounter(document.getElementById('counter1'), 20, 1200);
+      animateCounter(document.getElementById('counter2'), 7, 800);
+      counterObserver.disconnect();
+    }
+  });
+}, { threshold: 0.3 });
+counterObserver.observe(document.getElementById('comparativo'));
+</script>
+
 <!-- SEÇÃO FAÇA ESCOLHAS PODEROSAS — SCROLL + ZOOM -->
 <section id="escolhas" style="position:relative; height:200vh; background:#000;">
   <div style="position:sticky; top:0; height:100vh; overflow:hidden;">

@@ -712,7 +712,7 @@ window.addEventListener('scroll', function() {
   const comp = document.getElementById('comparativo');
   if (!comp) return;
   const rect = comp.getBoundingClientRect();
-  if (rect.top > 0 && rect.top < window.innerHeight * 0.35) {
+  if (rect.top > 0 && rect.top < window.innerHeight * 0.15) {
     snapLocked = true;
     const targetY = window.scrollY + rect.top;
     const startY = window.scrollY;

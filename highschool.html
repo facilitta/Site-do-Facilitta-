@@ -705,10 +705,15 @@ const counterObserver = new IntersectionObserver((entries) => {
 }, { threshold: 0.3 });
 counterObserver.observe(document.getElementById('comparativo'));
 
-// Snap suave só no comparativo
+// Snap suave só no comparativo ao descer
 let snapLocked = false;
+let lastScrollY = window.scrollY;
 window.addEventListener('scroll', function() {
-  if (snapLocked) return;
+  const currentScrollY = window.scrollY;
+  const goingDown = currentScrollY > lastScrollY;
+  lastScrollY = currentScrollY;
+
+  if (snapLocked || !goingDown) return;
   const comp = document.getElementById('comparativo');
   if (!comp) return;
   const rect = comp.getBoundingClientRect();

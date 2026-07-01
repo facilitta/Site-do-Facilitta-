@@ -496,6 +496,28 @@
   }
 </script>
 
+  <!-- DROPDOWN SCRIPT -->
+<script>
+  const navDropdown = document.querySelector('.nav-dropdown');
+  const navDropdownToggle = document.querySelector('.nav-dropdown-toggle');
+
+  navDropdownToggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    navDropdown.classList.toggle('active');
+  });
+
+  document.querySelectorAll('.nav-dropdown-menu a').forEach(link => {
+    link.addEventListener('click', () => {
+      navDropdown.classList.remove('active');
+    });
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!navDropdown.contains(e.target)) {
+      navDropdown.classList.remove('active');
+    }
+  });
+</script>
 
 <a class="wa-float" href="https://wa.me/" target="_blank" aria-label="Fale pelo WhatsApp"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIj4KICA8cGF0aCBmaWxsPSIjZmZmZmZmIiBkPSJNMTIgMEM1LjM3MyAwIDAgNS4zNzMgMCAxMmMwIDIuMTIzLjU1NSA0LjExNiAxLjUyNCA1Ljg0N0wwIDI0bDYuMzEtMS41MDdBMTEuOTQ1IDExLjk0NSAwIDAgMCAxMiAyNGM2LjYyNyAwIDEyLTUuMzczIDEyLTEyUzE4LjYyNyAwIDEyIDB6bTAgMjJjLTEuODUgMC0zLjU4Ny0uNS01LjA4Mi0xLjM3MWwtLjM2NC0uMjEzLTMuNzQyLjg5NC45NDQtMy42NS0uMjM2LS4zNzVBOS45NiA5Ljk2IDAgMCAxIDIgMTJDMiA2LjQ3NyA2LjQ3NyAyIDEyIDJzMTAgNC40NzcgMTAgMTAtNC40NzcgMTAtMTAgMTB6bTUuNDA2LTcuMzg3Yy0uMjk3LS4xNDgtMS43NTYtLjg2Ni0yLjAyOC0uOTY1LS4yNzItLjA5OS0uNDctLjE0OC0uNjY4LjE0OS0uMTk4LjI5Ni0uNzY3Ljk2NC0uOTQgMS4xNjMtLjE3NC4xOTgtLjM0Ny4yMjMtLjY0NC4wNzQtLjI5Ny0uMTQ4LTEuMjU1LS40NjMtMi4zOS0xLjQ3NS0uODgzLS43ODgtMS40OC0xLjc2MS0xLjY1My0yLjA1OS0uMTczLS4yOTctLjAxOS0uNDU4LjEzLS42MDYuMTM0LS4xMzMuMjk3LS4zNDcuNDQ2LS41MjEuMTQ5LS4xNzQuMTk4LS4yOTguMjk3LS40OTcuMS0uMTk4LjA1LS4zNzItLjAyNS0uNTIxLS4wNzQtLjE0OC0uNjY4LTEuNjExLS45MTYtMi4yMDYtLjI0MS0uNTc5LS40ODYtLjUwMS0uNjY4LS41MWwtLjU3LS4wMWMtLjE5OCAwLS41Mi4wNzQtLjc5Mi4zNzItLjI3Mi4yOTgtMS4wNCAxLjAxNi0xLjA0IDIuNDc5IDAgMS40NjMgMS4wNjUgMi44NzYgMS4yMTMgMy4wNzQuMTQ5LjE5OCAyLjA5NiAzLjIgNS4wNzcgNC40ODcuNzA5LjMwNiAxLjI2My40ODkgMS42OTQuNjI2LjcxMi4yMjYgMS4zNi4xOTQgMS44NzIuMTE4LjU3MS0uMDg1IDEuNzU4LS43MTkgMi4wMDYtMS40MTMuMjQ4LS42OTUuMjQ4LTEuMjkuMTczLTEuNDEzLS4wNzQtLjEyNC0uMjcyLS4xOTgtLjU3LS4zNDd6Ii8+Cjwvc3ZnPg==" alt="WhatsApp" /></a>
 

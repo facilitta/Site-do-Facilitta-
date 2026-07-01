@@ -646,110 +646,130 @@
 })();
 </script>
 
-<!-- SEÇÃO COMPARATIVO -->
-<section id="comparativo" style="background:#f5f5f7; padding: 100px 64px;">
+<!-- SEÇÃO FAÇA ESCOLHAS PODEROSAS — SCROLL + ZOOM -->
+<section id="escolhas" style="position:relative; height:200vh; background:#000;">
+  <div style="position:sticky; top:0; height:100vh; overflow:hidden;">
 
-  <!-- Comparativo de preços -->
-  <div style="display:flex; gap:48px; max-width:1000px; margin:0 auto 100px; align-items:flex-start;">
+    <!-- Imagem de fundo com zoom -->
+    <img id="escolhasImg" src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/Oculosfundobranco.jpg"
+      style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transform-origin:center center; will-change:transform;" />
 
-    <!-- Coluna Intercâmbio Tradicional -->
-    <div class="comp-col" style="flex:1; opacity:0; transform:translateY(40px); transition: opacity 0.7s ease, transform 0.7s ease;">
-      <p style="font-size:13px; font-weight:500; color:#86868b; margin-bottom:12px;">Intercâmbio Tradicional</p>
-      <p style="font-size:clamp(40px,5vw,64px); font-weight:700; color:#1d1d1f; line-height:1; margin-bottom:24px;">$<span id="counter1">0</span> mil <span style="font-size:clamp(16px,2vw,22px); font-weight:400; color:#86868b;">/ Ano</span></p>
-      <p style="font-size:14px; color:#555; line-height:1.7; margin-bottom:16px;">Essa é a média de valores cobrados em serviços tradicionais de intercâmbio presenciais.</p>
-      <p style="font-size:13px; color:#86868b; line-height:1.6;">*Esses serviços não garantem o diploma de High School Americano.</p>
-    </div>
+    <!-- Overlay escuro -->
+    <div style="position:absolute; inset:0; background:rgba(0,0,0,0.45);"></div>
 
-    <!-- Divisor -->
-    <div style="width:1px; background:#d2d2d7; align-self:stretch; margin-top:40px;"></div>
-
-    <!-- Coluna Facilitta -->
-    <div class="comp-col" style="flex:1; text-align:right; opacity:0; transform:translateY(40px); transition: opacity 0.7s ease 0.2s, transform 0.7s ease 0.2s;">
-      <p style="font-size:13px; font-weight:500; color:#86868b; margin-bottom:12px;"><strong style="color:#E8391D;">Facilitta</strong> High School</p>
-      <p style="font-size:clamp(40px,5vw,64px); font-weight:700; color:#1d1d1f; line-height:1; margin-bottom:24px;">$<span id="counter2">0</span> mil <span style="font-size:clamp(16px,2vw,22px); font-weight:400; color:#86868b;">Completo</span></p>
-      <p style="font-size:14px; color:#555; line-height:1.7; margin-bottom:16px; text-align:right;">Serviço completo com o processo de entrada nas faculdades e assessoria inclusos.</p>
-      <p style="font-size:13px; color:#555; line-height:1.6; text-align:right;">Documentação e diploma garantidos ao final do curso</p>
+    <!-- Texto alinhado à esquerda -->
+    <div style="position:absolute; inset:0; display:flex; align-items:flex-end; padding:64px 72px; z-index:2;">
+      <div>
+        <h2 id="escolhasText" style="font-size:clamp(40px,6vw,88px); font-weight:900; line-height:1.05; letter-spacing:-2px; opacity:0; will-change:opacity;">
+          Faça <span style="color:#E8391D;">escolhas</span><br/>poderosas<br/>Para um <span style="color:#E8391D;">futuro</span><br/>poderoso
+        </h2>
+      </div>
     </div>
 
   </div>
+</section>
 
-  <!-- Seção Faça Escolhas Poderosas -->
-  <div style="max-width:1000px; margin:0 auto; display:flex; flex-direction:column; align-items:center; gap:48px;">
-
-    <!-- Texto centralizado -->
-    <div class="comp-col" style="text-align:center; opacity:0; transform:translateY(40px); transition: opacity 0.7s ease 0.4s, transform 0.7s ease 0.4s;">
-      <h2 style="font-size:clamp(32px,4vw,56px); font-weight:800; color:#1d1d1f; line-height:1.1; letter-spacing:-1px; margin-bottom:20px;">Faça escolhas poderosas<br/>Para um futuro poderoso</h2>
-      <p style="font-size:15px; color:#555; line-height:1.7;">Tire seu sonho de estudar nos Estados Unidos da América do papel.</p>
-    </div>
-
-    <!-- Imagem do livro centralizada e grande -->
-    <div class="comp-col" style="display:flex; justify-content:center; width:100%; opacity:0; transform:translateY(40px); transition: opacity 0.7s ease 0.6s, transform 0.7s ease 0.6s;">
-      <img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/Livro.jpeg" alt="Manual American High School" style="max-width:500px; width:90%; border-radius:16px; box-shadow: 0 24px 60px rgba(0,0,0,0.2), 0 8px 20px rgba(0,0,0,0.1);" />
-    </div>
-
-  </div>
-
+<!-- LIVRO -->
+<section style="background:#f5f5f7; padding:100px 64px; display:flex; justify-content:center;">
+  <img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/Livro.jpeg" alt="Manual American High School" style="max-width:500px; width:90%; border-radius:16px; box-shadow: 0 24px 60px rgba(0,0,0,0.2), 0 8px 20px rgba(0,0,0,0.1);" />
 </section>
 
 <script>
-// Travar scroll ao chegar na seção comparativo
-const comparativo = document.getElementById('comparativo');
-let snapLocked = false;
+const escolhasSection = document.getElementById('escolhas');
+const escolhasImg = document.getElementById('escolhasImg');
+const escolhasText = document.getElementById('escolhasText');
 
 window.addEventListener('scroll', function() {
-  if (!comparativo || snapLocked) return;
-  const rect = comparativo.getBoundingClientRect();
-  if (rect.top > 0 && rect.top < window.innerHeight * 0.3) {
-    snapLocked = true;
-    const targetY = window.scrollY + rect.top;
-    const startY = window.scrollY;
-    const duration = 1800;
-    const startTime = performance.now();
+  if (!escolhasSection) return;
+  const rect = escolhasSection.getBoundingClientRect();
+  const progress = Math.max(0, Math.min(1, -rect.top / (escolhasSection.offsetHeight - window.innerHeight)));
 
-    function easeScroll(currentTime) {
-      const elapsed = currentTime - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      const ease = 1 - Math.pow(1 - progress, 4);
-      window.scrollTo(0, startY + (targetY - startY) * ease);
-      if (progress < 1) requestAnimationFrame(easeScroll);
-      else setTimeout(() => { snapLocked = false; }, 500);
-    }
-    requestAnimationFrame(easeScroll);
-  }
+  // Zoom suave na imagem: 1 → 1.15
+  const zoom = 1 + (progress * 0.15);
+  if (escolhasImg) escolhasImg.style.transform = `scale(${zoom})`;
+
+  // Texto aparece junto com o scroll
+  if (escolhasText) escolhasText.style.opacity = progress;
+
 }, { passive: true });
+</script>
 
-const compCols = document.querySelectorAll('.comp-col');
-const compObserver = new IntersectionObserver((entries) => {
+<!-- SEÇÃO O QUE ESTÁ INCLUÍDO -->
+<section id="incluido" style="background:#f5f5f7; padding: 100px 64px;">
+  <div style="max-width:960px; margin:0 auto;">
+
+    <!-- Título -->
+    <div class="inc-item" style="text-align:center; margin-bottom:48px; opacity:0; transform:translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease;">
+      <p style="font-size:13px; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:#E8391D; margin-bottom:12px;">O QUE ESTÁ INCLUÍDO</p>
+      <h2 style="font-size:clamp(28px,3.5vw,48px); font-weight:800; color:#1d1d1f; letter-spacing:-1px; line-height:1.1;">Tudo que você precisa,<br/>em um só lugar.</h2>
+    </div>
+
+    <!-- Card grande 3 colunas -->
+    <div class="inc-item" style="background:#fff; border-radius:28px; padding:56px 48px; box-shadow: 0 4px 24px rgba(0,0,0,0.06); opacity:0; transform:translateY(30px); transition: opacity 0.6s ease 0.1s, transform 0.6s ease 0.1s; display:grid; grid-template-columns: 1fr 1px 1fr 1px 1fr; gap:0;">
+
+      <!-- Coluna 1 -->
+      <div style="display:flex; flex-direction:column; gap:48px; padding-right:48px;">
+        <div style="text-align:center;">
+          <div style="font-size:32px; margin-bottom:12px;">🎓</div>
+          <p style="font-size:15px; font-weight:700; color:#1d1d1f; margin-bottom:6px;">Duplo Diploma</p>
+          <p style="font-size:13px; color:#999; line-height:1.6;">Americano + Brasileiro, reconhecido internacionalmente</p>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:32px; margin-bottom:12px;">🏛️</div>
+          <p style="font-size:15px; font-weight:700; color:#1d1d1f; margin-bottom:6px;">Assessoria Americana</p>
+          <p style="font-size:13px; color:#999; line-height:1.6;">Orientação completa para entrar nas melhores universidades</p>
+        </div>
+      </div>
+
+      <!-- Divisor 1 -->
+      <div style="background:#f0f0f0; margin: 0 0;"></div>
+
+      <!-- Coluna 2 -->
+      <div style="display:flex; flex-direction:column; gap:48px; padding: 0 48px;">
+        <div style="text-align:center;">
+          <div style="font-size:32px; margin-bottom:12px;">🇧🇷</div>
+          <p style="font-size:15px; font-weight:700; color:#1d1d1f; margin-bottom:6px;">Suporte em Português</p>
+          <p style="font-size:13px; color:#999; line-height:1.6;">Do início ao fim, sem barreira de idioma</p>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:32px; margin-bottom:12px;">🏠</div>
+          <p style="font-size:15px; font-weight:700; color:#1d1d1f; margin-bottom:6px;">Estude do Brasil</p>
+          <p style="font-size:13px; color:#999; line-height:1.6;">Sem visto, passagem ou moradia</p>
+        </div>
+      </div>
+
+      <!-- Divisor 2 -->
+      <div style="background:#f0f0f0; margin: 0 0;"></div>
+
+      <!-- Coluna 3 -->
+      <div style="display:flex; flex-direction:column; gap:48px; padding-left:48px;">
+        <div style="text-align:center;">
+          <div style="font-size:32px; margin-bottom:12px;">💰</div>
+          <p style="font-size:15px; font-weight:700; color:#1d1d1f; margin-bottom:6px;">Descontos Exclusivos</p>
+          <p style="font-size:13px; color:#999; line-height:1.6;">Bolsas e descontos em faculdades parceiras nos EUA</p>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:32px; margin-bottom:12px;">🏆</div>
+          <p style="font-size:15px; font-weight:700; color:#1d1d1f; margin-bottom:6px;">Mentoria Personalizada</p>
+          <p style="font-size:13px; color:#999; line-height:1.6;">Acompanhamento individual do início ao fim</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+const incItems = document.querySelectorAll('.inc-item');
+const incObserver = new IntersectionObserver((entries) => {
   entries.forEach(e => {
     if (e.isIntersecting) {
       e.target.style.opacity = '1';
       e.target.style.transform = 'translateY(0)';
     }
   });
-}, { threshold: 0.15 });
-compCols.forEach(el => compObserver.observe(el));
-
-// Counter animado
-function animateCounter(el, target, duration) {
-  let start = 0;
-  const step = target / (duration / 16);
-  const timer = setInterval(() => {
-    start += step;
-    if (start >= target) { start = target; clearInterval(timer); }
-    el.textContent = Math.round(start);
-  }, 16);
-}
-
-const counterObserver = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      animateCounter(document.getElementById('counter1'), 20, 1200);
-      animateCounter(document.getElementById('counter2'), 7, 800);
-      counterObserver.disconnect();
-    }
-  });
-}, { threshold: 0.3 });
-counterObserver.observe(document.getElementById('comparativo'));
+}, { threshold: 0.1 });
+incItems.forEach(el => incObserver.observe(el));
 </script>
 
 <!-- FOOTER -->

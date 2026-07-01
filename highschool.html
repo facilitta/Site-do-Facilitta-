@@ -701,8 +701,20 @@ window.addEventListener('scroll', function() {
   const rect = comparativo.getBoundingClientRect();
   if (rect.top > 0 && rect.top < window.innerHeight * 0.3) {
     snapLocked = true;
-    window.scrollTo({ top: window.scrollY + rect.top, behavior: 'smooth' });
-    setTimeout(() => { snapLocked = false; }, 1000);
+    const targetY = window.scrollY + rect.top;
+    const startY = window.scrollY;
+    const duration = 1800;
+    const startTime = performance.now();
+
+    function easeScroll(currentTime) {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const ease = 1 - Math.pow(1 - progress, 4);
+      window.scrollTo(0, startY + (targetY - startY) * ease);
+      if (progress < 1) requestAnimationFrame(easeScroll);
+      else setTimeout(() => { snapLocked = false; }, 500);
+    }
+    requestAnimationFrame(easeScroll);
   }
 }, { passive: true });
 

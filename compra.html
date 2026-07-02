@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj4KICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAGIDXYZWN0IHg9IjIwIiB5PSIxNSIgd2lkdGg9IjYwIiBoZWlnaHQ9IjE1IiBmaWxsPSJ3aGl0ZSIvPgogIDxyZWN0IHg9IjIwIiB5PSIxNSIgd2lkdGg9IjE1IiBoZWlnaHQ9IjcwIiBmaWxsPSJ3aGl0ZSIvPgogIDxyZWN0IHg9IjIwIiB5PSI0MiIgd2lkdGg9IjQwIiBoZWlnaHQ9IjEzIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4=" />
+  <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/logo_f_rasterizada.png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Comprar High School Americano | Facilitta Academy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red: #E8391D;
+      --red-2: #C42E15;
+      --dark: #2B2B2B;
+      --white: #FFFFFF;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: "Inter", sans-serif; background: var(--white); color: var(--dark); overflow-x: hidden; }
+    * { font-style: normal !important; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px; height: 76px;
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(0,0,0,0.07);
+    }
+    .nav-logo { display: flex; align-items: center; }
+    .nav-logo img { height: 38px; width: auto; display: block; object-fit: contain; }
+    .nav-links {
+      position: absolute; left: 50%; transform: translateX(-50%);
+      display: flex; align-items: center; gap: 40px;
+      white-space: nowrap;
+    }
+    .nav-links a {
+      font-size: 14px; font-weight: 500; color: var(--dark);
+      text-decoration: none; opacity: 0.6; transition: opacity .2s;
+    }
+    .nav-links a:hover { opacity: 1; }
+
+    /* DROPDOWN */
+    .nav-dropdown {
+      position: relative;
+      padding: 8px 0;
+      margin: 0 -8px;
+      white-space: nowrap;
+    }
+    .nav-dropdown-toggle {
+      font-size: 14px; font-weight: 500; color: var(--dark);
+      text-decoration: none; opacity: 0.6; transition: opacity .2s, background .2s;
+      cursor: pointer;
+      padding: 8px 12px;
+      border-radius: 8px 8px 0 0;
+      display: block;
+      white-space: nowrap;
+    }
+    .nav-dropdown:hover .nav-dropdown-toggle {
+      opacity: 1;
+      background: rgba(232,57,29,0.08);
+    }
+    .nav-dropdown-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% - 8px);
+      left: 50%; transform: translateX(-50%);
+      background: #fff;
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 0 0 12px 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.10);
+      padding: 8px 0;
+      min-width: 200px;
+      z-index: 200;
+      pointer-events: none;
+    }
+    .nav-dropdown:hover .nav-dropdown-menu {
+      display: block;
+      pointer-events: auto;
+    }
+    .nav-dropdown.active .nav-dropdown-menu {
+      display: block;
+      pointer-events: auto;
+    }
+    .nav-dropdown.active .nav-dropdown-toggle {
+      opacity: 1;
+      background: rgba(232,57,29,0.08);
+    }
+    .nav-dropdown-menu a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 20px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--dark);
+      text-decoration: none;
+      opacity: 0.7;
+      transition: opacity .2s, background .2s;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      white-space: nowrap;
+    }
+    .nav-dropdown-menu a:last-child { border-bottom: none; }
+    .nav-dropdown-menu a:hover {
+      opacity: 1;
+      background: rgba(232,57,29,0.08);
+      color: var(--red);
+    }
+    .dropdown-logo {
+      width: 18px; height: 18px;
+      object-fit: contain; flex-shrink: 0;
+      transition: transform 0.4s ease-in-out;
+    }
+    .nav-dropdown-menu a:hover .dropdown-logo { transform: rotate(180deg); }
+
+    .nav-cta {
+      background: var(--red); color: #fff; font-size: 14px; font-weight: 700;
+      padding: 10px 22px; border-radius: 100px; text-decoration: none;
+      transition: opacity .2s, transform .15s; white-space: nowrap;
+    }
+    .nav-cta:hover { opacity: 0.88; transform: scale(1.02); }
+
+    .nav-insta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      overflow: hidden;
+    }
+    .nav-insta img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .nav-right { display: flex; align-items: center; gap: 20px; }
+
+    /* MOBILE NAV */
+    @media (max-width: 768px) {
+      nav { padding: 0 14px; height: 60px; }
+      .nav-links { position: static; transform: none; gap: 14px; }
+      .nav-links a { font-size: 11px; }
+      .nav-dropdown-toggle { font-size: 13px; padding: 6px 10px; }
+      .nav-dropdown-menu { min-width: 160px; }
+      .nav-dropdown-menu a { padding: 10px 16px; font-size: 13px; }
+      .nav-insta { display: none; }
+      .nav-right { gap: 6px; }
+      .nav-cta { font-size: 12px; padding: 8px 14px; }
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--red);
+      color: #fff;
+      padding: 40px 48px;
+      text-align: left;
+    }
+    footer p { font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 16px; }
+    .footer-links { display: flex; gap: 24px; justify-content: flex-start; }
+    .footer-links a { font-size: 13px; color: rgba(255,255,255,0.7); text-decoration: none; transition: color .2s; }
+    .footer-links a:hover { color: #fff; }
+
+    /* ── BOTÃO VOLTAR ── */
+    .back-btn {
+      position: fixed; top: 96px; left: 24px;
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--white);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none;
+      transition: transform .2s, box-shadow .2s;
+      z-index: 99;
+    }
+    .back-btn:hover { transform: scale(1.08); box-shadow: 0 4px 20px rgba(0,0,0,0.18); }
+
+    /* ── WHATSAPP ── */
+    .wa-float {
+      position: fixed; bottom: 32px; right: 32px; z-index: 999;
+      width: 56px; height: 56px; border-radius: 50%;
+      background: #25D366;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      display: flex; align-items: center; justify-content: center;
+      transition: transform .2s, box-shadow .2s;
+      text-decoration: none;
+    }
+    .wa-float:hover { transform: scale(1.1); box-shadow: 0 8px 28px rgba(0,0,0,0.18); }
+    .wa-float img { width: 32px; height: 32px; object-fit: contain; display: block; }
+
+    @media (max-width: 768px) {
+      .wa-float { bottom: 24px; right: 16px; width: 48px; height: 48px; }
+      .wa-float img { width: 26px; height: 26px; }
+    }
+
+    /* ── CONTEÚDO DA PÁGINA COMPRA ── */
+    .compra-hero {
+      margin-top: 76px;
+      padding: 80px 64px 40px;
+      max-width: 960px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .compra-hero h1 {
+      font-size: clamp(32px,4.5vw,52px);
+      font-weight: 800;
+      color: #1d1d1f;
+      letter-spacing: -1px;
+      margin-bottom: 16px;
+    }
+    .compra-hero p {
+      font-size: 16px;
+      color: #86868b;
+      line-height: 1.6;
+      max-width: 560px;
+    }
+
+    .compra-content {
+      padding: 0 64px 120px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 768px) {
+      .compra-hero { padding: 40px 20px 24px; }
+      .compra-content { padding: 0 20px 80px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/logo_f_rasterizada.png" alt="Facilitta Academy" />
+  </a>
+  <div class="nav-links">
+    <div class="nav-dropdown">
+      <a class="nav-dropdown-toggle">Programas</a>
+      <div class="nav-dropdown-menu">
+        <a href="highschool.html"><img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/logo_f_rasterizada.png" alt="" class="dropdown-logo">High School</a>
+        <a href="posgraduacao.html"><img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/logo_f_rasterizada.png" alt="" class="dropdown-logo">Pós Graduação</a>
+        <a href="english.html"><img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/logo_f_rasterizada.png" alt="" class="dropdown-logo">English Classes</a>
+        <a href="tecnicos.html"><img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/logo_f_rasterizada.png" alt="" class="dropdown-logo">Cursos Técnicos</a>
+      </div>
+    </div>
+    <a href="contato.html">Contato</a>
+  </div>
+  <div class="nav-right">
+    <a class="nav-insta" href="https://www.instagram.com/facilittaacademy?igsh=MWEwamk1dTJzczN0aA==" target="_blank" aria-label="Instagram">
+      <img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/IMG_2105.jpeg" alt="Instagram" />
+    </a>
+    <a href="#" class="nav-cta">Inscreva-se</a>
+  </div>
+</nav>
+
+<!-- BOTÃO VOLTAR -->
+<a href="highschool.html" class="back-btn" title="Voltar">
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+    <path d="M12 4L6 10L12 16" stroke="#E8391D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</a>
+
+<!-- HERO DA PÁGINA -->
+<section class="compra-hero">
+  <h1>Comprar High School Americano</h1>
+  <p>Finalize sua inscrição e comece sua jornada rumo ao diploma americano, direto do Brasil.</p>
+</section>
+
+<!-- CONTEÚDO (a ser desenvolvido: formas de pagamento, checkout, etc.) -->
+<section class="compra-content">
+  <!-- Espaço reservado para o fluxo de compra/checkout -->
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 Facilitta Academy. Todos os direitos reservados.</p>
+  <div class="footer-links">
+    <a href="#">Termos</a>
+    <a href="#">Privacidade</a>
+    <a href="contato.html">Suporte</a>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/" target="_blank" aria-label="Fale pelo WhatsApp">
+  <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIj4KICA8cGF0aCBmaWxsPSIjZmZmZmZmIiBkPSJNMTIgMEM1LjM3MyAwIDAgNS4zNzMgMCAxMmMwIDIuMTIzLjU1NSA0LjExNiAxLjUyNCA1Ljg0N0wwIDI0bDYuMzEtMS41MDdBMTEuOTQ1IDExLjk0NSAwIDAgMCAxMiAyNGM2LjYyNyAwIDEyLTUuMzczIDEyLTEyUzE4LjYyNyAwIDEyIDB6bTAgMjJjLTEuODUgMC0zLjU4Ny0uNS01LjA4Mi0xLjM3MWwtLjM2NC0uMjEzLTMuNzQyLjg5NC45NDQtMy42NS0uMjM2LS4zNzVBOS45NiA5Ljk2IDAgMCAxIDIgMTJDMiA2LjQ3NyA2LjQ3NyAyIDEyIDJzMTAgNC40NzcgMTAgMTAtNC40NzcgMTAtMTAgMTB6bTUuNDA2LTcuMzg3Yy0uMjk3LS4xNDgtMS43NTYtLjg2Ni0yLjAyOC0uOTY1LS4yNzItLjA5OS0uNDctLjE0OC0uNjY4LjE0OS0uMTk4LjI5Ni0uNzY3Ljk2NC0uOTQgMS4xNjMtLjE3NC4xOTgtLjM0Ny4yMjMtLjY0NC4wNzQtLjI5Ny0uMTQ4LTEuMjU1LS40NjMtMi4zOS0xLjQ3NS0uODgzLS43ODgtMS40OC0xLjc2MS0xLjY1My0yLjA1OS0uMTczLS4yOTctLjAxOS0uNDU4LjEzLS42MDYuMTM0LS4xMzMuMjk3LS4zNDcuNDQ2LS41MjEuMTQ5LS4xNzQuMTk4LS4yOTguMjk3LS40OTcuMS0uMTk4LjA1LS4zNzItLjAyNS0uNTIxLS4wNzQtLjE0OC0uNjY4LTEuNjExLS45MTYtMi4yMDYtLjI0MS0uNTc5LS40ODYtLjUwMS0uNjY4LS41MWwtLjU3LS4wMWMtLjE5OCAwLS41Mi4wNzQtLjc5Mi4zNzItLjI3Mi4yOTgtMS4wNCAxLjAxNi0xLjA0IDIuNDc5IDAgMS40NjMgMS4wNjUgMi44NzYgMS4yMTMgMy4wNzQuMTQ5LjE5OCAyLjA5NiAzLjIgNS4wNzcgNC40ODcuNzA5LjMwNiAxLjI2My40ODkgMS42OTQuNjI2LjcxMi4yMjYgMS4zNi4xOTQgMS44NzIuMTE4LjU3MS0uMDg1IDEuNzU4LS43MTkgMi4wMDYtMS40MTMuMjQ4LS42OTUuMjQ4LTEuMjkuMTczLTEuNDEzLS4wNzQtLjEyNC0uMjcyLS4xOTgtLjU3LS4zNDd6Ii8+Cjwvc3ZnPg==" alt="WhatsApp" />
+</a>
+
+<!-- DROPDOWN SCRIPT -->
+<script>
+  const navDropdown = document.querySelector('.nav-dropdown');
+  const navDropdownToggle = document.querySelector('.nav-dropdown-toggle');
+
+  navDropdownToggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    navDropdown.classList.toggle('active');
+  });
+
+  document.querySelectorAll('.nav-dropdown-menu a').forEach(link => {
+    link.addEventListener('click', () => {
+      navDropdown.classList.remove('active');
+    });
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!navDropdown.contains(e.target)) {
+      navDropdown.classList.remove('active');
+    }
+  });
+</script>
+
+</body>
+</html>

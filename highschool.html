@@ -606,7 +606,21 @@
     ctx.globalCompositeOperation = 'source-over';
   }
 
+  function redrawInitial() {
+    const section = document.getElementById('clipSection');
+    const rect = section.getBoundingClientRect();
+    const progress = Math.max(0, Math.min(1, -rect.top / (section.offsetHeight - window.innerHeight)));
+    const boost = progress < 0.4 ? progress * 4 : 0.4 * 4 + (progress - 0.4) * (0.6 / 0.6); const boosted = Math.min(boost, 1); const late = boosted > 0.9 ? 0.9 + (boosted - 0.9) * 10 : boosted; const clamped = Math.min(late, 1); const scale = 5000 * Math.pow(1 - clamped, 10) + 1;
+    draw(scale);
+  }
+
   draw(5000);
+  // Redesenha após fontes e layout estarem 100% prontos, evitando canvas com largura desatualizada
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(redrawInitial);
+  }
+  window.addEventListener('load', redrawInitial);
+
   window.addEventListener('resize', () => {
     const section = document.getElementById('clipSection');
     const rect = section.getBoundingClientRect();

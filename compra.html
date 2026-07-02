@@ -374,37 +374,36 @@
             <div class="program-card-check">
               <svg viewBox="0 0 12 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 5 4.5 8.5 11 1"/></svg>
             </div>
-            <span class="program-card-name">High School Diploma</span>
+            <span class="program-card-name">Facilitta High School</span>
             <span class="program-card-desc">Diploma americano online</span>
-            <!-- Atualize o preço abaixo -->
-            <span class="program-card-price">A definir</span>
-          </div>
-
-          <div class="program-card" data-id="tecnico" onclick="selectProgram('tecnico')">
-            <div class="program-card-check">
-              <svg viewBox="0 0 12 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 5 4.5 8.5 11 1"/></svg>
-            </div>
-            <span class="program-card-name">Curso Técnico</span>
-            <span class="program-card-desc">Certificação técnica internacional</span>
-            <span class="program-card-price">A definir</span>
+            <span class="program-card-price">U$ 6.999</span>
           </div>
 
           <div class="program-card" data-id="ingles" onclick="selectProgram('ingles')">
             <div class="program-card-check">
               <svg viewBox="0 0 12 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 5 4.5 8.5 11 1"/></svg>
             </div>
-            <span class="program-card-name">Curso de Inglês</span>
+            <span class="program-card-name">Facilitta English</span>
             <span class="program-card-desc">Fluência com suporte em português</span>
-            <span class="program-card-price">A definir</span>
+            <span class="program-card-price">U$ 749</span>
+          </div>
+
+          <div class="program-card" data-id="tecnico" onclick="selectProgram('tecnico')">
+            <div class="program-card-check">
+              <svg viewBox="0 0 12 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 5 4.5 8.5 11 1"/></svg>
+            </div>
+            <span class="program-card-name">Facilitta Curso Técnico</span>
+            <span class="program-card-desc">Certificação técnica internacional</span>
+            <span class="program-card-price">U$ 1.399</span>
           </div>
 
           <div class="program-card" data-id="pos" onclick="selectProgram('pos')">
             <div class="program-card-check">
               <svg viewBox="0 0 12 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 5 4.5 8.5 11 1"/></svg>
             </div>
-            <span class="program-card-name">Pós-graduação</span>
+            <span class="program-card-name">Facilitta Post Graduation</span>
             <span class="program-card-desc">Especialização internacional</span>
-            <span class="program-card-price">A definir</span>
+            <span class="program-card-price">U$ 4.999</span>
           </div>
 
         </div>
@@ -511,10 +510,10 @@
   // ── PRODUTOS ──────────────────────────────────────────────────────────────
   // Atualize os campos `amount` (em centavos) e `display` com os preços reais.
   const PRODUCTS = {
-    highschool: { name: 'High School Diploma', short: 'High School',  amount: 0, display: 'A definir' },
-    tecnico:    { name: 'Curso Técnico',        short: 'Técnico',      amount: 0, display: 'A definir' },
-    ingles:     { name: 'Curso de Inglês',      short: 'Inglês',       amount: 0, display: 'A definir' },
-    pos:        { name: 'Pós-graduação',         short: 'Pós-graduação',amount: 0, display: 'A definir' },
+    highschool: { name: 'Facilitta High School',      short: 'High School',     amount: 699900, display: 'U$ 6.999' },
+    ingles:     { name: 'Facilitta English',           short: 'English',         amount: 74900,  display: 'U$ 749'   },
+    tecnico:    { name: 'Facilitta Curso Técnico',     short: 'Curso Técnico',   amount: 139900, display: 'U$ 1.399' },
+    pos:        { name: 'Facilitta Post Graduation',   short: 'Post Graduation', amount: 499900, display: 'U$ 4.999' },
   };
 
   // ── STRIPE ───────────────────────────────────────────────────────────────

@@ -1,10 +1,10 @@
 // Preços definidos no servidor (nunca confiar no cliente)
-// Atualize os valores `amount` em centavos (ex: R$ 997,00 = 99700)
+// Valores em centavos de USD (ex: U$6999 = 699900)
 const PRODUCTS = {
-  highschool: { name: 'High School Diploma', amount: 0 },
-  tecnico:    { name: 'Curso Técnico',        amount: 0 },
-  ingles:     { name: 'Curso de Inglês',      amount: 0 },
-  pos:        { name: 'Pós-graduação',         amount: 0 },
+  highschool: { name: 'Facilitta High School',    amount: 699900 },
+  ingles:     { name: 'Facilitta English',         amount: 74900  },
+  tecnico:    { name: 'Facilitta Curso Técnico',   amount: 139900 },
+  pos:        { name: 'Facilitta Post Graduation', amount: 499900 },
 };
 
 export default async function handler(req, res) {
@@ -19,14 +19,14 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Produto inválido' });
   }
 
-  if (!produto.amount || produto.amount <= 0) {
-    return res.status(400).json({ error: 'Preço ainda não configurado. Entre em contato.' });
+  if (!produto.amount) {
+    return res.status(400).json({ error: 'Preço não configurado. Entre em contato.' });
   }
 
   try {
     const body = new URLSearchParams({
       amount: produto.amount,
-      currency: 'brl',
+      currency: 'usd',
       'metadata[produto]': produtoId,
       'metadata[nome_produto]': produto.name,
       'automatic_payment_methods[enabled]': 'true',

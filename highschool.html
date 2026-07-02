@@ -182,10 +182,7 @@
       display: block;
     }
     .hero-overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(0,0,0,0.15);
-      z-index: 1;
+      display: none;
     }
     .hero-text {
       position: absolute;
@@ -222,11 +219,7 @@
 
     /* ── FADE SAÍDA ── */
     .hero-fade {
-      height: 40px;
-      background: linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.3) 70%, rgba(255,255,255,0.7) 100%);
-      margin-top: -40px;
-      position: relative;
-      z-index: 3;
+      display: none;
     }
 
     /* ── SEÇÃO VÍDEOS ── */
@@ -496,7 +489,7 @@
 <!-- HERO VIDEO FULL WIDTH -->
 <section class="hero-section">
   <div class="hero-video-placeholder">
-    <video autoplay muted loop playsinline webkit-playsinline preload="auto" style="width:100%;height:100%;object-fit:cover;display:block;">
+    <video autoplay muted loop playsinline webkit-playsinline preload="auto" style="width:100%;height:100%;object-fit:contain;display:block;background:#111;">
       <source src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/MAINCOMPSITEIN1.mp4" type="video/mp4">
     </video>
     <div class="hero-overlay"></div>

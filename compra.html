@@ -29,24 +29,71 @@
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       display: flex; align-items: center; justify-content: space-between;
       padding: 0 48px; height: 76px;
-      background: rgba(255,255,255,0.97);
+      background: rgba(255,255,255,0.96);
       backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid rgba(0,0,0,0.07);
     }
     .nav-logo { display: flex; align-items: center; }
-    .nav-logo img { height: 34px; width: auto; display: block; object-fit: contain; }
-    .nav-back {
-      font-size: 13px; font-weight: 600; color: var(--gray-text);
-      text-decoration: none; display: flex; align-items: center; gap: 6px;
-      transition: color .2s;
+    .nav-logo img { height: 38px; width: auto; display: block; object-fit: contain; }
+    .nav-links {
+      position: absolute; left: 50%; transform: translateX(-50%);
+      display: flex; align-items: center; gap: 40px;
+      white-space: nowrap;
     }
-    .nav-back:hover { color: var(--dark); }
-    .nav-back svg { width: 16px; height: 16px; }
-    .nav-secure {
-      display: flex; align-items: center; gap: 6px;
-      font-size: 12px; font-weight: 600; color: var(--gray-text);
+    .nav-links a {
+      font-size: 14px; font-weight: 500; color: var(--dark);
+      text-decoration: none; opacity: 0.6; transition: opacity .2s;
     }
-    .nav-secure svg { width: 14px; height: 14px; color: #22c55e; }
+    .nav-links a:hover { opacity: 1; }
+    .nav-dropdown {
+      position: relative; padding: 8px 0; margin: 0 -8px; white-space: nowrap;
+    }
+    .nav-dropdown-toggle {
+      font-size: 14px; font-weight: 500; color: var(--dark);
+      text-decoration: none; opacity: 0.6; transition: opacity .2s, background .2s;
+      cursor: pointer; padding: 8px 12px; border-radius: 8px 8px 0 0;
+      display: block; white-space: nowrap;
+    }
+    .nav-dropdown:hover .nav-dropdown-toggle { opacity: 1; background: rgba(232,57,29,0.08); }
+    .nav-dropdown-menu {
+      display: none; position: absolute;
+      top: calc(100% - 8px); left: 50%; transform: translateX(-50%);
+      background: #fff; border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 0 0 12px 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.10);
+      padding: 8px 0; min-width: 200px; z-index: 200; pointer-events: none;
+    }
+    .nav-dropdown:hover .nav-dropdown-menu { display: block; pointer-events: auto; }
+    .nav-dropdown-menu a {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 20px; font-size: 14px; font-weight: 500;
+      color: var(--dark); text-decoration: none; opacity: 0.7;
+      transition: opacity .2s, background .2s;
+      border-bottom: 1px solid rgba(0,0,0,0.06); white-space: nowrap;
+    }
+    .nav-dropdown-menu a:last-child { border-bottom: none; }
+    .nav-dropdown-menu a:hover { opacity: 1; background: rgba(232,57,29,0.08); color: var(--red); }
+    .dropdown-logo { width: 18px; height: 18px; object-fit: contain; flex-shrink: 0; transition: transform 0.4s ease-in-out; }
+    .nav-dropdown-menu a:hover .dropdown-logo { transform: rotate(180deg); }
+    .nav-cta {
+      background: var(--red); color: #fff; font-size: 14px; font-weight: 700;
+      padding: 10px 22px; border-radius: 100px; text-decoration: none;
+      transition: opacity .2s, transform .15s; white-space: nowrap;
+    }
+    .nav-cta:hover { opacity: 0.88; transform: scale(1.02); }
+    .nav-insta {
+      display: flex; align-items: center; justify-content: center;
+      width: 48px; height: 48px; flex-shrink: 0; border-radius: 50%; overflow: hidden;
+    }
+    .nav-insta img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .nav-right { display: flex; align-items: center; gap: 20px; }
+    @media (max-width: 768px) {
+      nav { padding: 0 14px; height: 60px; }
+      .nav-links { position: static; transform: none; gap: 14px; }
+      .nav-links a { font-size: 11px; }
+      .nav-insta { display: none; }
+      .nav-right { gap: 6px; }
+      .nav-cta { font-size: 12px; padding: 8px 14px; }
+    }
 
     /* ── VIDEO SECTION ── */
     .video-section {
@@ -321,16 +368,26 @@
 
 <!-- NAV -->
 <nav>
-  <a href="javascript:history.back()" class="nav-back">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-    Voltar
-  </a>
   <a href="index.html" class="nav-logo">
-    <img src="/logo_f_rasterizada.png" alt="Facilitta" />
+    <img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/logo_f_rasterizada.png" alt="Facilitta Academy" />
   </a>
-  <div class="nav-secure">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-    Compra segura
+  <div class="nav-links">
+    <div class="nav-dropdown">
+      <a class="nav-dropdown-toggle">Programas</a>
+      <div class="nav-dropdown-menu">
+        <a href="highschool.html"><img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/logo_f_rasterizada.png" alt="" class="dropdown-logo">High School</a>
+        <a href="posgraduacao.html"><img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/logo_f_rasterizada.png" alt="" class="dropdown-logo">Pós Graduação</a>
+        <a href="english.html"><img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/logo_f_rasterizada.png" alt="" class="dropdown-logo">English Classes</a>
+        <a href="tecnicos.html"><img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/logo_f_rasterizada.png" alt="" class="dropdown-logo">Cursos Técnicos</a>
+      </div>
+    </div>
+    <a href="contato.html">Contato</a>
+  </div>
+  <div class="nav-right">
+    <a class="nav-insta" href="https://www.instagram.com/facilittaacademy?igsh=MWEwamk1dTJzczN0aA==" target="_blank" aria-label="Instagram">
+      <img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/IMG_2105.jpeg" alt="Instagram" />
+    </a>
+    <a href="compra.html" class="nav-cta">Inscreva-se</a>
   </div>
 </nav>
 

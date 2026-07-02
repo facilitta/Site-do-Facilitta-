@@ -611,7 +611,7 @@
     const section = document.getElementById('clipSection');
     const rect = section.getBoundingClientRect();
     const progress = Math.max(0, Math.min(1, -rect.top / (section.offsetHeight - window.innerHeight)));
-    const boost = progress < 0.4 ? progress * 4 : 0.4 * 4 + (progress - 0.4) * (0.6 / 0.6); const boosted = Math.min(boost, 1); const late = boosted > 0.9 ? 0.9 + (boosted - 0.9) * 10 : boosted; const clamped = Math.min(late, 1); const scale = 5000 * Math.pow(1 - clamped, 10) + 1;
+    const boost = progress < 0.4 ? progress * 4 : 0.4 * 4 + (progress - 0.4) * (0.6 / 0.6); const boosted = Math.min(boost, 1); const late = boosted > 0.7 ? 0.7 + (boosted - 0.7) * 20 : boosted; const clamped = Math.min(late, 1); const scale = 5000 * Math.pow(1 - clamped, 10) + 1;
     draw(scale);
   }
 
@@ -626,7 +626,7 @@
     const section = document.getElementById('clipSection');
     const rect = section.getBoundingClientRect();
     const progress = Math.max(0, Math.min(1, -rect.top / (section.offsetHeight - window.innerHeight)));
-    const boost = progress < 0.4 ? progress * 4 : 0.4 * 4 + (progress - 0.4) * (0.6 / 0.6); const boosted = Math.min(boost, 1); const late = boosted > 0.9 ? 0.9 + (boosted - 0.9) * 10 : boosted; const clamped = Math.min(late, 1); const scale = 5000 * Math.pow(1 - clamped, 10) + 1;
+    const boost = progress < 0.4 ? progress * 4 : 0.4 * 4 + (progress - 0.4) * (0.6 / 0.6); const boosted = Math.min(boost, 1); const late = boosted > 0.7 ? 0.7 + (boosted - 0.7) * 20 : boosted; const clamped = Math.min(late, 1); const scale = 5000 * Math.pow(1 - clamped, 10) + 1;
     draw(scale);
   });
 
@@ -638,18 +638,18 @@
     if (!section) return;
     const rect = section.getBoundingClientRect();
     const progress = Math.max(0, Math.min(1, -rect.top / (section.offsetHeight - window.innerHeight)));
-    const boost = progress < 0.4 ? progress * 4 : 0.4 * 4 + (progress - 0.4) * (0.6 / 0.6); const boosted = Math.min(boost, 1); const late = boosted > 0.9 ? 0.9 + (boosted - 0.9) * 10 : boosted; const clamped = Math.min(late, 1); const scale = 5000 * Math.pow(1 - clamped, 10) + 1;
+    const boost = progress < 0.4 ? progress * 4 : 0.4 * 4 + (progress - 0.4) * (0.6 / 0.6); const boosted = Math.min(boost, 1); const late = boosted > 0.7 ? 0.7 + (boosted - 0.7) * 20 : boosted; const clamped = Math.min(late, 1); const scale = 5000 * Math.pow(1 - clamped, 10) + 1;
     draw(scale);
 
     // Canvas permanece visível sempre
     canvas.style.opacity = 1;
 
-    // Mensagem 1: aparece em 45% e fica permanente
-    const msg1In = Math.max(0, Math.min(1, (progress - 0.45) / 0.03));
+    // Mensagem 1: aparece em 28% e fica permanente
+    const msg1In = Math.max(0, Math.min(1, (progress - 0.28) / 0.03));
     if (msg1) msg1.style.opacity = msg1In;
 
-    // Mensagem 2: aparece após 57%
-    const msg2In = Math.max(0, Math.min(1, (progress - 0.57) / 0.03));
+    // Mensagem 2: aparece após 38%
+    const msg2In = Math.max(0, Math.min(1, (progress - 0.38) / 0.03));
     if (msg2) msg2.style.opacity = msg2In;
 
   }, { passive: true });

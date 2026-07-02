@@ -589,7 +589,7 @@
     // Recorta as letras com zoom
     ctx.globalCompositeOperation = 'destination-out';
 
-    const baseFontSize = Math.min(W * 0.06, 80);
+    const baseFontSize = Math.min(W * 0.06, 130);
     const fontSize = baseFontSize * scale;
     ctx.font = `900 ${fontSize}px Inter, sans-serif`;
     ctx.textAlign = 'center';
@@ -599,11 +599,8 @@
     const totalH = lines.length * lineHeight;
     const startY = (H - totalH) / 2 + lineHeight / 2;
 
-    // Desloca o texto um pouco pra direita em telas wide para corrigir alinhamento
-    const offsetX = W > 900 ? W * 0.03 : 0;
-
     lines.forEach((line, i) => {
-      ctx.fillText(line, W / 2 + offsetX, startY + i * lineHeight);
+      ctx.fillText(line, W / 2, startY + i * lineHeight);
     });
 
     ctx.globalCompositeOperation = 'source-over';

@@ -830,68 +830,109 @@ livroItems.forEach(el => livroObserver.observe(el));
 
     <div style="display:flex; gap:48px; align-items:flex-start; flex-wrap:wrap;">
 
-      <!-- Coluna esquerda: carrossel -->
-      <div style="flex:1; min-width:320px; background:#fff; border-radius:24px; padding:48px; position:relative;">
+      <!-- Coluna esquerda: carrossel horizontal -->
+      <div style="flex:1; min-width:320px; background:#fff; border-radius:24px; padding:40px; position:relative;">
 
         <div id="buyCarousel" style="display:flex; overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; scrollbar-width:none; gap:0;">
 
           <!-- Slide 1: Livro (espaço reservado para imagem) -->
-          <div style="flex:0 0 100%; scroll-snap-align:start; display:flex; flex-direction:column; align-items:center; gap:24px;">
-            <div style="width:100%; max-width:340px; aspect-ratio:3/4; background:#e5e5e7; border-radius:16px; display:flex; align-items:center; justify-content:center; color:#a0a0a5; font-size:14px; font-weight:600; text-align:center; padding:24px;">
-              [ Espaço para imagem do livro ]
+          <div style="flex:0 0 100%; scroll-snap-align:start; display:flex; flex-direction:row; align-items:center; gap:32px; padding:0 8px;">
+            <div style="flex:0 0 160px; width:160px; aspect-ratio:3/4; background:#e5e5e7; border-radius:14px; display:flex; align-items:center; justify-content:center; color:#a0a0a5; font-size:12px; font-weight:600; text-align:center; padding:16px;">
+              [ Imagem do livro ]
             </div>
-            <p style="font-size:16px; color:#555; text-align:center; line-height:1.6; max-width:340px;">Você leva o guia prático de como seguir seu caminho para sua jornada americana</p>
+            <p style="font-family:'Georgia', 'Times New Roman', serif; font-size:clamp(18px,2vw,22px); color:#1d1d1f; line-height:1.5; margin:0; flex:1;">Você leva o guia prático de como seguir seu caminho para sua jornada americana</p>
           </div>
 
           <!-- Slide 2: Curso de inglês -->
-          <div style="flex:0 0 100%; scroll-snap-align:start; display:flex; flex-direction:column; align-items:center; gap:24px;">
-            <div style="width:100%; max-width:340px; aspect-ratio:3/4; background:#e5e5e7; border-radius:16px; display:flex; align-items:center; justify-content:center; color:#a0a0a5; font-size:14px; font-weight:600; text-align:center; padding:24px;">
-              [ Espaço para imagem do curso de inglês ]
+          <div style="flex:0 0 100%; scroll-snap-align:start; display:flex; flex-direction:row; align-items:center; gap:32px; padding:0 8px;">
+            <div style="flex:0 0 160px; width:160px; aspect-ratio:3/4; background:#e5e5e7; border-radius:14px; display:flex; align-items:center; justify-content:center; color:#a0a0a5; font-size:12px; font-weight:600; text-align:center; padding:16px;">
+              [ Imagem do curso ]
             </div>
-            <p style="font-size:16px; color:#555; text-align:center; line-height:1.6; max-width:340px;">Ganhe um curso completo de inglês para você chegar preparado na sua jornada americana</p>
+            <p style="font-family:'Georgia', 'Times New Roman', serif; font-size:clamp(18px,2vw,22px); color:#1d1d1f; line-height:1.5; margin:0; flex:1;">Ganhe um curso completo de inglês para você chegar preparado na sua jornada americana</p>
           </div>
 
           <!-- Slide 3: Plataforma -->
-          <div style="flex:0 0 100%; scroll-snap-align:start; display:flex; flex-direction:column; align-items:center; gap:24px;">
-            <div style="width:100%; max-width:340px; aspect-ratio:3/4; background:#e5e5e7; border-radius:16px; display:flex; align-items:center; justify-content:center; color:#a0a0a5; font-size:14px; font-weight:600; text-align:center; padding:24px;">
-              [ Espaço para imagem da plataforma ]
+          <div style="flex:0 0 100%; scroll-snap-align:start; display:flex; flex-direction:row; align-items:center; gap:32px; padding:0 8px;">
+            <div style="flex:0 0 160px; width:160px; aspect-ratio:3/4; background:#e5e5e7; border-radius:14px; display:flex; align-items:center; justify-content:center; color:#a0a0a5; font-size:12px; font-weight:600; text-align:center; padding:16px;">
+              [ Imagem da plataforma ]
             </div>
-            <p style="font-size:16px; color:#555; text-align:center; line-height:1.6; max-width:340px;">Acesso à plataforma de estudos totalmente interativa e com suporte integral em inglês e português</p>
+            <p style="font-family:'Georgia', 'Times New Roman', serif; font-size:clamp(18px,2vw,22px); color:#1d1d1f; line-height:1.5; margin:0; flex:1;">Acesso à plataforma de estudos totalmente interativa e com suporte integral em inglês e português</p>
           </div>
 
         </div>
 
         <!-- Setas -->
-        <button id="buyPrev" aria-label="Anterior" style="position:absolute; left:16px; top:50%; transform:translateY(-50%); width:36px; height:36px; border-radius:50%; background:#fff; border:1px solid #e0e0e0; box-shadow:0 2px 8px rgba(0,0,0,0.08); display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:2;">
+        <button id="buyPrev" aria-label="Anterior" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); width:36px; height:36px; border-radius:50%; background:#fff; border:1px solid #e0e0e0; box-shadow:0 2px 8px rgba(0,0,0,0.08); display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:2;">
           <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M11 3L5 9l6 6" stroke="#1d1d1f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
-        <button id="buyNext" aria-label="Próximo" style="position:absolute; right:16px; top:50%; transform:translateY(-50%); width:36px; height:36px; border-radius:50%; background:#fff; border:1px solid #e0e0e0; box-shadow:0 2px 8px rgba(0,0,0,0.08); display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:2;">
+        <button id="buyNext" aria-label="Próximo" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); width:36px; height:36px; border-radius:50%; background:#fff; border:1px solid #e0e0e0; box-shadow:0 2px 8px rgba(0,0,0,0.08); display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:2;">
           <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M7 3l6 6-6 6" stroke="#1d1d1f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
 
-        <!-- Bolinhas -->
-        <div style="display:flex; justify-content:center; gap:8px; margin-top:32px;">
-          <span class="buyDot" data-index="0" style="width:8px; height:8px; border-radius:50%; background:#1d1d1f; cursor:pointer; transition:background .2s;"></span>
-          <span class="buyDot" data-index="1" style="width:8px; height:8px; border-radius:50%; background:#d2d2d7; cursor:pointer; transition:background .2s;"></span>
-          <span class="buyDot" data-index="2" style="width:8px; height:8px; border-radius:50%; background:#d2d2d7; cursor:pointer; transition:background .2s;"></span>
+        <!-- Bolinhas com borda arredondada cinza -->
+        <div style="display:flex; justify-content:center; margin-top:28px;">
+          <div style="display:flex; gap:8px; padding:8px 14px; border:1px solid #e0e0e0; border-radius:100px;">
+            <span class="buyDot" data-index="0" style="width:8px; height:8px; border-radius:50%; background:#1d1d1f; cursor:pointer; transition:background .2s;"></span>
+            <span class="buyDot" data-index="1" style="width:8px; height:8px; border-radius:50%; background:#d2d2d7; cursor:pointer; transition:background .2s;"></span>
+            <span class="buyDot" data-index="2" style="width:8px; height:8px; border-radius:50%; background:#d2d2d7; cursor:pointer; transition:background .2s;"></span>
+          </div>
         </div>
 
       </div>
 
-      <!-- Coluna direita: comprar agora -->
-      <div style="flex:1; min-width:320px;">
+      <!-- Coluna direita: quadro preto + seção vertical Next -->
+      <div style="flex:1; min-width:320px; display:flex; flex-direction:column; gap:24px;">
 
-        <h3 style="font-size:clamp(24px,3vw,32px); font-weight:800; color:#1d1d1f; margin-bottom:32px;">Comprar agora</h3>
-
-        <!-- Card com borda preta (destaque, igual central da Apple) -->
-        <div style="border:2px solid #1d1d1f; border-radius:16px; padding:28px 32px; display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;">
+        <!-- Quadro preto clicável -->
+        <a href="#nextFinal" id="blackCardLink" style="text-decoration:none; display:flex; align-items:center; justify-content:space-between; background:#1d1d1f; border-radius:16px; padding:32px; cursor:pointer; transition:opacity .2s;">
           <div>
-            <p style="font-size:18px; font-weight:700; color:#1d1d1f; margin-bottom:4px;">High School Americano</p>
-            <p style="font-size:14px; color:#86868b;">Por $6999 ou $625 por mês em 12x s/ juros</p>
+            <p style="font-size:clamp(22px,2.6vw,28px); font-weight:800; color:#fff; line-height:1.2; margin:0;">High School<br/>Americano</p>
           </div>
-        </div>
+          <div style="text-align:right;">
+            <p style="font-size:14px; color:rgba(255,255,255,0.6); line-height:1.6; margin:0;">Por $6999<br/>ou $625<br/>em 12x s/ juros</p>
+          </div>
+        </a>
 
-        <button style="width:100%; background:#E8391D; color:#fff; font-size:16px; font-weight:700; border:none; border-radius:100px; padding:18px; cursor:pointer; transition:opacity .2s;">Comprar agora</button>
+        <!-- Seção vertical "Next" com scroll -->
+        <div style="background:#f5f5f7; border-radius:16px; position:relative; padding:32px 32px 32px 32px;">
+          <p style="font-size:13px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#86868b; margin-bottom:20px;">Next</p>
+
+          <div style="display:flex;">
+            <div id="nextTrack" style="flex:1; height:280px; overflow-y:auto; scroll-snap-type:y mandatory; -webkit-overflow-scrolling:touch; scrollbar-width:none;">
+
+              <!-- Etapa 1 -->
+              <div style="height:280px; scroll-snap-align:start; display:flex; align-items:center; justify-content:center; text-align:center; padding:0 24px;">
+                <p style="font-size:clamp(18px,2.2vw,24px); font-weight:700; color:#1d1d1f; line-height:1.5; margin:0;">Escolha sua forma de pagamento e compre</p>
+              </div>
+
+              <!-- Etapa 2 -->
+              <div style="height:280px; scroll-snap-align:start; display:flex; align-items:center; justify-content:center; text-align:center; padding:0 24px;">
+                <p style="font-size:clamp(18px,2.2vw,24px); font-weight:700; color:#1d1d1f; line-height:1.5; margin:0;">Você receberá um email com todas as informações necessárias pra começar</p>
+              </div>
+
+              <!-- Etapa 3 (final, com botão de compra) -->
+              <div id="nextFinal" style="min-height:280px; scroll-snap-align:start; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:24px; gap:24px;">
+                <p style="font-size:clamp(18px,2.2vw,24px); font-weight:700; color:#1d1d1f; line-height:1.5; margin:0;">Seu sonho começa aqui.</p>
+                <a href="#" class="buy-btn" style="position:static;">
+                  <div class="buy-btn-text">
+                    <span class="buy-btn-price">Por $6999</span>
+                    <span class="buy-btn-installment">ou $625 por mês em 12x s/ juros</span>
+                  </div>
+                  <span class="buy-btn-action">Comprar</span>
+                </a>
+              </div>
+
+            </div>
+
+            <!-- Bolinhas verticais -->
+            <div style="display:flex; flex-direction:column; justify-content:center; gap:10px; padding-left:16px;">
+              <span class="nextDot" data-index="0" style="width:8px; height:8px; border-radius:50%; background:#1d1d1f; cursor:pointer; transition:background .2s;"></span>
+              <span class="nextDot" data-index="1" style="width:8px; height:8px; border-radius:50%; background:#d2d2d7; cursor:pointer; transition:background .2s;"></span>
+              <span class="nextDot" data-index="2" style="width:8px; height:8px; border-radius:50%; background:#d2d2d7; cursor:pointer; transition:background .2s;"></span>
+            </div>
+          </div>
+
+        </div>
 
       </div>
 
@@ -930,6 +971,44 @@ livroItems.forEach(el => livroObserver.observe(el));
       });
     }
   }, { passive: true });
+})();
+</script>
+
+<script>
+(function() {
+  const nextTrack = document.getElementById('nextTrack');
+  const nextDots = document.querySelectorAll('.nextDot');
+  const blackCardLink = document.getElementById('blackCardLink');
+  let currentNext = 0;
+
+  function goToNext(index) {
+    currentNext = Math.max(0, Math.min(nextDots.length - 1, index));
+    nextTrack.scrollTo({ top: nextTrack.offsetHeight * currentNext, behavior: 'smooth' });
+    nextDots.forEach((d, i) => {
+      d.style.background = i === currentNext ? '#1d1d1f' : '#d2d2d7';
+    });
+  }
+
+  nextDots.forEach((dot, i) => {
+    dot.addEventListener('click', () => goToNext(i));
+  });
+
+  nextTrack.addEventListener('scroll', () => {
+    const index = Math.round(nextTrack.scrollTop / nextTrack.offsetHeight);
+    if (index !== currentNext) {
+      currentNext = index;
+      nextDots.forEach((d, i) => {
+        d.style.background = i === currentNext ? '#1d1d1f' : '#d2d2d7';
+      });
+    }
+  }, { passive: true });
+
+  if (blackCardLink) {
+    blackCardLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      goToNext(2);
+    });
+  }
 })();
 </script>
 

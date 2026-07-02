@@ -895,23 +895,32 @@ livroItems.forEach(el => livroObserver.observe(el));
           </div>
         </a>
 
-        <!-- Card secundário -->
-        <a href="#" style="text-decoration:none; display:flex; align-items:center; justify-content:space-between; border:1px solid #d2d2d7; border-radius:16px; padding:24px; cursor:pointer; transition:border-color .2s;">
-          <div>
-            <p style="font-size:16px; font-weight:600; color:#1d1d1f; margin:0;">À vista</p>
-          </div>
-          <div style="text-align:right;">
-            <p style="font-size:13px; color:#86868b; line-height:1.5; margin:0;">$6299<br/>10% de desconto</p>
-          </div>
-        </a>
+        <!-- Passo a passo vertical com scroll (sem bolinhas, com barra de scroll) -->
+        <div id="stepsTrack" style="height:220px; overflow-y:scroll; scroll-snap-type:y mandatory; -webkit-overflow-scrolling:touch; border-radius:16px; background:#fff;">
 
-        <a href="#" class="buy-btn" style="position:static; width:100%; box-sizing:border-box; margin-top:8px;">
-          <div class="buy-btn-text">
-            <span class="buy-btn-price">Por $6999</span>
-            <span class="buy-btn-installment">ou $625 por mês em 12x s/ juros</span>
+          <!-- Etapa 1 -->
+          <div style="height:220px; scroll-snap-align:start; display:flex; align-items:center; justify-content:center; text-align:center; padding:0 32px;">
+            <p style="font-size:clamp(17px,2vw,20px); font-weight:700; color:#1d1d1f; line-height:1.5; margin:0;">Escolha sua forma de pagamento e compre</p>
           </div>
-          <span class="buy-btn-action">Comprar</span>
-        </a>
+
+          <!-- Etapa 2 -->
+          <div style="height:220px; scroll-snap-align:start; display:flex; align-items:center; justify-content:center; text-align:center; padding:0 32px;">
+            <p style="font-size:clamp(17px,2vw,20px); font-weight:700; color:#1d1d1f; line-height:1.5; margin:0;">Você receberá um email com todas as informações necessárias pra começar</p>
+          </div>
+
+          <!-- Etapa 3 (final, com botão de compra centralizado) -->
+          <div style="min-height:220px; scroll-snap-align:start; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:32px; gap:20px;">
+            <p style="font-size:clamp(17px,2vw,20px); font-weight:700; color:#1d1d1f; line-height:1.5; margin:0;">Seu sonho começa aqui.</p>
+            <a href="#" class="buy-btn" style="position:static; margin:0 auto;">
+              <div class="buy-btn-text">
+                <span class="buy-btn-price">Por $6999</span>
+                <span class="buy-btn-installment">ou $625 por mês em 12x s/ juros</span>
+              </div>
+              <span class="buy-btn-action">Comprar</span>
+            </a>
+          </div>
+
+        </div>
 
       </div>
 

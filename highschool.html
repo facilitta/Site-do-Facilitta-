@@ -783,29 +783,6 @@ window.addEventListener('scroll', function() {
   </div>
 </section>
 
-<!-- SEÇÃO FAÇA ESCOLHAS PODEROSAS — SCROLL + ZOOM -->
-<section id="escolhas" style="position:relative; height:200vh; background:#000;">
-  <div style="position:sticky; top:0; height:100vh; overflow:hidden;">
-
-    <!-- Imagem de fundo com zoom -->
-    <img id="escolhasImg" src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/Oculosfundobranco.jpg"
-      style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center bottom; transform-origin:center center; will-change:transform;" />
-
-    <!-- Overlay escuro -->
-    <div style="position:absolute; inset:0; background:rgba(0,0,0,0.0);"></div>
-
-    <!-- Texto alinhado à esquerda embaixo -->
-    <div style="position:absolute; inset:0; display:flex; align-items:flex-end; padding:100px 72px; z-index:2;">
-      <div>
-        <h2 id="escolhasText" style="font-size:clamp(24px,3.5vw,52px); font-weight:900; line-height:1.4; letter-spacing:-1px; opacity:0; will-change:opacity; color:#1d1d1f;">
-          Faça <span style="color:#E8391D;">escolhas</span><br/>poderosas<br/>Para um <span style="color:#E8391D;">futuro</span><br/>poderoso
-        </h2>
-      </div>
-    </div>
-
-  </div>
-</section>
-
 <!-- LIVRO + TEXTO -->
 <section style="background:#f5f5f7; padding:100px 64px;">
   <div style="max-width:960px; margin:0 auto; display:flex; gap:72px; align-items:center;">
@@ -843,26 +820,6 @@ const livroObserver = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.2 });
 livroItems.forEach(el => livroObserver.observe(el));
-</script>
-
-<script>
-const escolhasSection = document.getElementById('escolhas');
-const escolhasImg = document.getElementById('escolhasImg');
-const escolhasText = document.getElementById('escolhasText');
-
-window.addEventListener('scroll', function() {
-  if (!escolhasSection) return;
-  const rect = escolhasSection.getBoundingClientRect();
-  const progress = Math.max(0, Math.min(1, -rect.top / (escolhasSection.offsetHeight - window.innerHeight)));
-
-  // Zoom suave na imagem: 1 → 1.15
-  const zoom = 1 + (progress * 0.15);
-  if (escolhasImg) escolhasImg.style.transform = `scale(${zoom})`;
-
-  // Texto aparece junto com o scroll
-  if (escolhasText) escolhasText.style.opacity = progress;
-
-}, { passive: true });
 </script>
 
 <!-- SEÇÃO O QUE ESTÁ INCLUÍDO -->

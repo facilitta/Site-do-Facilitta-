@@ -483,7 +483,7 @@
     <a href="contato.html">Contato</a>
   </div>
   <div class="nav-right">
-    <a class="nav-insta" href="https://instagram.com/" target="_blank" aria-label="Instagram">
+    <a class="nav-insta" href="https://www.instagram.com/facilittaacademy?igsh=MWEwamk1dTJzczN0aA==" target="_blank" aria-label="Instagram">
       <img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/IMG_2105.jpeg" alt="Instagram" />
     </a>
     <a href="#" class="nav-cta">Inscreva-se</a>
@@ -820,6 +820,117 @@ const livroObserver = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.2 });
 livroItems.forEach(el => livroObserver.observe(el));
+</script>
+
+<!-- SEÇÃO COMPRAR — ESTILO APPLE -->
+<section id="comprar" style="background:#f5f5f7; padding: 100px 64px;">
+  <div style="max-width:1200px; margin:0 auto;">
+
+    <h2 style="font-size:clamp(32px,4.5vw,56px); font-weight:800; color:#1d1d1f; letter-spacing:-1px; margin-bottom:48px;">Comprar High School Americano</h2>
+
+    <div style="display:flex; gap:48px; align-items:flex-start; flex-wrap:wrap;">
+
+      <!-- Coluna esquerda: carrossel -->
+      <div style="flex:1; min-width:320px; background:#fff; border-radius:24px; padding:48px; position:relative;">
+
+        <div id="buyCarousel" style="display:flex; overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; scrollbar-width:none; gap:0;">
+
+          <!-- Slide 1: Livro (espaço reservado para imagem) -->
+          <div style="flex:0 0 100%; scroll-snap-align:start; display:flex; flex-direction:column; align-items:center; gap:24px;">
+            <div style="width:100%; max-width:340px; aspect-ratio:3/4; background:#e5e5e7; border-radius:16px; display:flex; align-items:center; justify-content:center; color:#a0a0a5; font-size:14px; font-weight:600; text-align:center; padding:24px;">
+              [ Espaço para imagem do livro ]
+            </div>
+            <p style="font-size:16px; color:#555; text-align:center; line-height:1.6; max-width:340px;">Você leva o guia prático de como seguir seu caminho para sua jornada americana</p>
+          </div>
+
+          <!-- Slide 2: Curso de inglês -->
+          <div style="flex:0 0 100%; scroll-snap-align:start; display:flex; flex-direction:column; align-items:center; gap:24px;">
+            <div style="width:100%; max-width:340px; aspect-ratio:3/4; background:#e5e5e7; border-radius:16px; display:flex; align-items:center; justify-content:center; color:#a0a0a5; font-size:14px; font-weight:600; text-align:center; padding:24px;">
+              [ Espaço para imagem do curso de inglês ]
+            </div>
+            <p style="font-size:16px; color:#555; text-align:center; line-height:1.6; max-width:340px;">Ganhe um curso completo de inglês para você chegar preparado na sua jornada americana</p>
+          </div>
+
+          <!-- Slide 3: Plataforma -->
+          <div style="flex:0 0 100%; scroll-snap-align:start; display:flex; flex-direction:column; align-items:center; gap:24px;">
+            <div style="width:100%; max-width:340px; aspect-ratio:3/4; background:#e5e5e7; border-radius:16px; display:flex; align-items:center; justify-content:center; color:#a0a0a5; font-size:14px; font-weight:600; text-align:center; padding:24px;">
+              [ Espaço para imagem da plataforma ]
+            </div>
+            <p style="font-size:16px; color:#555; text-align:center; line-height:1.6; max-width:340px;">Acesso à plataforma de estudos totalmente interativa e com suporte integral em inglês e português</p>
+          </div>
+
+        </div>
+
+        <!-- Setas -->
+        <button id="buyPrev" aria-label="Anterior" style="position:absolute; left:16px; top:50%; transform:translateY(-50%); width:36px; height:36px; border-radius:50%; background:#fff; border:1px solid #e0e0e0; box-shadow:0 2px 8px rgba(0,0,0,0.08); display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:2;">
+          <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M11 3L5 9l6 6" stroke="#1d1d1f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button id="buyNext" aria-label="Próximo" style="position:absolute; right:16px; top:50%; transform:translateY(-50%); width:36px; height:36px; border-radius:50%; background:#fff; border:1px solid #e0e0e0; box-shadow:0 2px 8px rgba(0,0,0,0.08); display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:2;">
+          <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M7 3l6 6-6 6" stroke="#1d1d1f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+
+        <!-- Bolinhas -->
+        <div style="display:flex; justify-content:center; gap:8px; margin-top:32px;">
+          <span class="buyDot" data-index="0" style="width:8px; height:8px; border-radius:50%; background:#1d1d1f; cursor:pointer; transition:background .2s;"></span>
+          <span class="buyDot" data-index="1" style="width:8px; height:8px; border-radius:50%; background:#d2d2d7; cursor:pointer; transition:background .2s;"></span>
+          <span class="buyDot" data-index="2" style="width:8px; height:8px; border-radius:50%; background:#d2d2d7; cursor:pointer; transition:background .2s;"></span>
+        </div>
+
+      </div>
+
+      <!-- Coluna direita: comprar agora -->
+      <div style="flex:1; min-width:320px;">
+
+        <h3 style="font-size:clamp(24px,3vw,32px); font-weight:800; color:#1d1d1f; margin-bottom:32px;">Comprar agora</h3>
+
+        <!-- Card com borda preta (destaque, igual central da Apple) -->
+        <div style="border:2px solid #1d1d1f; border-radius:16px; padding:28px 32px; display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;">
+          <div>
+            <p style="font-size:18px; font-weight:700; color:#1d1d1f; margin-bottom:4px;">High School Americano</p>
+            <p style="font-size:14px; color:#86868b;">Por $6999 ou $625 por mês em 12x s/ juros</p>
+          </div>
+        </div>
+
+        <button style="width:100%; background:#E8391D; color:#fff; font-size:16px; font-weight:700; border:none; border-radius:100px; padding:18px; cursor:pointer; transition:opacity .2s;">Comprar agora</button>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+(function() {
+  const track = document.getElementById('buyCarousel');
+  const dots = document.querySelectorAll('.buyDot');
+  const prevBtn = document.getElementById('buyPrev');
+  const nextBtn = document.getElementById('buyNext');
+  let current = 0;
+
+  function goTo(index) {
+    current = Math.max(0, Math.min(dots.length - 1, index));
+    track.scrollTo({ left: track.offsetWidth * current, behavior: 'smooth' });
+    dots.forEach((d, i) => {
+      d.style.background = i === current ? '#1d1d1f' : '#d2d2d7';
+    });
+  }
+
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => goTo(i));
+  });
+  prevBtn.addEventListener('click', () => goTo(current - 1));
+  nextBtn.addEventListener('click', () => goTo(current + 1));
+
+  track.addEventListener('scroll', () => {
+    const index = Math.round(track.scrollLeft / track.offsetWidth);
+    if (index !== current) {
+      current = index;
+      dots.forEach((d, i) => {
+        d.style.background = i === current ? '#1d1d1f' : '#d2d2d7';
+      });
+    }
+  }, { passive: true });
+})();
 </script>
 
 <!-- SEÇÃO O QUE ESTÁ INCLUÍDO -->

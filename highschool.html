@@ -479,14 +479,23 @@
     .vant-card {
       flex: 0 0 480px;
       scroll-snap-align: start;
+      display: flex;
+      flex-direction: column;
+      border-radius: 24px;
+      overflow: hidden;
+      height: 320px;
+      transition: height 0.4s ease;
+    }
+    .vant-card-img {
+      flex: 0 0 auto;
+      width: 100%;
+      height: 100%;
       background-size: contain;
       background-position: left center;
       background-repeat: no-repeat;
       background-color: #fff;
-      border-radius: 24px;
       position: relative;
-      height: 320px;
-      overflow: hidden;
+      transition: height 0.4s ease;
     }
     .vant-plus {
       position: absolute; bottom: 28px; right: 28px;
@@ -494,6 +503,25 @@
       background: #E8391D;
       display: flex; align-items: center; justify-content: center;
       z-index: 2;
+      cursor: pointer;
+      transition: transform 0.4s ease;
+    }
+    .vant-plus.active { transform: rotate(180deg); }
+    .vant-text-panel {
+      flex: 0 0 auto;
+      max-height: 0;
+      overflow: hidden;
+      background: #E8391D;
+      transition: max-height 0.4s ease;
+    }
+    .vant-text-panel.active { max-height: 200px; }
+    .vant-text-panel p {
+      color: #fff;
+      font-size: 15px;
+      line-height: 1.6;
+      font-weight: 500;
+      margin: 0;
+      padding: 24px 28px;
     }
 
     /* Desktop wide: cards maiores para que nem todos caibam na tela (mantém efeito de scroll) */
@@ -808,29 +836,44 @@ window.addEventListener('scroll', function() {
     <div class="vant-spacer"></div>
     
     <!-- Card 1 -->
-    <div class="vant-card" style="background-image: url('https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/card-facilitta-vantagens-1.jpeg');">
-      <div class="vant-plus">
-        <svg width="16" height="16" viewBox="0 0 18 18" fill="none">
-          <path d="M9 2v14M2 9h14" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
-        </svg>
+    <div class="vant-card">
+      <div class="vant-card-img" style="background-image: url('https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/card-facilitta-vantagens-1.jpeg');">
+        <div class="vant-plus" data-target="vantText1">
+          <svg width="16" height="16" viewBox="0 0 18 18" fill="none">
+            <path d="M9 2v14M2 9h14" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+      <div class="vant-text-panel" id="vantText1">
+        <p>Garantimos suporte em português e inglês, mentoria exclusiva e atendimento personalizado, garantindo toda a documentação para seu sucesso.</p>
       </div>
     </div>
     
     <!-- Card 2 -->
-    <div class="vant-card" style="background-image: url('https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/card-facilitta-vantagens-2.jpeg');">
-      <div class="vant-plus">
-        <svg width="16" height="16" viewBox="0 0 18 18" fill="none">
-          <path d="M9 2v14M2 9h14" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
-        </svg>
+    <div class="vant-card">
+      <div class="vant-card-img" style="background-image: url('https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/card-facilitta-vantagens-2.jpeg');">
+        <div class="vant-plus" data-target="vantText2">
+          <svg width="16" height="16" viewBox="0 0 18 18" fill="none">
+            <path d="M9 2v14M2 9h14" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+      <div class="vant-text-panel" id="vantText2">
+        <p>Faça no seu tempo e no seu ritmo. 6 meses ou 3 anos? É você quem define. No seu conforto e sem sair de casa!</p>
       </div>
     </div>
     
     <!-- Card 3 -->
-    <div class="vant-card" style="background-image: url('https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/card-facilitta-vantagens-3.jpeg');">
-      <div class="vant-plus">
-        <svg width="16" height="16" viewBox="0 0 18 18" fill="none">
-          <path d="M9 2v14M2 9h14" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
-        </svg>
+    <div class="vant-card">
+      <div class="vant-card-img" style="background-image: url('https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/card-facilitta-vantagens-3.jpeg');">
+        <div class="vant-plus" data-target="vantText3">
+          <svg width="16" height="16" viewBox="0 0 18 18" fill="none">
+            <path d="M9 2v14M2 9h14" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+      <div class="vant-text-panel" id="vantText3">
+        <p>Você garante seu diploma de High School Americano e recebe uma assessoria completa para iniciar seus estudos em uma universidade americana.</p>
       </div>
     </div>
     
@@ -839,6 +882,17 @@ window.addEventListener('scroll', function() {
     
   </div>
 </section>
+
+<script>
+document.querySelectorAll('.vant-plus').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const targetId = btn.getAttribute('data-target');
+    const panel = document.getElementById(targetId);
+    btn.classList.toggle('active');
+    panel.classList.toggle('active');
+  });
+});
+</script>
 
 <!-- LIVRO + TEXTO -->
 <section style="background:#f5f5f7; padding:100px 64px;">

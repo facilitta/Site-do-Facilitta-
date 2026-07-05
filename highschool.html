@@ -229,7 +229,7 @@
     }
     .videos-title {
       font-size: clamp(32px, 5vw, 56px);
-      font-weight: 800;
+      font-weight: 500;
       color: var(--dark);
       padding: 0 56px 0 180px;
       margin-bottom: 48px;
@@ -470,15 +470,16 @@
       -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
       display: flex;
-      align-items: flex-start;
       gap: 28px;
       box-sizing: border-box;
       scroll-padding-left: 62px;
+      scroll-padding-right: 62px;
     }
     .vant-scroll::-webkit-scrollbar { display: none; }
     .vant-spacer { flex: 0 0 62px; }
     .vant-card {
       flex: 0 0 480px;
+      align-self: flex-start;
       scroll-snap-align: start;
       display: flex;
       flex-direction: column;
@@ -515,8 +516,8 @@
     .vant-text-panel p {
       color: #1d1d1f;
       font-family: 'Inter', sans-serif;
-      font-size: 19px;
-      line-height: 1.5;
+      font-size: 16px;
+      line-height: 1.25;
       font-weight: 500;
       margin: 0;
       padding: 24px 28px;

@@ -21,29 +21,63 @@
       --fw-subtitulo: 500;
       --fw-corpo: 400;
       --fw-texto-longo: 300;
-      --ls-padrao: 0px;
+      --ls-padrao: -20px;
+    }
+
+    /* ── HELVETICA NEUE (fontes próprias) ── */
+    @font-face {
+      font-family: 'Helvetica Neue';
+      src: url('https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/fonts/HelveticaNeueBold.otf') format('opentype');
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Helvetica Neue';
+      src: url('https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/fonts/HelveticaNeueMedium.otf') format('opentype');
+      font-weight: 500;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Helvetica Neue';
+      src: url('https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/fonts/HelveticaNeueRoman.otf') format('opentype');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Helvetica Neue';
+      src: url('https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/fonts/HelveticaNeueLight.otf') format('opentype');
+      font-weight: 300;
+      font-style: normal;
+      font-display: swap;
     }
 
     /* ── CLASSES DE TIPOGRAFIA PADRÃO ── */
     .txt-titulo {
+      font-family: 'Helvetica Neue', 'Inter', sans-serif;
       font-weight: var(--fw-titulo);
       letter-spacing: var(--ls-padrao);
     }
     .txt-subtitulo {
+      font-family: 'Helvetica Neue', 'Inter', sans-serif;
       font-weight: var(--fw-subtitulo);
       letter-spacing: var(--ls-padrao);
     }
     .txt-corpo {
+      font-family: 'Helvetica Neue', 'Inter', sans-serif;
       font-weight: var(--fw-corpo);
       letter-spacing: var(--ls-padrao);
     }
     .txt-longo {
+      font-family: 'Helvetica Neue', 'Inter', sans-serif;
       font-weight: var(--fw-texto-longo);
       letter-spacing: var(--ls-padrao);
     }
 
     html { scroll-behavior: smooth; }
-    body { font-family: "Inter", sans-serif; background: var(--white); color: var(--dark); overflow-x: hidden; }
+    body { font-family: "Helvetica Neue", "Inter", sans-serif; background: var(--white); color: var(--dark); overflow-x: hidden; }
     * { font-style: normal !important; }
 
     /* NAV */

@@ -1013,7 +1013,7 @@ livroItems.forEach(el => livroObserver.observe(el));
           <!-- Slide 1: Manual do Aluno (título em cima, imagem grande embaixo) -->
           <div style="flex:0 0 100%; scroll-snap-align:start; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; padding:0 8px;">
             <p class="txt-subtitulo" style="font-size:clamp(20px,2.2vw,26px); color:#1d1d1f; margin:0; text-align:center;">Manual do aluno</p>
-            <div style="width:100%; max-width:480px; aspect-ratio:16/9; background:#e5e5e7 url('https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/livros.jpeg') center/cover no-repeat; border-radius:14px;">
+            <div style="width:100%; max-width:560px; aspect-ratio:16/9; background:#e5e5e7 url('https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/livros.jpeg') center/cover no-repeat; border-radius:14px;">
             </div>
           </div>
 
@@ -1059,14 +1059,17 @@ livroItems.forEach(el => livroObserver.observe(el));
         <p style="font-size:15px; color:#86868b; margin:0 0 4px;"><strong style="color:#1d1d1f;">Programa.</strong> Confirme seu plano.</p>
 
         <!-- Card destaque (borda preta, estilo central Apple) -->
-        <a href="compra.html" style="text-decoration:none; display:flex; align-items:center; justify-content:space-between; border:2px solid #1d1d1f; border-radius:16px; padding:24px; cursor:pointer; transition:opacity .2s;">
-          <div>
-            <p class="txt-corpo" style="font-size:18px; color:#1d1d1f; margin:0;">High School<br/>Americano</p>
-          </div>
-          <div style="text-align:right;">
-            <p style="font-size:13px; color:#1d1d1f; line-height:1.5; margin:0;">Por $6999<br/>ou $625/mês<br/>em 12x s/ juros</p>
-          </div>
-        </a>
+        <div style="display:flex; gap:12px; align-items:stretch;">
+          <a href="compra.html" style="flex:1; text-decoration:none; display:flex; align-items:center; justify-content:space-between; border:2px solid #1d1d1f; border-radius:16px; padding:24px; cursor:pointer; transition:opacity .2s;">
+            <div>
+              <p class="txt-corpo" style="font-size:18px; color:#1d1d1f; margin:0;">High School<br/>Americano</p>
+            </div>
+            <div style="text-align:right;">
+              <p style="font-size:13px; color:#1d1d1f; line-height:1.5; margin:0;">Por $6999<br/>ou $625/mês<br/>em 12x s/ juros</p>
+            </div>
+          </a>
+          <div style="width:8px; flex-shrink:0;"></div>
+        </div>
 
         <!-- Passo a passo vertical com scroll + bolinhas -->
         <div style="display:flex; gap:12px; align-items:center;">

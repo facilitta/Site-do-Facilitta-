@@ -426,7 +426,7 @@
     /* ── SEÇÃO TEXTO CLIPADO COM VÍDEO ── */
     .clip-section {
       position: relative;
-      height: 280vh;
+      height: 340vh;
       background: #f5f5f7;
     }
     .clip-sticky {
@@ -979,7 +979,7 @@ livroItems.forEach(el => livroObserver.observe(el));
 
           <!-- Slide 1: Manual do Aluno (título em cima, imagem grande embaixo) -->
           <div style="flex:0 0 100%; height:100%; scroll-snap-align:start; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:11px; padding:0 8px;">
-            <p class="txt-subtitulo" style="font-size:clamp(14px,1.5vw,17px); color:#1d1d1f; margin:0; text-align:center; font-weight:400; letter-spacing:0px; position:relative; z-index:2;">Manual do aluno</p>
+            <p class="txt-subtitulo" style="font-size:clamp(17px,1.9vw,21px); color:#1d1d1f; margin:0; text-align:center; font-weight:400; letter-spacing:0px; position:relative; z-index:2;">Manual do aluno</p>
             <div style="height:316px; aspect-ratio:16/9; background:#e5e5e7 url('https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/livros.jpeg') center/cover no-repeat; border-radius:14px; margin-top:-28px; position:relative; z-index:1;">
             </div>
           </div>
@@ -994,7 +994,7 @@ livroItems.forEach(el => livroObserver.observe(el));
 
           <!-- Slide 3: Plataforma (título em cima, imagem grande embaixo) -->
           <div style="flex:0 0 100%; height:100%; scroll-snap-align:start; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; padding:0 8px;">
-            <p class="txt-subtitulo" style="font-size:clamp(14px,1.5vw,17px); color:#1d1d1f; margin:0; text-align:center; font-weight:400; letter-spacing:0px; margin-top:-14px;">Plataforma de estudos</p>
+            <p class="txt-subtitulo" style="font-size:clamp(17px,1.9vw,21px); color:#1d1d1f; margin:0; text-align:center; font-weight:400; letter-spacing:0px; margin-top:-14px;">Plataforma de estudos</p>
             <div style="height:300px; aspect-ratio:16/9; background:#e5e5e7 url('https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/card-facilitta-grades.jpeg') center/cover no-repeat; border-radius:14px;">
             </div>
           </div>
@@ -1080,62 +1080,52 @@ livroItems.forEach(el => livroObserver.observe(el));
 (function() {
   const stepsTrack = document.getElementById('stepsTrack');
   const stepDots = document.querySelectorAll('.stepDot');
-  let currentStep = 0;
-
-  function goToStep(index) {
-    currentStep = Math.max(0, Math.min(stepDots.length - 1, index));
-    stepsTrack.scrollTo({ top: stepsTrack.clientHeight * currentStep, behavior: 'smooth' });
-    stepDots.forEach((d, i) => {
-      d.style.background = i === currentStep ? '#1d1d1f' : '#d2d2d7';
-    });
-  }
-
-  stepDots.forEach((dot, i) => {
-    dot.addEventListener('click', () => goToStep(i));
-  });
-
-  stepsTrack.addEventListener('scroll', () => {
-    const index = Math.round(stepsTrack.scrollTop / stepsTrack.clientHeight);
-    if (index !== currentStep) {
-      currentStep = index;
-      stepDots.forEach((d, i) => {
-        d.style.background = i === currentStep ? '#1d1d1f' : '#d2d2d7';
-      });
-    }
-  }, { passive: true });
-})();
-</script>
-
-<script>
-(function() {
   const track = document.getElementById('buyCarousel');
   const dots = document.querySelectorAll('.buyDot');
   const prevBtn = document.getElementById('buyPrev');
   const nextBtn = document.getElementById('buyNext');
-  let current = 0;
 
-  function goTo(index) {
-    current = Math.max(0, Math.min(dots.length - 1, index));
-    track.scrollTo({ left: track.offsetWidth * current, behavior: 'smooth' });
-    dots.forEach((d, i) => {
-      d.style.background = i === current ? '#1d1d1f' : '#d2d2d7';
+  let current = 0;
+  let isSyncing = false;
+
+  function updateDots(dotList, index) {
+    dotList.forEach((d, i) => {
+      d.style.background = i === index ? '#1d1d1f' : '#d2d2d7';
     });
   }
 
+  function goTo(index) {
+    current = Math.max(0, Math.min(dots.length - 1, index));
+    isSyncing = true;
+
+    track.scrollTo({ left: track.offsetWidth * current, behavior: 'smooth' });
+    stepsTrack.scrollTo({ top: stepsTrack.clientHeight * current, behavior: 'smooth' });
+
+    updateDots(dots, current);
+    updateDots(stepDots, current);
+
+    setTimeout(() => { isSyncing = false; }, 500);
+  }
+
   dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => goTo(i));
+  });
+  stepDots.forEach((dot, i) => {
     dot.addEventListener('click', () => goTo(i));
   });
   prevBtn.addEventListener('click', () => goTo(current - 1));
   nextBtn.addEventListener('click', () => goTo(current + 1));
 
   track.addEventListener('scroll', () => {
+    if (isSyncing) return;
     const index = Math.round(track.scrollLeft / track.offsetWidth);
-    if (index !== current) {
-      current = index;
-      dots.forEach((d, i) => {
-        d.style.background = i === current ? '#1d1d1f' : '#d2d2d7';
-      });
-    }
+    if (index !== current) goTo(index);
+  }, { passive: true });
+
+  stepsTrack.addEventListener('scroll', () => {
+    if (isSyncing) return;
+    const index = Math.round(stepsTrack.scrollTop / stepsTrack.clientHeight);
+    if (index !== current) goTo(index);
   }, { passive: true });
 })();
 </script>
@@ -1159,15 +1149,15 @@ livroItems.forEach(el => livroObserver.observe(el));
   </svg>
 </a>
 
-<a class="wa-float" href="https://wa.me/" target="_blank" aria-label="Fale pelo WhatsApp">
+<a class="wa-float" href="https://wa.me/5521995204080?text=Ol%C3%A1!%20Gostaria%20de%20mais%20informa%C3%A7%C3%B5es" target="_blank" aria-label="Fale pelo WhatsApp">
   <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIj4KICA8cGF0aCBmaWxsPSIjZmZmZmZmIiBkPSJNMTIgMEM1LjM3MyAwIDAgNS4zNzMgMCAxMmMwIDIuMTIzLjU1NSA0LjExNiAxLjUyNCA1Ljg0N0wwIDI0bDYuMzEtMS41MDdBMTEuOTQ1IDExLjk0NSAwIDAgMCAxMiAyNGM2LjYyNyAwIDEyLTUuMzczIDEyLTEyUzE4LjYyNyAwIDEyIDB6bTAgMjJjLTEuODUgMC0zLjU4Ny0uNS01LjA4Mi0xLjM3MWwtLjM2NC0uMjEzLTMuNzQyLjg5NC45NDQtMy42NS0uMjM2LS4zNzVBOS45NiA5Ljk2IDAgMCAxIDIgMTJDMiA2LjQ3NyA2LjQ3NyAyIDEyIDJzMTAgNC40NzcgMTAgMTAtNC40NzcgMTAtMTAgMTB6bTUuNDA2LTcuMzg3Yy0uMjk3LS4xNDgtMS43NTYtLjg2Ni0yLjAyOC0uOTY1LS4yNzItLjA5OS0uNDctLjE0OC0uNjY4LjE0OS0uMTk4LjI5Ni0uNzY3Ljk2NC0uOTQgMS4xNjMtLjE3NC4xOTgtLjM0Ny4yMjMtLjY0NC4wNzQtLjI5Ny0uMTQ4LTEuMjU1LS40NjMtMi4zOS0xLjQ3NS0uODgzLS43ODgtMS40OC0xLjc2MS0xLjY1My0yLjA1OS0uMTczLS4yOTctLjAxOS0uNDU4LjEzLS42MDYuMTM0LS4xMzMuMjk3LS4zNDcuNDQ2LS41MjEuMTQ5LS4xNzQuMTk4LS4yOTguMjk3LS40OTcuMS0uMTk4LjA1LS4zNzItLjAyNS0uNTIxLS4wNzQtLjE0OC0uNjY4LTEuNjExLS45MTYtMi4yMDYtLjI0MS0uNTc5LS40ODYtLjUwMS0uNjY4LS41MWwtLjU3LS4wMWMtLjE5OCAwLS41Mi4wNzQtLjc5Mi4zNzItLjI3Mi4yOTgtMS4wNCAxLjAxNi0xLjA0IDIuNDc5IDAgMS40NjMgMS4wNjUgMi44NzYgMS4yMTMgMy4wNzQuMTQ5LjE5OCAyLjA5NiAzLjIgNS4wNzcgNC40ODcuNzA5LjMwNiAxLjI2My40ODkgMS42OTQuNjI2LjcxMi4yMjYgMS4zNi4xOTQgMS44NzIuMTE4LjU3MS0uMDg1IDEuNzU4LS43MTkgMi4wMDYtMS40MTMuMjQ4LS42OTUuMjQ4LTEuMjkuMTczLTEuNDEzLS4wNzQtLjEyNC0uMjcyLS4xOTgtLjU3LS4zNDd6Ii8+Cjwvc3ZnPg==" alt="WhatsApp" />
 </a>
 
 <!-- AUTOPLAY SCRIPT -->
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    const video = document.querySelector('.hero-video-placeholder video');
-    if (video) {
+    const videos = document.querySelectorAll('.hero-video-placeholder video, .clip-video-bg');
+    videos.forEach(function(video) {
       video.muted = true;
       video.playsInline = true;
       video.setAttribute('playsinline', '');
@@ -1188,7 +1178,7 @@ livroItems.forEach(el => livroObserver.observe(el));
       document.addEventListener('visibilitychange', function() {
         if (!document.hidden) tryPlay();
       });
-    }
+    });
   });
 </script>
 

@@ -6,7 +6,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Facilitta</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -20,10 +20,70 @@
       --off-white: #F7F6F4;
       --gray: #EBEBEB;
       --gray-text: #999;
+
+      /* Escala tipográfica padrão do site */
+      --fw-titulo: 700;
+      --fw-subtitulo: 500;
+      --fw-corpo: 400;
+      --fw-texto-longo: 400;
+      --ls-titulo: -1px;
+      --ls-corpo: 0px;
+    }
+
+    /* ── HELVETICA NEUE (fontes próprias) ── */
+    @font-face {
+      font-family: 'Helvetica Neue';
+      src: url('https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/fonts/HelveticaNeueBold.otf') format('opentype');
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Helvetica Neue';
+      src: url('https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/fonts/HelveticaNeueMedium.otf') format('opentype');
+      font-weight: 500;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Helvetica Neue';
+      src: url('https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/fonts/HelveticaNeueRoman.otf') format('opentype');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Helvetica Neue';
+      src: url('https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/fonts/HelveticaNeueLight.otf') format('opentype');
+      font-weight: 300;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    /* ── CLASSES DE TIPOGRAFIA PADRÃO ── */
+    .txt-titulo {
+      font-family: 'Helvetica Neue';
+      font-weight: var(--fw-titulo);
+      letter-spacing: var(--ls-titulo);
+    }
+    .txt-subtitulo {
+      font-family: 'Helvetica Neue';
+      font-weight: var(--fw-subtitulo);
+      letter-spacing: var(--ls-titulo);
+    }
+    .txt-corpo {
+      font-family: 'Helvetica Neue';
+      font-weight: var(--fw-corpo);
+      letter-spacing: var(--ls-corpo);
+    }
+    .txt-longo {
+      font-family: 'Helvetica Neue';
+      font-weight: var(--fw-texto-longo);
+      letter-spacing: var(--ls-corpo);
     }
 
     html { scroll-behavior: smooth; }
-    body { font-family: "Inter", sans-serif; background: var(--white); color: var(--dark); overflow-x: hidden; }
+    body { font-family: "Helvetica Neue"; background: var(--white); color: var(--dark); overflow-x: hidden; }
     * { font-style: normal !important; }
 
 /* NAV */
@@ -150,15 +210,6 @@ nav {
       position: relative;
       height: 220vh;
     }
-    .hero-wrapper::after {
-      content: "";
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      height: 80px;
-      background: linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.6) 60%, #ffffff 100%);
-      z-index: 10;
-      pointer-events: none;
-    }
     .hero-video-container {
       position: sticky;
       top: 0;
@@ -198,8 +249,8 @@ nav {
     }
     .hero-tagline {
       font-size: clamp(36px, 5vw, 68px);
-      font-weight: 800;
-      letter-spacing: -2px;
+      font-weight: 500;
+      letter-spacing: -1px;
       line-height: 1.08;
       color: #ffffff;
     }
@@ -213,13 +264,13 @@ nav {
 
     .hero-title {
       font-size: clamp(36px, 5vw, 68px);
-      font-weight: 800;
+      font-weight: 500;
       line-height: 1.08;
-      letter-spacing: -2.5px;
+      letter-spacing: -1px;
       color: var(--dark);
       margin-bottom: 44px;
     }
-    .hero-title strong { font-weight: 900; color: var(--red); }
+    .hero-title strong { font-weight: 500; color: var(--red); }
     .hero-actions { display: flex; align-items: center; justify-content: center; gap: 20px; }
     .btn-primary {
       background: var(--red); color: #fff;
@@ -234,8 +285,8 @@ nav {
     /* ABOUT */
     /* QUEM SOMOS — foto faixa full-width + texto centralizado abaixo */
     .about-section {
-      background: var(--white);
-      padding: 0 0 80px 0;
+      background: var(--off-white);
+      padding: 100px 40px 100px;
     }
     .about-inner {
       display: flex;
@@ -264,7 +315,7 @@ nav {
       color: var(--red); margin-bottom: 20px;
     }
     .about-title {
-      font-size: clamp(32px, 4vw, 56px); font-weight: 800;
+      font-size: clamp(32px, 4vw, 56px); font-weight: 500;
       letter-spacing: -1px; line-height: 1.15;
       color: var(--dark); margin-bottom: 22px;
     }
@@ -273,18 +324,84 @@ nav {
     }
     .about-text + .about-text { margin-top: 16px; }
 
+    /* ── TÍTULO GRANDE, FORA DO CARD ── */
+    .about-title-main {
+      font-family: 'Helvetica Neue';
+      font-weight: 500;
+      font-size: clamp(24px, 3.6vw, 48px);
+      letter-spacing: -1px;
+      line-height: 1.15;
+      color: var(--dark);
+      text-align: center;
+      white-space: nowrap;
+      padding: 0 24px;
+      margin: 0 auto 40px;
+    }
+    /* ── CARD GRANDE: TEXTO + FOTO ── */
+    .about-card {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 32px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+      display: flex;
+      align-items: stretch;
+      gap: 56px;
+      padding: 64px;
+    }
+    .about-card-text {
+      flex: 1.5;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: left;
+    }
+    .about-card-text p {
+      font-size: 16.5px;
+      line-height: 1.85;
+      color: var(--dark);
+    }
+    .about-card-text p + p { margin-top: 20px; }
+    .about-card-photo {
+      flex: 0.75;
+      display: flex;
+      flex-direction: column;
+    }
+    .about-card-photo-frame {
+      border-radius: 24px;
+      overflow: hidden;
+      min-height: 320px;
+      flex: 1;
+    }
+    .about-card-photo-frame img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .about-card-photo-caption {
+      font-size: 13px;
+      color: #86868b;
+      text-align: center;
+      margin-top: 12px;
+    }
+    @media (max-width: 900px) {
+      .about-title-main { white-space: normal; font-size: clamp(24px, 6vw, 34px); }
+      .about-card { flex-direction: column; padding: 32px; gap: 32px; }
+      .about-card-photo { min-height: 260px; }
+    }
+
     /* PROGRAMS */
-    .programs { padding: 100px 64px 110px; background: var(--off-white); }
+    .programs { padding: 160px 0 110px; background: var(--off-white); }
     .section-eyebrow {
       font-size: 13px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase;
       color: var(--red); margin-bottom: 12px;
     }
     .section-eyebrow-center.programs-label-big {
-      font-size: 28px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
+      font-size: 28px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase;
       color: var(--red); margin-bottom: 28px; text-align: center;
     }
     .section-title {
-      font-size: clamp(28px, 3vw, 44px); font-weight: 800;
+      font-size: clamp(28px, 3vw, 44px); font-weight: 500;
       letter-spacing: -1.5px; line-height: 1.1;
       color: var(--dark); margin-bottom: 56px;
     }
@@ -330,53 +447,50 @@ nav {
       position: relative; z-index: 1;
     }
 
-    /* ── CARDS GRID ── */
-    .programs-grid {
-  display: flex;
-  gap: 12px;
-  max-width: 960px;
-  margin: 0 auto;
-}
-.programs-col {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  gap: 12px;
-}
-.program-card {
-  display: block;
-  border-radius: 20px;
-  overflow: hidden;
-  cursor: pointer;
-  text-decoration: none;
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
-}
-.program-card:hover {
-  transform: scale(1.013);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
-}
-.program-card img.card-img {
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-/* Alturas individuais por card */.card-hs  { height: 380px; }  /* col 1 — grande */
-.card-tec { height: 230px; }  /* col 1 — pequeno */
-.card-ing { height: 230px; }  /* col 2 — pequeno */
-.card-pos { height: 380px; }  /* col 2 — grande */
-
-/* Cards com foto */
-.card-hs  img.card-img { object-fit: cover; object-position: center center; }
-.card-pos img.card-img { object-fit: cover; object-position: left bottom; }
-/* Cards sem foto */
-.card-ing { background: #1E1E1E; }
-.card-ing img.card-img { object-fit: contain; object-position: center center; }
-.card-tec { background: #1E1E1E; }
-.card-tec img.card-img { object-fit: contain; object-position: center center; }
+    /* ── NOVOS CARDS: 1 GRANDE + 2 EMBAIXO ── */
+    .programs-inner {
+      padding: 0 10px;
+      max-width: 1380px;
+      margin: 0 auto;
+    }
+    .programs-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+    .program-card-new {
+      display: block;
+      border-radius: 0;
+      overflow: hidden;
+      text-decoration: none;
+      position: relative;
+      background: #ffffff;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+    .program-card-new:hover {
+      transform: scale(1.008);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    }
+    .program-card-new img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+    .card-big { aspect-ratio: 3857 / 1080; }
+    .programs-row {
+      display: flex;
+      gap: 7px;
+    }
+    .programs-row .program-card-new {
+      flex: 1;
+      min-width: 0;
+      aspect-ratio: 16 / 9;
+    }
 
     .programs {
-  padding: 100px 64px 160px;
-}
+      padding: 100px 0 160px;
+    }
 
     
     /* FOOTER */
@@ -400,7 +514,7 @@ nav {
       nav { padding: 0 32px; }
       .hero { padding: 140px 32px 80px; }
       .about-text-col { padding: 60px 48px; }
-      .programs { padding: 80px 32px; }
+      .programs { padding: 80px 0; }
       footer { padding: 44px 32px; }
       .program-card-inner { padding: 32px; }
     }
@@ -415,7 +529,8 @@ nav {
       .about-section { grid-template-columns: 1fr; }
       .about-photo { min-height: 300px; }
       .about-text-col { padding: 48px 24px; }
-      .programs { padding: 64px 20px; }
+      .programs { padding: 64px 0; }
+      .programs-row { flex-direction: column; }
       .program-card-inner { flex-direction: column; align-items: flex-start; padding: 28px; gap: 20px; }
       .program-right { width: 100%; justify-content: space-between; }
       .program-name { font-size: 24px; }
@@ -473,7 +588,6 @@ nav {
       <a class="nav-dropdown-toggle">Programas</a>
       <div class="nav-dropdown-menu">
         <a href="highschool.html"><img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/logo_f_rasterizada.png" alt="" class="dropdown-logo">High School</a>
-        <a href="posgraduacao.html"><img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/logo_f_rasterizada.png" alt="" class="dropdown-logo">Pós Graduação</a>
         <a href="english.html"><img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/logo_f_rasterizada.png" alt="" class="dropdown-logo">English Classes</a>
         <a href="tecnicos.html"><img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/logo_f_rasterizada.png" alt="" class="dropdown-logo">Cursos Técnicos</a>
       </div>
@@ -484,7 +598,7 @@ nav {
     <a class="nav-insta" href="https://instagram.com/" target="_blank" aria-label="Instagram">
       <img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/IMG_2105.jpeg" alt="Instagram" />
     </a>
-    <a href="#" class="nav-cta">Inscreva-se</a>
+    <a href="#" class="nav-cta">Apply now</a>
   </div>
 </nav>
 
@@ -522,48 +636,43 @@ nav {
 
 <!-- QUEM SOMOS -->
 <section class="about-section">
-  <div class="about-inner">
-    <div class="about-text-col reveal">
-      <div class="about-eyebrow">Quem somos</div>
-      <h2 class="about-title">Educação americana, sem sair do Brasil.</h2>
-      <p class="about-text">A Facilitta Academy nasceu para tornar a educacao internacional acessivel a qualquer brasileiro, em qualquer lugar. Conectamos alunos a diplomas e cursos americanos reconhecidos, com suporte completo em portugues do inicio ao fim.</p>
-      <p class="about-text">Acreditamos que distancia e custo nao deveriam ser barreiras para uma educacao de qualidade. Por isso, construimos programas remotos, flexiveis e no ritmo de cada aluno.</p>
+  <h2 class="about-title-main reveal">Educação americana, sem sair do Brasil.</h2>
+  <div class="about-card reveal">
+    <div class="about-card-text">
+      <p>Nosso propósito é tornar acessível o sonho de estudar nos Estados Unidos. A Facilitta Academy nasceu para isso: aproximar a educação americana de qualquer aluno brasileiro, em qualquer cidade do país, eliminando as barreiras que normalmente cercam esse tipo de programa, processos complicados, falta de suporte em português e custos incompatíveis com a realidade de grande parte das famílias brasileiras.</p>
+      <p>Nossos programas são cursados de forma remota e no ritmo de cada aluno, sempre com acompanhamento próximo desde a matrícula até a conclusão. Isso inclui documentação, orientação acadêmica e suporte contínuo em português, tudo pensado para que o aluno chegue preparado ao próximo passo da sua trajetória.</p>
+      <p>Hoje a Facilitta Academy oferece High School Americano, cursos técnicos e curso de inglês, sempre com o mesmo compromisso: entregar um caminho real, estruturado e acessível para quem quer estudar nos Estados Unidos sem sair do Brasil.</p>
+    </div>
+    <div class="about-card-photo">
+      <div class="about-card-photo-frame">
+        <img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/fotogabrielpalestra.jpg" alt="Gabriel Frozi, CEO da Facilitta Academy" />
+      </div>
+      <p class="about-card-photo-caption">Gabriel Frozi, CEO da Facilitta Academy</p>
     </div>
   </div>
 </section>
 
 <!-- PROGRAMAS -->
 <section class="programs" id="programas">
-  <div class="section-eyebrow-center" style="font-size: 16px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--red); margin-bottom: 32px; text-align: center;">
-    Selecione Seu Programa
-  </div>
-
-  <div class="programs-grid">
-
-    <div class="programs-col">
-      <!-- High School -->
-      <a href="highschool.html" class="program-card card-hs reveal">
-        <img class="card-img" src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/refs/heads/main/IMG_2088.jpeg" alt="Diploma do High School Americano" />
-      </a>
-
-      <!-- Curso Técnico -->
-      <a href="tecnicos.html" class="program-card card-tec reveal">
-        <img class="card-img" src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/refs/heads/main/IMG_2087.jpeg" alt="Curso Técnico" />
-      </a>
+  <div class="programs-inner">
+    <div class="about-title" style="text-align: left; margin-bottom: 28px; padding-left: 24px;">
+      O que você quer explorar?
     </div>
 
-    <div class="programs-col">
-      <!-- Inglês -->
-      <a href="english.html" class="program-card card-ing reveal">
-        <img class="card-img" src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/refs/heads/main/IMG_2090.jpeg" alt="Curso de Inglês" />
+    <div class="programs-stack">
+      <a href="highschool.html" class="program-card-new card-big reveal">
+        <img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/cardhs.jpg" alt="High School Americano" />
       </a>
 
-      <!-- Pós-graduação -->
-      <a href="posgraduacao.html" class="program-card card-pos reveal">
-        <img class="card-img" src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/refs/heads/main/IMG_2089.jpeg" alt="Pós Graduação no Exterior" />
-      </a>
+      <div class="programs-row">
+        <a href="english.html" class="program-card-new reveal">
+          <img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/cardfacilittaenglish.jpg" alt="Curso de Inglês" />
+        </a>
+        <a href="cursotecnico.html" class="program-card-new reveal">
+          <img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/cardcurso.jpg" alt="Curso Técnico" />
+        </a>
+      </div>
     </div>
-
   </div>
 </section>
   
@@ -642,7 +751,7 @@ nav {
   });
 </script>
 
-<a class="wa-float" href="https://wa.me/" target="_blank" aria-label="Fale pelo WhatsApp"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIj4KICA8cGF0aCBmaWxsPSIjZmZmZmZmIiBkPSJNMTIgMEM1LjM3MyAwIDAgNS4zNzMgMCAxMmMwIDIuMTIzLjU1NSA0LjExNiAxLjUyNCA1Ljg0N0wwIDI0bDYuMzEtMS41MDdBMTEuOTQ1IDExLjk0NSAwIDAgMCAxMiAyNGM2LjYyNyAwIDEyLTUuMzczIDEyLTEyUzE4LjYyNyAwIDEyIDB6bTAgMjJjLTEuODUgMC0zLjU4Ny0uNS01LjA4Mi0xLjM3MWwtLjM2NC0uMjEzLTMuNzQyLjg5NC45NDQtMy42NS0uMjM2LS4zNzVBOS45NiA5Ljk2IDAgMCAxIDIgMTJDMiA2LjQ3NyA2LjQ3NyAyIDEyIDJzMTAgNC40NzcgMTAgMTAtNC40NzcgMTAtMTAgMTB6bTUuNDA2LTcuMzg3Yy0uMjk3LS4xNDgtMS43NTYtLjg2Ni0yLjAyOC0uOTY1LS4yNzItLjA5OS0uNDctLjE0OC0uNjY4LjE0OS0uMTk4LjI5Ni0uNzY3Ljk2NC0uOTQgMS4xNjMtLjE3NC4xOTgtLjM0Ny4yMjMtLjY0NC4wNzQtLjI5Ny0uMTQ4LTEuMjU1LS40NjMtMi4zOS0xLjQ3NS0uODgzLS43ODgtMS40OC0xLjc2MS0xLjY1My0yLjA1OS0uMTczLS4yOTctLjAxOS0uNDU4LjEzLS42MDYuMTM0LS4xMzMuMjk3LS4zNDcuNDQ2LS41MjEuMTQ5LS4xNzQuMTk4LS4yOTguMjk3LS40OTcuMS0uMTk4LjA1LS4zNzItLjAyNS0uNTIxLS4wNzQtLjE0OC0uNjY4LTEuNjExLS45MTYtMi4yMDYtLjI0MS0uNTc5LS40ODYtLjUwMS0uNjY4LS41MWwtLjU3LS4wMWMtLjE5OCAwLS41Mi4wNzQtLjc5Mi4zNzItLjI3Mi4yOTgtMS4wNCAxLjAxNi0xLjA0IDIuNDc5IDAgMS40NjMgMS4wNjUgMi44NzYgMS4yMTMgMy4wNzQuMTQ5LjE5OCAyLjA5NiAzLjIgNS4wNzcgNC40ODcuNzA5LjMwNiAxLjI2My40ODkgMS42OTQuNjI2LjcxMi4yMjYgMS4zNi4xOTQgMS44NzIuMTE4LjU3MS0uMDg1IDEuNzU4LS43MTkgMi4wMDYtMS40MTMuMjQ4LS42OTUuMjQ4LTEuMjkuMTczLTEuNDEzLS4wNzQtLjEyNC0uMjcyLS4xOTgtLjU3LS4zNDd6Ii8+Cjwvc3ZnPg==" alt="WhatsApp" /></a>
+<a class="wa-float" href="https://wa.me/5521995204080?text=Ol%C3%A1%2C%20gostaria%20de%20saber%20mais%20sobre%20os%20programas%20do%20Facilitta." target="_blank" aria-label="Fale pelo WhatsApp"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIj4KICA8cGF0aCBmaWxsPSIjZmZmZmZmIiBkPSJNMTIgMEM1LjM3MyAwIDAgNS4zNzMgMCAxMmMwIDIuMTIzLjU1NSA0LjExNiAxLjUyNCA1Ljg0N0wwIDI0bDYuMzEtMS41MDdBMTEuOTQ1IDExLjk0NSAwIDAgMCAxMiAyNGM2LjYyNyAwIDEyLTUuMzczIDEyLTEyUzE4LjYyNyAwIDEyIDB6bTAgMjJjLTEuODUgMC0zLjU4Ny0uNS01LjA4Mi0xLjM3MWwtLjM2NC0uMjEzLTMuNzQyLjg5NC45NDQtMy42NS0uMjM2LS4zNzVBOS45NiA5Ljk2IDAgMCAxIDIgMTJDMiA2LjQ3NyA2LjQ3NyAyIDEyIDJzMTAgNC40NzcgMTAgMTAtNC40NzcgMTAtMTAgMTB6bTUuNDA2LTcuMzg3Yy0uMjk3LS4xNDgtMS43NTYtLjg2Ni0yLjAyOC0uOTY1LS4yNzItLjA5OS0uNDctLjE0OC0uNjY4LjE0OS0uMTk4LjI5Ni0uNzY3Ljk2NC0uOTQgMS4xNjMtLjE3NC4xOTgtLjM0Ny4yMjMtLjY0NC4wNzQtLjI5Ny0uMTQ4LTEuMjU1LS40NjMtMi4zOS0xLjQ3NS0uODgzLS43ODgtMS40OC0xLjc2MS0xLjY1My0yLjA1OS0uMTczLS4yOTctLjAxOS0uNDU4LjEzLS42MDYuMTM0LS4xMzMuMjk3LS4zNDcuNDQ2LS41MjEuMTQ5LS4xNzQuMTk4LS4yOTguMjk3LS40OTcuMS0uMTk4LjA1LS4zNzItLjAyNS0uNTIxLS4wNzQtLjE0OC0uNjY4LTEuNjExLS45MTYtMi4yMDYtLjI0MS0uNTc5LS40ODYtLjUwMS0uNjY4LS41MWwtLjU3LS4wMWMtLjE5OCAwLS41Mi4wNzQtLjc5Mi4zNzItLjI3Mi4yOTgtMS4wNCAxLjAxNi0xLjA0IDIuNDc5IDAgMS40NjMgMS4wNjUgMi44NzYgMS4yMTMgMy4wNzQuMTQ5LjE5OCAyLjA5NiAzLjIgNS4wNzcgNC40ODcuNzA5LjMwNiAxLjI2My40ODkgMS42OTQuNjI2LjcxMi4yMjYgMS4zNi4xOTQgMS44NzIuMTE4LjU3MS0uMDg1IDEuNzU4LS43MTkgMi4wMDYtMS40MTMuMjQ4LS42OTUuMjQ4LTEuMjkuMTczLTEuNDEzLS4wNzQtLjEyNC0uMjcyLS4xOTgtLjU3LS4zNDd6Ii8+Cjwvc3ZnPg==" alt="WhatsApp" /></a>
 
 </body>
 </html>

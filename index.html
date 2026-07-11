@@ -385,9 +385,17 @@ nav {
       margin-top: 12px;
     }
     @media (max-width: 900px) {
-      .about-title-main { white-space: normal; font-size: clamp(24px, 6vw, 34px); }
+      .about-title-main { white-space: normal; font-size: clamp(28px, 8vw, 40px); }
       .about-card { flex-direction: column; padding: 32px; gap: 32px; }
       .about-card-photo { min-height: 260px; }
+      .about-card-photo-frame { border-radius: 24px; }
+      .about-card-text p { text-align: justify; }
+    }
+    @media (max-width: 640px) {
+      .about-card { padding: 24px; }
+      .about-card-text p { font-size: 15.5px; }
+      .card-big { aspect-ratio: 4 / 3; }
+      .card-big img { object-position: left center; }
     }
 
     /* PROGRAMS */

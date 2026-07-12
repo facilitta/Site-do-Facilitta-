@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -621,7 +620,13 @@ nav {
     .programs-title-mobile { display: none; }
     @media (max-width: 630px) {
       .programs-inner { display: none; }
-      .programs-title-mobile { display: block; margin-bottom: 20px; font-size: 26px; }
+      .programs-title-mobile {
+        display: block;
+        margin-bottom: 0;
+        font-size: 26px;
+        background: #ffffff;
+        padding: 32px 32px 20px;
+      }
       .programs-mobile-carousel {
         display: flex;
         flex-direction: column;
@@ -895,7 +900,7 @@ nav {
   </div>
 
   <!-- CARROSSEL VERTICAL MOBILE (estilo Apple) -->
-  <h2 class="about-title programs-title-mobile" style="text-align: left; padding-left: 10px;">O que você quer explorar?</h2>
+  <h2 class="about-title programs-title-mobile" style="text-align: center;">O que você quer explorar?</h2>
   <div class="programs-mobile-carousel">
     <div class="mobile-card mobile-card-hs">
       <div class="mobile-card-text">

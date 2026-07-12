@@ -386,13 +386,12 @@ nav {
     }
     @media (max-width: 900px) {
       .about-title-main { white-space: normal; font-size: clamp(28px, 8vw, 40px); }
-      .about-card { flex-direction: column; padding: 32px; gap: 32px; }
+      .about-card { flex-direction: column; padding: 20px; gap: 32px; }
       .about-card-photo { min-height: 260px; }
       .about-card-photo-frame { border-radius: 24px; }
-      .about-card-text p { text-align: justify; }
     }
     @media (max-width: 640px) {
-      .about-card { padding: 24px; }
+      .about-card { padding: 16px; }
       .about-card-text p { font-size: 15.5px; }
       .card-big { aspect-ratio: 4 / 3; }
       .card-big img { object-position: left center; }
@@ -504,17 +503,10 @@ nav {
         display: flex;
         flex-direction: column;
         gap: 7px;
-        height: 86vh;
-        overflow-y: scroll;
-        scroll-snap-type: y mandatory;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
+        padding: 0 10px;
       }
-      .programs-mobile-carousel::-webkit-scrollbar { display: none; }
       .mobile-card {
-        flex: 0 0 80vh;
-        scroll-snap-align: start;
+        min-height: 82vh;
         display: flex;
         flex-direction: column;
         align-items: center;

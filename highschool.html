@@ -77,8 +77,8 @@
       letter-spacing: var(--ls-corpo);
     }
 
-    html { scroll-behavior: smooth; }
-    body { font-family: "Helvetica Neue"; background: var(--white); color: var(--dark); overflow-x: hidden; }
+    html { scroll-behavior: smooth; overflow-x: hidden; max-width: 100%; }
+    body { font-family: "Helvetica Neue"; background: var(--white); color: var(--dark); overflow-x: hidden; max-width: 100%; }
     * { font-style: normal !important; }
 
     /* NAV */
@@ -183,6 +183,140 @@
     }
     .nav-cta:hover { opacity: 0.88; transform: scale(1.02); }
 
+    /* ── BOTÃO HAMBÚRGUER (mobile) ── */
+    .nav-burger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-end;
+      gap: 4px;
+      width: 22px;
+      height: 16px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+    }
+    .nav-burger span {
+      display: block;
+      height: 2px;
+      border-radius: 2px;
+      background: var(--red);
+    }
+    .nav-burger span:nth-child(1) { width: 100%; }
+    .nav-burger span:nth-child(2) { width: 68%; }
+    .nav-burger span:nth-child(3) { width: 100%; }
+
+    /* ── MENU OVERLAY MOBILE ── */
+    .mobile-menu-overlay {
+      position: fixed;
+      inset: 0;
+      background: #ffffff;
+      z-index: 300;
+      display: flex;
+      flex-direction: column;
+      padding: 24px 28px;
+      transform: translateY(-8px);
+      opacity: 0;
+      visibility: hidden;
+      transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s;
+    }
+    .mobile-menu-overlay.active {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
+    .mobile-menu-close {
+      align-self: flex-end;
+      width: 32px; height: 32px;
+      position: relative;
+      background: none; border: none; cursor: pointer;
+      margin-top: 8px;
+    }
+    .mobile-menu-close::before, .mobile-menu-close::after {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 22px; height: 2px;
+      background: var(--dark);
+    }
+    .mobile-menu-close::before { transform: translate(-50%,-50%) rotate(45deg); }
+    .mobile-menu-close::after { transform: translate(-50%,-50%) rotate(-45deg); }
+
+    .mobile-menu-content { margin-top: 56px; }
+    .mobile-accordion-toggle {
+      width: 100%;
+      display: flex; align-items: center; gap: 12px;
+      background: none; border: none;
+      font-family: 'Helvetica Neue'; font-weight: 500; font-size: 21px;
+      color: var(--dark);
+      padding: 22px 0;
+      text-align: left;
+      cursor: pointer;
+    }
+    .mobile-accordion-arrow {
+      display: inline-flex;
+      flex-shrink: 0;
+      transition: transform 0.3s ease;
+      color: var(--red);
+    }
+    .mobile-accordion.open .mobile-accordion-arrow { transform: rotate(90deg); }
+    .mobile-accordion-panel {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transform-origin: top;
+      transition: max-height 0.45s ease, opacity 0.35s ease;
+      display: flex; flex-direction: column;
+    }
+    .mobile-accordion.open .mobile-accordion-panel { max-height: 260px; opacity: 1; }
+    .mobile-accordion-panel a {
+      padding: 14px 0 14px 30px;
+      font-family: 'Helvetica Neue'; font-weight: 400; font-size: 16px; color: #555;
+      text-decoration: none;
+    }
+
+    /* ── NAVBAR DE SCROLL (mobile) ── */
+    .nav-sticky-mobile {
+      display: none;
+    }
+    @media (max-width: 768px) {
+      html, body { overscroll-behavior-y: none; }
+      nav { position: static; }
+      .hero-section { margin-top: 0; }
+      .nav-sticky-mobile {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: fixed;
+        top: 0; left: 0; right: 0;
+        height: 60px;
+        padding: 0 16px;
+        background: var(--red);
+        z-index: 250;
+        transform: translateY(-100%);
+        transition: transform 0.35s ease;
+      }
+      .nav-sticky-mobile.visible { transform: translateY(0); }
+      .nav-sticky-title {
+        font-family: 'Helvetica Neue';
+        font-weight: 500;
+        font-size: 17px;
+        color: #ffffff;
+      }
+      .nav-sticky-btn {
+        display: inline-block;
+        background: #ffffff;
+        color: var(--red);
+        font-family: 'Helvetica Neue';
+        font-weight: 700;
+        font-size: 13px;
+        padding: 9px 20px;
+        border-radius: 100px;
+        text-decoration: none;
+      }
+    }
+
     .nav-insta {
       display: flex;
       align-items: center;
@@ -211,14 +345,11 @@
     /* MOBILE NAV */
     @media (max-width: 768px) {
       nav { padding: 0 14px; height: 60px; }
-      .nav-links { position: static; transform: none; gap: 14px; }
-      .nav-links a { font-size: 11px; }
-      .nav-dropdown-toggle { font-size: 13px; padding: 6px 10px; }
-      .nav-dropdown-menu { min-width: 160px; }
-      .nav-dropdown-menu a { padding: 10px 16px; font-size: 13px; }
+      .nav-links { display: none; }
       .nav-insta { display: none; }
       .nav-right { gap: 6px; }
-      .nav-cta { font-size: 12px; padding: 8px 14px; }
+      .nav-cta { display: none; }
+      .nav-burger { display: flex; }
     }
 
     /* ── HERO VIDEO ── */
@@ -370,7 +501,7 @@
 
     /* ── WHATSAPP ── */
     .wa-float {
-      position: fixed; bottom: 32px; right: 32px; z-index: 999;
+      position: fixed; bottom: 32px; right: 16px; z-index: 999;
       width: 56px; height: 56px; border-radius: 50%;
       background: #25D366;
       box-shadow: 0 4px 20px rgba(0,0,0,0.15);
@@ -405,7 +536,7 @@
         left: 16px;
         right: 16px;
         bottom: 140px;
-        display: flex;
+        display: none;
         justify-content: center;
       }
       .buy-btn {
@@ -610,6 +741,67 @@
     }
     #stepsTrack::-webkit-scrollbar { display: none; }
     #buyCarousel::-webkit-scrollbar { display: none; }
+    /* ── SEÇÃO COMPRAR: AJUSTE MOBILE (evita overflow horizontal) ── */
+    @media (max-width: 768px) {
+      .comprar-section { padding: 140px 20px 60px !important; }
+      .comprar-row { gap: 24px !important; }
+      .comprar-col-left { min-width: 0 !important; width: 100%; flex-basis: 100%; }
+      .comprar-col-right { min-width: 0 !important; width: 100%; flex-basis: 100%; }
+
+      /* Caixa do carrossel: altura livre, não mais travada em 460px */
+      .comprar-box-left { height: auto !important; padding: 20px !important; gap: 16px; }
+      .comprar-carousel-frame { height: 240px !important; }
+      #buyCarousel { height: 260px !important; }
+
+      /* Imagens dos slides: tamanhos próprios pro mobile, sem sobreposição */
+      .comprar-slide-img { height: 160px !important; margin-top: 0 !important; }
+      .comprar-slide2-img { width: 110px !important; height: 150px !important; flex: 0 0 110px !important; }
+
+      /* Passo a passo: altura menor, e os 3 itens batendo com o stepsTrack (senão o texto vaza pro próximo) */
+      .comprar-steps-frame { border-radius: 12px; }
+      #stepsTrack { height: 170px !important; }
+      .comprar-step-item { height: 170px !important; min-height: 170px !important; }
+
+      /* Botão da caixa (estava estourando a tela): empilha em vez de lado a lado */
+      .buy-card-btn { flex-direction: column !important; align-items: flex-start !important; gap: 12px; padding: 24px 20px !important; }
+      .buy-card-btn > div:last-child { text-align: left !important; }
+    }
+    /* ── AJUSTES MOBILE ADICIONAIS ── */
+    @media (max-width: 768px) {
+      /* Vídeos horizontais maiores */
+      .video-card { flex: 0 0 92%; }
+
+      /* Mensagens em fade (zoom) um pouco maiores */
+      #clipMsg1 p { font-size: 20px !important; }
+      #clipMsg2 p { font-size: 15px !important; }
+
+      /* Comparativo: menos tamanhos diferentes, números menores, mais organizado */
+      .comparativo-row { flex-direction: column; gap: 40px !important; }
+      .comparativo-divider { display: none !important; }
+      .comparativo-section { padding: 60px 24px !important; }
+      .comp-col, .comp-col[style] { text-align: left !important; background: #ffffff !important; border-radius: 20px !important; padding: 28px 24px !important; }
+      .comp-label { font-size: 18px !important; margin-bottom: 8px !important; }
+      .comp-value { font-size: 34px !important; margin-bottom: 12px !important; }
+      .comp-suffix { font-size: 18px !important; }
+      .comp-desc { font-size: 14px !important; line-height: 1.6 !important; text-align: left !important; }
+      .comp-note { font-size: 13px !important; line-height: 1.6 !important; text-align: left !important; }
+
+      /* Textos das etapas verticais (seção de compra): entrelinhas mais confortáveis */
+      .steps-text { line-height: 1.5 !important; font-size: 15px !important; }
+
+      /* Botão do card de compra: mais comprido */
+      .buy-card-btn { padding: 36px 20px !important; }
+
+      /* Título acima do livro: largura maior, frase na mesma linha */
+      .comprar-title { max-width: 100%; font-size: clamp(22px,6.2vw,32px) !important; }
+      .comprar-title-line1 { white-space: nowrap; }
+    }
+    @media (min-width: 769px) {
+      .comprar-col-right { display: flex; flex-direction: column; }
+      .comprar-eyebrow { order: 1; }
+      .comprar-btn-wrap { order: 2; }
+      .comprar-steps-wrap { order: 3; }
+    }
   </style>
 </head>
 <body>
@@ -636,8 +828,43 @@
       <img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/IMG_2105.jpeg" alt="Instagram" />
     </a>
     <a href="#" class="nav-cta">Apply now</a>
+    <button class="nav-burger" id="navBurgerBtn" aria-label="Abrir menu">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
+
+<div class="nav-sticky-mobile" id="navStickyMobile">
+  <span class="nav-sticky-title">High School</span>
+  <a href="compra.html" class="nav-sticky-btn">Apply now</a>
+</div>
+
+<div class="mobile-menu-overlay" id="mobileMenuOverlay">
+  <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Fechar menu"></button>
+
+  <div class="mobile-menu-content">
+    <div class="mobile-accordion">
+      <button class="mobile-accordion-toggle" data-target="mobilePanelProgramas">
+        <svg class="mobile-accordion-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Programas
+      </button>
+      <div class="mobile-accordion-panel" id="mobilePanelProgramas">
+        <a href="highschool.html">High School</a>
+        <a href="english.html">English Classes</a>
+        <a href="tecnicos.html">Cursos Técnicos</a>
+      </div>
+    </div>
+
+    <div class="mobile-accordion">
+      <button class="mobile-accordion-toggle" data-target="mobilePanelContato">
+        <svg class="mobile-accordion-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Contato
+      </button>
+      <div class="mobile-accordion-panel" id="mobilePanelContato">
+        <a href="contato.html">Suporte</a>
+        <a href="compra.html">Apply now</a>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- HERO VIDEO FULL WIDTH -->
 <section class="hero-section">
@@ -741,7 +968,7 @@
     // Recorta as letras com zoom
     ctx.globalCompositeOperation = 'destination-out';
 
-    const baseFontSize = Math.min(W * 0.06, 130);
+    const baseFontSize = W < 640 ? Math.min(W * 0.17, 100) : Math.min(W * 0.06, 130);
     const fontSize = baseFontSize * scale;
     ctx.font = `900 ${fontSize}px 'Helvetica Neue'`;
     ctx.textAlign = 'center';
@@ -808,26 +1035,26 @@
 </script>
 
 <!-- SEÇÃO COMPARATIVO -->
-<section id="comparativo" style="background:#f5f5f7; padding: 100px 64px; font-family:'Helvetica Neue';">
-  <div style="display:flex; gap:56px; max-width:1140px; margin:0 auto; align-items:flex-start;">
+<section id="comparativo" class="comparativo-section" style="background:#f5f5f7; padding: 100px 64px; font-family:'Helvetica Neue';">
+  <div class="comparativo-row" style="display:flex; gap:56px; max-width:1140px; margin:0 auto; align-items:flex-start;">
 
     <!-- Coluna Intercâmbio Tradicional -->
     <div class="comp-col" style="flex:1; opacity:0; transform:translateY(40px); transition: opacity 0.7s ease, transform 0.7s ease;">
-      <p style="font-family:'Helvetica Neue'; font-size:clamp(20px,2.5vw,28px); font-weight:700; color:#86868b; margin-bottom:12px;">Intercâmbio Tradicional</p>
-      <p style="font-family:'Helvetica Neue'; font-size:clamp(40px,5vw,64px); font-weight:700; color:#1d1d1f; line-height:1; margin-bottom:24px;">$<span id="counter1">0</span> mil <span style="font-size:clamp(16px,2vw,22px); font-weight:400; color:#86868b;">Ano</span></p>
-      <p style="font-family:'Helvetica Neue'; font-size:14px; color:#555; line-height:1.7; margin-bottom:16px;">Essa é a média de valores cobrados em serviços tradicionais de intercâmbio presenciais.</p>
-      <p style="font-family:'Helvetica Neue'; font-size:13px; color:#86868b; line-height:1.6;">*Esses serviços não garantem o diploma de High School Americano.</p>
+      <p class="comp-label" style="font-family:'Helvetica Neue'; font-size:clamp(20px,2.5vw,28px); font-weight:700; color:#86868b; margin-bottom:12px;">Intercâmbio Tradicional</p>
+      <p class="comp-value" style="font-family:'Helvetica Neue'; font-size:clamp(40px,5vw,64px); font-weight:700; color:#1d1d1f; line-height:1; margin-bottom:24px;">$<span id="counter1">0</span> mil <span class="comp-suffix" style="font-size:clamp(16px,2vw,22px); font-weight:400; color:#86868b;">Ano</span></p>
+      <p class="comp-desc" style="font-family:'Helvetica Neue'; font-size:14px; color:#555; line-height:1.7; margin-bottom:16px;">Essa é a média de valores cobrados em serviços tradicionais de intercâmbio presenciais.</p>
+      <p class="comp-note" style="font-family:'Helvetica Neue'; font-size:13px; color:#86868b; line-height:1.6;">*Esses serviços não garantem o diploma de High School Americano.</p>
     </div>
 
     <!-- Divisor -->
-    <div style="width:1px; background:#d2d2d7; align-self:stretch; margin-top:40px;"></div>
+    <div class="comparativo-divider" style="width:1px; background:#d2d2d7; align-self:stretch; margin-top:40px;"></div>
 
     <!-- Coluna Facilitta -->
     <div class="comp-col" style="flex:1; text-align:right; opacity:0; transform:translateY(40px); transition: opacity 0.7s ease 0.2s, transform 0.7s ease 0.2s;">
-      <p style="font-family:'Helvetica Neue'; font-size:clamp(20px,2.5vw,28px); font-weight:700; color:#86868b; margin-bottom:12px;"><strong style="color:#E8391D;">Facilitta</strong> High School</p>
-      <p style="font-family:'Helvetica Neue'; font-size:clamp(40px,5vw,64px); font-weight:700; color:#1d1d1f; line-height:1; margin-bottom:24px;">$<span id="counter2">0</span> mil <span style="font-size:clamp(16px,2vw,22px); font-weight:400; color:#86868b;">Completo</span></p>
-      <p style="font-family:'Helvetica Neue'; font-size:14px; color:#555; line-height:1.7; margin-bottom:16px; text-align:right;">Serviço completo com o processo de entrada nas faculdades e assessoria inclusos.</p>
-      <p style="font-family:'Helvetica Neue'; font-size:13px; color:#555; line-height:1.6; text-align:right;">Documentação e diploma garantidos ao final do curso</p>
+      <p class="comp-label" style="font-family:'Helvetica Neue'; font-size:clamp(20px,2.5vw,28px); font-weight:700; color:#86868b; margin-bottom:12px;"><strong style="color:#E8391D;">Facilitta</strong> High School</p>
+      <p class="comp-value" style="font-family:'Helvetica Neue'; font-size:clamp(40px,5vw,64px); font-weight:700; color:#1d1d1f; line-height:1; margin-bottom:24px;">$<span id="counter2">0</span> mil <span class="comp-suffix" style="font-size:clamp(16px,2vw,22px); font-weight:400; color:#86868b;">Completo</span></p>
+      <p class="comp-desc" style="font-family:'Helvetica Neue'; font-size:14px; color:#555; line-height:1.7; margin-bottom:16px; text-align:right;">Serviço completo com o processo de entrada nas faculdades e assessoria inclusos.</p>
+      <p class="comp-note" style="font-family:'Helvetica Neue'; font-size:13px; color:#555; line-height:1.6; text-align:right;">Documentação e diploma garantidos ao final do curso</p>
     </div>
 
   </div>
@@ -964,29 +1191,29 @@ livroItems.forEach(el => livroObserver.observe(el));
 </script>
 
 <!-- SEÇÃO COMPRAR — ESTILO APPLE -->
-<section id="comprar" style="background:#f5f5f7; padding: 100px 64px;">
+<section id="comprar" class="comprar-section" style="background:#f5f5f7; padding: 100px 64px;">
   <div style="max-width:1200px; margin:0 auto;">
 
-    <h2 class="txt-titulo" style="font-family:'Helvetica Neue'; font-size:clamp(28px,3.8vw,48px); color:#1d1d1f; line-height:1.3; margin-bottom:48px;">Tire seu sonho do papel.<br/><span style="color:#E8391D;">Comece hoje.</span></h2>
+    <h2 class="txt-titulo comprar-title" style="font-family:'Helvetica Neue'; font-size:clamp(28px,3.8vw,48px); color:#1d1d1f; line-height:1.3; margin-bottom:48px;"><span class="comprar-title-line1">Tire seu sonho do papel.</span><br class="comprar-title-break"/><span style="color:#E8391D;">Comece hoje.</span></h2>
 
-    <div style="display:flex; gap:32px; align-items:stretch; flex-wrap:wrap;">
+    <div class="comprar-row" style="display:flex; gap:32px; align-items:stretch; flex-wrap:wrap;">
 
       <!-- Coluna esquerda: carrossel horizontal (maior) -->
-      <div style="flex:1.6; min-width:360px; height:460px; background:#fff; border-radius:24px; padding:28px 40px; position:relative; display:flex; flex-direction:column; justify-content:space-between; overflow:hidden;">
+      <div class="comprar-col-left comprar-box-left" style="flex:1.6; min-width:360px; height:460px; background:#fff; border-radius:24px; padding:28px 40px; position:relative; display:flex; flex-direction:column; justify-content:space-between; overflow:hidden;">
 
-        <div style="height:368px; overflow:hidden;">
+        <div class="comprar-carousel-frame" style="height:368px; overflow:hidden;">
         <div id="buyCarousel" style="display:flex; height:388px; overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; scrollbar-width:none; gap:0;">
 
           <!-- Slide 1: Manual do Aluno (título em cima, imagem grande embaixo) -->
           <div style="flex:0 0 100%; height:100%; scroll-snap-align:start; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:11px; padding:0 8px;">
             <p class="txt-subtitulo" style="font-size:clamp(17px,1.9vw,21px); color:#1d1d1f; margin:0; text-align:center; font-weight:400; letter-spacing:0px; position:relative; z-index:2;">Manual do aluno</p>
-            <div style="height:316px; aspect-ratio:16/9; background:#e5e5e7 url('https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/livros.jpeg') center/cover no-repeat; border-radius:14px; margin-top:-28px; position:relative; z-index:1;">
+            <div class="comprar-slide-img" style="height:316px; aspect-ratio:16/9; background:#e5e5e7 url('https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/livros.jpeg') center/cover no-repeat; border-radius:14px; margin-top:-28px; position:relative; z-index:1;">
             </div>
           </div>
 
           <!-- Slide 2: Curso de inglês (texto esquerda, imagem direita) -->
           <div style="flex:0 0 100%; height:100%; scroll-snap-align:start; display:flex; flex-direction:row-reverse; align-items:center; gap:32px; padding:0 8px;">
-            <div style="flex:0 0 150px; width:150px; height:200px; background:#e5e5e7; border-radius:14px; display:flex; align-items:center; justify-content:center; color:#a0a0a5; font-size:12px; font-weight:600; text-align:center; padding:16px;">
+            <div class="comprar-slide2-img" style="flex:0 0 150px; width:150px; height:200px; background:#e5e5e7; border-radius:14px; display:flex; align-items:center; justify-content:center; color:#a0a0a5; font-size:12px; font-weight:600; text-align:center; padding:16px;">
               [ Imagem do curso ]
             </div>
             <p style="font-family:'Helvetica Neue'; font-weight:500; font-size:clamp(17px,1.9vw,20px); color:#1d1d1f; line-height:1.6; letter-spacing:0px; margin:0; flex:1;">Ganhe um curso completo de inglês para você chegar preparado na sua jornada americana</p>
@@ -995,7 +1222,7 @@ livroItems.forEach(el => livroObserver.observe(el));
           <!-- Slide 3: Plataforma (título em cima, imagem grande embaixo) -->
           <div style="flex:0 0 100%; height:100%; scroll-snap-align:start; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; padding:0 8px;">
             <p class="txt-subtitulo" style="font-size:clamp(17px,1.9vw,21px); color:#1d1d1f; margin:0; text-align:center; font-weight:400; letter-spacing:0px; margin-top:-14px;">Plataforma de estudos</p>
-            <div style="height:300px; aspect-ratio:16/9; background:#e5e5e7 url('https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/card-facilitta-grades.jpeg') center/cover no-repeat; border-radius:14px;">
+            <div class="comprar-slide-img" style="height:300px; aspect-ratio:16/9; background:#e5e5e7 url('https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/card-facilitta-grades.jpeg') center/cover no-repeat; border-radius:14px;">
             </div>
           </div>
 
@@ -1022,41 +1249,28 @@ livroItems.forEach(el => livroObserver.observe(el));
       </div>
 
       <!-- Coluna direita: modelo estilo Apple (mais estreita) -->
-      <div style="flex:1; min-width:280px; display:flex; flex-direction:column; justify-content:center; gap:16px;">
+      <div class="comprar-col-right" style="flex:1; min-width:280px; display:flex; flex-direction:column; justify-content:center; gap:16px;">
 
-        <p style="font-size:15px; color:#86868b; margin:0 0 4px;"><span style="font-weight:500; color:#1d1d1f;">Apply</span> now!</p>
-
-        <!-- Card destaque (borda preta, estilo central Apple) -->
-        <div style="display:flex; gap:12px; align-items:stretch;">
-          <a href="compra.html" style="flex:1; text-decoration:none; display:flex; align-items:center; justify-content:space-between; border:2px solid #1d1d1f; border-radius:16px; padding:32px 24px; cursor:pointer; transition:opacity .2s;">
-            <div>
-              <p class="txt-corpo" style="font-size:18px; color:#1d1d1f; margin:0;">High School<br/>Americano</p>
-            </div>
-            <div style="text-align:right;">
-              <p style="font-size:13px; color:#1d1d1f; line-height:1.5; margin:0;">No seu ritmo<br/>No seu tempo</p>
-            </div>
-          </a>
-          <div style="width:8px; flex-shrink:0;"></div>
-        </div>
+        <p class="comprar-eyebrow" style="font-size:15px; color:#86868b; margin:0 0 4px;"><span style="font-weight:500; color:#1d1d1f;">Apply</span> now!</p>
 
         <!-- Passo a passo vertical com scroll + bolinhas -->
-        <div style="display:flex; gap:12px; align-items:center;">
-          <div style="flex:1; overflow:hidden; border-radius:16px;">
+        <div class="comprar-steps-wrap" style="display:flex; gap:12px; align-items:center;">
+          <div class="comprar-steps-frame" style="flex:1; overflow:hidden; border-radius:16px;">
           <div id="stepsTrack" style="width:calc(100% + 20px); margin-left:-10px; height:220px; overflow-y:scroll; scrollbar-width:none; -ms-overflow-style:none; scroll-snap-type:y mandatory; -webkit-overflow-scrolling:touch; background:#fff;">
 
             <!-- Etapa 1 -->
-            <div style="height:220px; scroll-snap-align:start; display:flex; align-items:center; justify-content:center; text-align:center; padding:0 20px;">
-              <p class="txt-corpo" style="font-family:'Helvetica Neue'; font-size:16px; color:#4a4a4c; line-height:1.6; margin:0 10px; text-align:center;">Um guia completo e exclusivo Facilitta, feito pra acompanhar o aluno em cada etapa da sua trajetória no High School Americano, com clareza sobre o que vem pela frente, do primeiro passo até a formatura.</p>
+            <div class="comprar-step-item" style="height:220px; scroll-snap-align:start; display:flex; align-items:center; justify-content:center; text-align:center; padding:0 20px;">
+              <p class="txt-corpo steps-text" style="font-family:'Helvetica Neue'; font-size:16px; color:#4a4a4c; line-height:1.6; margin:0 10px; text-align:center;">Um guia completo e exclusivo Facilitta, feito pra acompanhar o aluno em cada etapa da sua trajetória no High School Americano, com clareza sobre o que vem pela frente, do primeiro passo até a formatura.</p>
             </div>
 
             <!-- Etapa 2 -->
-            <div style="height:220px; scroll-snap-align:start; display:flex; align-items:center; justify-content:center; text-align:center; padding:0 20px;">
-              <p class="txt-corpo" style="font-family:'Helvetica Neue'; font-size:16px; color:#4a4a4c; line-height:1.6; margin:0 10px; text-align:center;">Aulas com uma professora americana nativa, especialista no método Fonix, a mesma técnica usada nos Estados Unidos para o aprendizado de inglês. Um curso completo e muito didático, pensado pra já preparar o aluno pra sua jornada americana.</p>
+            <div class="comprar-step-item" style="height:220px; scroll-snap-align:start; display:flex; align-items:center; justify-content:center; text-align:center; padding:0 20px;">
+              <p class="txt-corpo steps-text" style="font-family:'Helvetica Neue'; font-size:16px; color:#4a4a4c; line-height:1.6; margin:0 10px; text-align:center;">Aulas com uma professora americana nativa, especialista no método Fonix, a mesma técnica usada nos Estados Unidos para o aprendizado de inglês. Um curso completo e muito didático, pensado pra já preparar o aluno pra sua jornada americana.</p>
             </div>
 
             <!-- Etapa 3 (final) -->
-            <div id="stepFinal" style="min-height:220px; scroll-snap-align:start; display:flex; align-items:center; justify-content:center; text-align:center; padding:0 20px;">
-              <p class="txt-corpo" style="font-family:'Helvetica Neue'; font-size:16px; color:#4a4a4c; line-height:1.6; margin:0 10px; text-align:center;">Uma plataforma própria, 100% em inglês e totalmente interativa. É nela que o aluno cursa as matérias, faz os exercícios, aprende e tira dúvidas, acompanhando de perto toda a sua evolução no programa.</p>
+            <div id="stepFinal" class="comprar-step-item" style="min-height:220px; scroll-snap-align:start; display:flex; align-items:center; justify-content:center; text-align:center; padding:0 20px;">
+              <p class="txt-corpo steps-text" style="font-family:'Helvetica Neue'; font-size:16px; color:#4a4a4c; line-height:1.6; margin:0 10px; text-align:center;">Uma plataforma própria, 100% em inglês e totalmente interativa. É nela que o aluno cursa as matérias, faz os exercícios, aprende e tira dúvidas, acompanhando de perto toda a sua evolução no programa.</p>
             </div>
 
           </div>
@@ -1068,6 +1282,19 @@ livroItems.forEach(el => livroObserver.observe(el));
             <span class="stepDot" data-index="1" style="width:8px; height:8px; border-radius:50%; background:#d2d2d7; cursor:pointer; transition:background .2s;"></span>
             <span class="stepDot" data-index="2" style="width:8px; height:8px; border-radius:50%; background:#d2d2d7; cursor:pointer; transition:background .2s;"></span>
           </div>
+        </div>
+
+        <!-- Card destaque (borda preta, estilo central Apple) -->
+        <div class="comprar-btn-wrap" style="display:flex; gap:12px; align-items:stretch;">
+          <a href="compra.html" class="buy-card-btn" style="flex:1; text-decoration:none; display:flex; align-items:center; justify-content:space-between; border:2px solid #1d1d1f; border-radius:16px; padding:32px 24px; cursor:pointer; transition:opacity .2s;">
+            <div>
+              <p class="txt-corpo" style="font-size:18px; color:#1d1d1f; margin:0;">High School<br/>Americano</p>
+            </div>
+            <div style="text-align:right;">
+              <p style="font-size:13px; color:#1d1d1f; line-height:1.5; margin:0;">No seu ritmo<br/>No seu tempo</p>
+            </div>
+          </a>
+          <div style="width:8px; flex-shrink:0;"></div>
         </div>
 
       </div>
@@ -1203,6 +1430,48 @@ livroItems.forEach(el => livroObserver.observe(el));
       navDropdown.classList.remove('active');
     }
   });
+</script>
+
+<!-- MENU MOBILE SCRIPT -->
+<script>
+  const navBurgerBtn = document.getElementById('navBurgerBtn');
+  const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+  const mobileMenuClose = document.getElementById('mobileMenuClose');
+
+  navBurgerBtn.addEventListener('click', () => {
+    mobileMenuOverlay.classList.add('active');
+  });
+  mobileMenuClose.addEventListener('click', () => {
+    mobileMenuOverlay.classList.remove('active');
+  });
+
+  document.querySelectorAll('.mobile-accordion-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      btn.closest('.mobile-accordion').classList.toggle('open');
+    });
+  });
+
+  document.querySelectorAll('.mobile-accordion-panel a').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenuOverlay.classList.remove('active');
+    });
+  });
+</script>
+
+<!-- NAVBAR DE SCROLL (mobile) SCRIPT -->
+<script>
+  const navStickyMobile = document.getElementById('navStickyMobile');
+  const heroSectionEl = document.querySelector('.hero-section');
+  if (navStickyMobile && heroSectionEl) {
+    const scrollThreshold = heroSectionEl.offsetHeight / 2;
+    window.addEventListener('scroll', function() {
+      if (window.scrollY > scrollThreshold) {
+        navStickyMobile.classList.add('visible');
+      } else {
+        navStickyMobile.classList.remove('visible');
+      }
+    }, { passive: true });
+  }
 </script>
 
 </body>

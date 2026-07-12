@@ -336,6 +336,7 @@ nav {
       position: relative;
       z-index: 10;
       padding: 0 40px;
+      margin-top: 18px;
     }
     .hero-tagline {
       font-size: clamp(36px, 5vw, 68px);
@@ -491,7 +492,7 @@ nav {
       .card-big img { object-position: left center; }
 
       /* Hero: textos maiores no mobile */
-      .hero-title, .hero-tagline { font-size: 44px; }
+      .hero-title, .hero-tagline { font-size: 44px; line-height: 2.0; letter-spacing: 0px; }
       .hero-eyebrow { font-size: 14px; letter-spacing: 2px; }
 
       /* Quadro branco: sem borda arredondada, recuo mínimo, 30px de gap com o hero, título dentro */
@@ -721,7 +722,6 @@ nav {
     }
 
     @media (max-width: 480px) {
-      .hero-title { letter-spacing: -1.5px; }
     }
 
     /* FLOATING WHATSAPP */

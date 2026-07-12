@@ -188,19 +188,110 @@ nav {
 }
 .nav-cta:hover { opacity: 0.88; transform: scale(1.02); }
 
+/* ── BOTÃO HAMBÚRGUER (mobile) ── */
+.nav-burger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 5px;
+  width: 30px;
+  height: 22px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+.nav-burger span {
+  display: block;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--red);
+}
+.nav-burger span:nth-child(1) { width: 100%; }
+.nav-burger span:nth-child(2) { width: 68%; }
+.nav-burger span:nth-child(3) { width: 100%; }
+
+/* ── MENU OVERLAY MOBILE ── */
+.mobile-menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: #ffffff;
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 28px;
+  transform: translateY(-8px);
+  opacity: 0;
+  visibility: hidden;
+  transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s;
+}
+.mobile-menu-overlay.active {
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
+}
+.mobile-menu-close {
+  align-self: flex-end;
+  width: 32px; height: 32px;
+  position: relative;
+  background: none; border: none; cursor: pointer;
+  margin-top: 8px;
+}
+.mobile-menu-close::before, .mobile-menu-close::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 22px; height: 2px;
+  background: var(--dark);
+}
+.mobile-menu-close::before { transform: translate(-50%,-50%) rotate(45deg); }
+.mobile-menu-close::after { transform: translate(-50%,-50%) rotate(-45deg); }
+
+.mobile-menu-content { margin-top: 56px; }
+.mobile-accordion { border-bottom: 1px solid rgba(0,0,0,0.08); }
+.mobile-accordion-toggle {
+  width: 100%;
+  display: flex; align-items: center; gap: 12px;
+  background: none; border: none;
+  font-family: 'Helvetica Neue'; font-weight: 500; font-size: 21px;
+  color: var(--dark);
+  padding: 22px 0;
+  text-align: left;
+  cursor: pointer;
+}
+.mobile-accordion-arrow {
+  display: inline-block;
+  transition: transform 0.25s ease;
+  color: var(--red);
+  font-weight: 700;
+  font-size: 18px;
+}
+.mobile-accordion.open .mobile-accordion-arrow { transform: rotate(90deg); }
+.mobile-accordion-panel {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+  display: flex; flex-direction: column;
+}
+.mobile-accordion.open .mobile-accordion-panel { max-height: 260px; }
+.mobile-accordion-panel a {
+  padding: 14px 0 14px 30px;
+  font-family: 'Helvetica Neue'; font-weight: 400; font-size: 16px; color: #555;
+  text-decoration: none;
+  border-top: 1px solid rgba(0,0,0,0.05);
+}
+
 .nav-right { display: flex; align-items: center; gap: 20px; }
 
 /* MOBILE NAV */
 @media (max-width: 768px) {
   nav { padding: 0 14px; height: 60px; }
-  .nav-links { position: static; transform: none; gap: 14px; }
-  .nav-links a { font-size: 11px; }
-  .nav-dropdown-toggle { font-size: 13px; padding: 6px 10px; }
-  .nav-dropdown-menu { min-width: 160px; }
-  .nav-dropdown-menu a { padding: 10px 16px; font-size: 13px; }
+  .nav-links { display: none; }
   .nav-insta { display: none; }
   .nav-right { gap: 6px; }
-  .nav-cta { font-size: 12px; padding: 8px 14px; }
+  .nav-cta { display: none; }
+  .nav-burger { display: flex; }
 }
 
 
@@ -384,6 +475,7 @@ nav {
       text-align: center;
       margin-top: 12px;
     }
+    .about-title-mobile { display: none; }
     @media (max-width: 900px) {
       .about-section { padding-left: 0; padding-right: 0; }
       .about-card { max-width: 100%; }
@@ -397,6 +489,30 @@ nav {
       .about-card-text p { font-size: 15.5px; }
       .card-big { aspect-ratio: 4 / 3; }
       .card-big img { object-position: left center; }
+
+      /* Hero: textos maiores no mobile */
+      .hero-title, .hero-tagline { font-size: 44px; }
+      .hero-eyebrow { font-size: 14px; letter-spacing: 2px; }
+
+      /* Quadro branco: sem borda arredondada, recuo mínimo, 30px de gap com o hero, título dentro */
+      .about-section { padding-top: 30px; }
+      .about-title-main { display: none; }
+      .about-card {
+        max-width: calc(100% - 12px);
+        margin: 0 auto;
+        border-radius: 0;
+      }
+      .about-title-mobile {
+        display: block;
+        font-family: 'Helvetica Neue';
+        font-weight: 500;
+        font-size: clamp(28px, 8vw, 36px);
+        letter-spacing: -1px;
+        line-height: 1.15;
+        color: var(--dark);
+        text-align: left;
+        margin-bottom: 24px;
+      }
     }
 
     /* PROGRAMS */
@@ -499,8 +615,10 @@ nav {
 
     /* ── CARROSSEL VERTICAL MOBILE (estilo Apple) ── */
     .programs-mobile-carousel { display: none; }
+    .programs-title-mobile { display: none; }
     @media (max-width: 630px) {
       .programs-inner { display: none; }
+      .programs-title-mobile { display: block; margin-bottom: 20px; }
       .programs-mobile-carousel {
         display: flex;
         flex-direction: column;
@@ -584,11 +702,11 @@ nav {
     }
     @media (max-width: 768px) {
       nav { padding: 0 14px; height: 60px; }
-      .nav-links { position: static; transform: none; gap: 14px; }
-      .nav-links a { font-size: 11px; }
+      .nav-links { display: none; }
       .nav-insta { display: none; }
       .nav-right { gap: 6px; }
-      .nav-cta { font-size: 12px; padding: 8px 14px; }
+      .nav-cta { display: none; }
+      .nav-burger { display: flex; }
       .hero { padding: 130px 20px 64px; min-height: 70vh; }
       .about-section { grid-template-columns: 1fr; }
       .about-photo { min-height: 300px; }
@@ -663,8 +781,38 @@ nav {
       <img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/IMG_2105.jpeg" alt="Instagram" />
     </a>
     <a href="#" class="nav-cta">Apply now</a>
+    <button class="nav-burger" id="navBurgerBtn" aria-label="Abrir menu">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
+
+<div class="mobile-menu-overlay" id="mobileMenuOverlay">
+  <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Fechar menu"></button>
+
+  <div class="mobile-menu-content">
+    <div class="mobile-accordion">
+      <button class="mobile-accordion-toggle" data-target="mobilePanelProgramas">
+        <span class="mobile-accordion-arrow">&gt;</span> Programas
+      </button>
+      <div class="mobile-accordion-panel" id="mobilePanelProgramas">
+        <a href="highschool.html">High School</a>
+        <a href="english.html">English Classes</a>
+        <a href="tecnicos.html">Cursos Técnicos</a>
+      </div>
+    </div>
+
+    <div class="mobile-accordion">
+      <button class="mobile-accordion-toggle" data-target="mobilePanelContato">
+        <span class="mobile-accordion-arrow">&gt;</span> Contato
+      </button>
+      <div class="mobile-accordion-panel" id="mobilePanelContato">
+        <a href="contato.html">Suporte</a>
+        <a href="#">Apply now</a>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 <!-- HERO -->
@@ -700,8 +848,9 @@ nav {
 
 <!-- QUEM SOMOS -->
 <section class="about-section">
-  <h2 class="about-title-main reveal">Educação americana, sem sair do Brasil.</h2>
+  <h2 class="about-title-main reveal">Educação americana,<br/>sem sair do Brasil.</h2>
   <div class="about-card reveal">
+    <h2 class="about-title-mobile">Educação americana,<br/>sem sair do Brasil.</h2>
     <div class="about-card-text">
       <p>Nosso propósito é tornar acessível o sonho de estudar nos Estados Unidos. A Facilitta Academy nasceu para isso: aproximar a educação americana de qualquer aluno brasileiro, em qualquer cidade do país, eliminando as barreiras que normalmente cercam esse tipo de programa, processos complicados, falta de suporte em português e custos incompatíveis com a realidade de grande parte das famílias brasileiras.</p>
       <p>Nossos programas são cursados de forma remota e no ritmo de cada aluno, sempre com acompanhamento próximo desde a matrícula até a conclusão. Isso inclui documentação, orientação acadêmica e suporte contínuo em português, tudo pensado para que o aluno chegue preparado ao próximo passo da sua trajetória.</p>
@@ -740,6 +889,7 @@ nav {
   </div>
 
   <!-- CARROSSEL VERTICAL MOBILE (estilo Apple) -->
+  <h2 class="about-title programs-title-mobile" style="text-align: left; padding-left: 10px;">O que você quer explorar?</h2>
   <div class="programs-mobile-carousel">
     <div class="mobile-card mobile-card-hs">
       <div class="mobile-card-text">
@@ -839,6 +989,59 @@ nav {
     if (!navDropdown.contains(e.target)) {
       navDropdown.classList.remove('active');
     }
+  });
+</script>
+
+<!-- AUTOPLAY SCRIPT -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const video = document.querySelector('.hero-video');
+    if (video) {
+      video.muted = true;
+      video.playsInline = true;
+      video.setAttribute('playsinline', '');
+      video.setAttribute('webkit-playsinline', '');
+      video.removeAttribute('controls');
+
+      var tryPlay = function() {
+        video.play().catch(function() {});
+      };
+
+      tryPlay();
+
+      document.addEventListener('touchstart', tryPlay, { once: true });
+      document.addEventListener('click', tryPlay, { once: true });
+
+      document.addEventListener('visibilitychange', function() {
+        if (!document.hidden) tryPlay();
+      });
+    }
+  });
+</script>
+
+<!-- MENU MOBILE SCRIPT -->
+<script>
+  const navBurgerBtn = document.getElementById('navBurgerBtn');
+  const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+  const mobileMenuClose = document.getElementById('mobileMenuClose');
+
+  navBurgerBtn.addEventListener('click', () => {
+    mobileMenuOverlay.classList.add('active');
+  });
+  mobileMenuClose.addEventListener('click', () => {
+    mobileMenuOverlay.classList.remove('active');
+  });
+
+  document.querySelectorAll('.mobile-accordion-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      btn.closest('.mobile-accordion').classList.toggle('open');
+    });
+  });
+
+  document.querySelectorAll('.mobile-accordion-panel a').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenuOverlay.classList.remove('active');
+    });
   });
 </script>
 

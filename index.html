@@ -385,6 +385,8 @@ nav {
       margin-top: 12px;
     }
     @media (max-width: 900px) {
+      .about-section { padding-left: 0; padding-right: 0; }
+      .about-card { max-width: 100%; }
       .about-title-main { white-space: normal; font-size: clamp(28px, 8vw, 40px); }
       .about-card { flex-direction: column; padding: 20px; gap: 32px; }
       .about-card-photo { min-height: 260px; }
@@ -506,13 +508,13 @@ nav {
         padding: 0 10px;
       }
       .mobile-card {
-        min-height: 82vh;
+        min-height: 68vh;
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-start;
         text-align: center;
-        padding: 40px 32px;
+        padding: 56px 32px 40px;
         background: #ffffff;
       }
       .mobile-card-hs { background: #FDECE4; }

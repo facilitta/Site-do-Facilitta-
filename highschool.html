@@ -77,8 +77,8 @@
       letter-spacing: var(--ls-corpo);
     }
 
-    html { scroll-behavior: smooth; overflow-x: hidden; max-width: 100%; }
-    body { font-family: "Helvetica Neue"; background: var(--white); color: var(--dark); overflow-x: hidden; max-width: 100%; }
+    html { scroll-behavior: smooth; }
+    body { font-family: "Helvetica Neue"; background: var(--white); color: var(--dark); overflow-x: hidden; }
     * { font-style: normal !important; }
 
     /* NAV */
@@ -343,8 +343,12 @@
     .nav-right { display: flex; align-items: center; gap: 20px; position: relative; z-index: 2; }
 
     /* MOBILE NAV */
+    .poderes-break { display: none; }
     @media (max-width: 768px) {
       nav { padding: 0 14px; height: 60px; }
+      .hero-section { margin-top: 0 !important; }
+      .clip-sticky { height: 100dvh; }
+      .poderes-break { display: inline; }
       .nav-links { display: none; }
       .nav-insta { display: none; }
       .nav-right { gap: 6px; }
@@ -759,8 +763,14 @@
 
       /* Passo a passo: altura menor, e os 3 itens batendo com o stepsTrack (senão o texto vaza pro próximo) */
       .comprar-steps-frame { border-radius: 12px; }
-      #stepsTrack { height: 170px !important; }
-      .comprar-step-item { height: 170px !important; min-height: 170px !important; }
+      #stepsTrack { height: 240px !important; }
+      .comprar-step-item { height: 240px !important; min-height: 240px !important; }
+
+      /* Reorganização mobile: card horizontal (topo) -> steps verticais -> Apply now -> botão */
+      .comprar-col-right { display: flex !important; flex-direction: column !important; }
+      .comprar-steps-wrap { order: 1; width: 100%; }
+      .comprar-eyebrow { order: 2; margin-top: 20px; text-align: left; }
+      .comprar-btn-wrap { order: 3; }
 
       /* Botão da caixa (estava estourando a tela): empilha em vez de lado a lado */
       .buy-card-btn { flex-direction: column !important; align-items: flex-start !important; gap: 12px; padding: 24px 20px !important; }
@@ -952,6 +962,7 @@
   const canvas = document.getElementById('clipCanvas');
   const ctx = canvas.getContext('2d');
   const lines = ['O ensino', 'médio é', 'só o começo.'];
+  const endBoost = window.innerWidth < 768 ? 1.4 : 1;
 
   function draw(scale) {
     const W = canvas.offsetWidth;
@@ -968,7 +979,7 @@
     // Recorta as letras com zoom
     ctx.globalCompositeOperation = 'destination-out';
 
-    const baseFontSize = W < 640 ? Math.min(W * 0.17, 100) : Math.min(W * 0.06, 130);
+    const baseFontSize = Math.min(W * 0.06, 130);
     const fontSize = baseFontSize * scale;
     ctx.font = `900 ${fontSize}px 'Helvetica Neue'`;
     ctx.textAlign = 'center';
@@ -989,7 +1000,7 @@
     const section = document.getElementById('clipSection');
     const rect = section.getBoundingClientRect();
     const progress = Math.max(0, Math.min(1, -rect.top / (section.offsetHeight - window.innerHeight)));
-    const boost = progress < 0.4 ? progress * 4 : 0.4 * 4 + (progress - 0.4) * (0.6 / 0.6); const boosted = Math.min(boost, 1); const late = boosted > 0.7 ? 0.7 + (boosted - 0.7) * 20 : boosted; const clamped = Math.min(late, 1); const scale = 5000 * Math.pow(1 - clamped, 10) + 1;
+    const boost = progress < 0.4 ? progress * 4 : 0.4 * 4 + (progress - 0.4) * (0.6 / 0.6); const boosted = Math.min(boost, 1); const late = boosted > 0.7 ? 0.7 + (boosted - 0.7) * 20 : boosted; const clamped = Math.min(late, 1); const scale = 5000 * Math.pow(1 - clamped, 10) + endBoost;
     draw(scale);
   }
 
@@ -1004,7 +1015,7 @@
     const section = document.getElementById('clipSection');
     const rect = section.getBoundingClientRect();
     const progress = Math.max(0, Math.min(1, -rect.top / (section.offsetHeight - window.innerHeight)));
-    const boost = progress < 0.4 ? progress * 4 : 0.4 * 4 + (progress - 0.4) * (0.6 / 0.6); const boosted = Math.min(boost, 1); const late = boosted > 0.7 ? 0.7 + (boosted - 0.7) * 20 : boosted; const clamped = Math.min(late, 1); const scale = 5000 * Math.pow(1 - clamped, 10) + 1;
+    const boost = progress < 0.4 ? progress * 4 : 0.4 * 4 + (progress - 0.4) * (0.6 / 0.6); const boosted = Math.min(boost, 1); const late = boosted > 0.7 ? 0.7 + (boosted - 0.7) * 20 : boosted; const clamped = Math.min(late, 1); const scale = 5000 * Math.pow(1 - clamped, 10) + endBoost;
     draw(scale);
   });
 
@@ -1016,7 +1027,7 @@
     if (!section) return;
     const rect = section.getBoundingClientRect();
     const progress = Math.max(0, Math.min(1, -rect.top / (section.offsetHeight - window.innerHeight)));
-    const boost = progress < 0.4 ? progress * 4 : 0.4 * 4 + (progress - 0.4) * (0.6 / 0.6); const boosted = Math.min(boost, 1); const late = boosted > 0.7 ? 0.7 + (boosted - 0.7) * 20 : boosted; const clamped = Math.min(late, 1); const scale = 5000 * Math.pow(1 - clamped, 10) + 1;
+    const boost = progress < 0.4 ? progress * 4 : 0.4 * 4 + (progress - 0.4) * (0.6 / 0.6); const boosted = Math.min(boost, 1); const late = boosted > 0.7 ? 0.7 + (boosted - 0.7) * 20 : boosted; const clamped = Math.min(late, 1); const scale = 5000 * Math.pow(1 - clamped, 10) + endBoost;
     draw(scale);
 
     // Canvas permanece visível sempre
@@ -1162,7 +1173,7 @@ document.querySelectorAll('.vant-plus').forEach(btn => {
 
 <!-- FRASES DE IMPACTO (acima do livro) -->
 <section style="background:#f5f5f7; padding:60px 64px 0; text-align:center;">
-  <p class="txt-titulo" style="font-family:'Helvetica Neue'; font-size:clamp(28px,3.4vw,44px); color:#1d1d1f; line-height:1.3; max-width:760px; margin:0 auto;">Com grandes <span style="color:#E8391D;">poderes</span>, vem grandes <span style="color:#E8391D;">responsabilidades</span></p>
+  <p class="txt-titulo" style="font-family:'Helvetica Neue'; font-size:clamp(28px,3.4vw,44px); color:#1d1d1f; line-height:1.3; max-width:760px; margin:0 auto;">Com grandes <span style="color:#E8391D;">poderes</span>,<br class="poderes-break"/>vem grandes <span style="color:#E8391D;">responsabilidades</span></p>
 </section>
 
 <!-- LIVRO + TEXTO -->

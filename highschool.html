@@ -291,7 +291,9 @@
         top: 0; left: 0; right: 0;
         height: 60px;
         padding: 0 16px;
-        background: var(--red);
+        background: rgba(232, 57, 29, 0.85);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
         z-index: 250;
         transform: translateY(-100%);
         transition: transform 0.35s ease;
@@ -743,29 +745,24 @@
     /* ── SEÇÃO COMPRAR: AJUSTE MOBILE (evita overflow horizontal) ── */
     @media (max-width: 768px) {
       .comprar-section { padding: 140px 20px 60px !important; }
+      .mobile-tab-content-wrap { margin-bottom: 60px; }
       .comprar-row { gap: 24px !important; }
       .comprar-col-left { flex: 0 0 100% !important; min-width: 0 !important; width: 100% !important; }
       .comprar-col-right { flex: 0 0 100% !important; min-width: 0 !important; width: 100% !important; }
 
-      /* Caixa do carrossel: altura livre, não mais travada em 460px */
-      .comprar-box-left { height: auto !important; padding: 20px !important; gap: 16px; }
-      .comprar-carousel-frame { height: 240px !important; }
-      #buyCarousel { height: 260px !important; }
+      /* Caixa do carrossel: sem cara de card branco, vira só o fundo cinza da página */
+      .comprar-box-left { height: auto !important; padding: 0 !important; gap: 0; background: transparent !important; border-radius: 0 !important; box-shadow: none !important; }
 
-      /* Imagens dos slides: tamanhos próprios pro mobile, sem sobreposição */
-      .comprar-slide-img { height: 160px !important; margin-top: 0 !important; }
-      .comprar-slide2-img { width: 110px !important; height: 150px !important; flex: 0 0 110px !important; }
-
-      /* Passo a passo: altura menor, e os 3 itens batendo com o stepsTrack (senão o texto vaza pro próximo) */
-      .comprar-steps-frame { border-radius: 12px; }
-      #stepsTrack { height: 180px !important; }
-      .comprar-step-item { height: 180px !important; min-height: 180px !important; }
-
-      /* Carrossel mobile novo: mostra o novo, esconde o antigo (desktop) */
+      /* Esconde TUDO do design antigo (carrossel desktop, carrossel mobile de cards, e o passo a passo/eyebrow antigos) */
       .comprar-carousel-frame { display: none !important; }
-      #buyCarouselMobile { display: flex !important; }
+      #buyPrev, #buyNext, .comprar-dots-desktop { display: none !important; }
+      #buyCarouselMobile { display: none !important; }
+      .comprar-eyebrow, .comprar-steps-wrap { display: none !important; }
 
-      /* Reorganização mobile: card horizontal (topo) -> steps verticais -> Apply now -> botão */
+      /* Mostra o componente novo de abas (estilo Apple) */
+      .mobile-tabs-component { display: block !important; }
+
+      /* Reorganização mobile: componente de abas (topo) -> botão */
       .comprar-col-right { display: flex !important; flex-direction: column !important; }
       .comprar-steps-wrap { order: 1; width: 100%; }
       .comprar-eyebrow { order: 2; margin-top: 20px; text-align: left; }
@@ -805,6 +802,99 @@
       .comprar-title { max-width: 100%; font-size: clamp(22px,6.2vw,32px) !important; }
       .comprar-title-line1 { white-space: nowrap; }
     }
+    /* ── COMPONENTE DE ABAS MOBILE (estilo Apple) ── */
+    .mobile-tabs-component { display: none; }
+    .mobile-tab-image-wrap {
+      position: relative;
+      width: 100%;
+      height: 220px;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #e5e5e7;
+      margin-bottom: 24px;
+    }
+    .mobile-tab-image {
+      position: absolute; inset: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+    .mobile-tab-image.active { opacity: 1; }
+
+    .mobile-tabs-bar-wrap { position: relative; max-width: 400px; margin: 0 auto; }
+    .mobile-tabs-bar {
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid #d2d2d7;
+      margin-bottom: 24px;
+      -webkit-mask-image: linear-gradient(to right, transparent 0, black 100px, black calc(100% - 100px), transparent 100%);
+      mask-image: linear-gradient(to right, transparent 0, black 100px, black calc(100% - 100px), transparent 100%);
+    }
+    .mobile-tabs-track {
+      display: flex;
+      gap: 14px;
+      width: max-content;
+      transition: transform 0.3s ease;
+    }
+    .mobile-tabs-arrow {
+      position: absolute;
+      top: 0;
+      bottom: 24px;
+      display: flex;
+      align-items: center;
+      width: 40px;
+      border: none;
+      background: none;
+      z-index: 3;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+      color: #9a9a9e;
+    }
+    .mobile-tabs-arrow svg { width: 20px; height: 20px; }
+    .mobile-tabs-arrow.visible { opacity: 1; pointer-events: auto; }
+    .mobile-tabs-arrow-left { left: 20px; justify-content: flex-start; }
+    .mobile-tabs-arrow-right { right: 20px; justify-content: flex-end; }
+    .mobile-tab-btn {
+      flex: 0 0 auto;
+      white-space: nowrap;
+      background: none;
+      border: none;
+      font-family: 'Helvetica Neue';
+      font-weight: 400;
+      font-size: 17px;
+      color: #9a9a9e;
+      padding: 0 12px 14px;
+      cursor: pointer;
+      text-align: center;
+      transition: color 0.2s ease;
+    }
+    .mobile-tab-btn.active { color: #1d1d1f; }
+    .mobile-tab-underline {
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      height: 2px;
+      background: var(--red);
+      transition: transform 0.3s ease, width 0.3s ease;
+    }
+
+    .mobile-tab-content-wrap { position: relative; min-height: 90px; }
+    .mobile-tab-text {
+      display: none;
+      opacity: 0;
+      font-family: 'Helvetica Neue';
+      font-weight: 400;
+      font-size: 15px;
+      color: #4a4a4c;
+      line-height: 1.6;
+      text-align: center;
+      margin: 0;
+      transition: opacity 0.2s ease;
+    }
+    .mobile-tab-text.active { display: block; opacity: 1; }
+
     @media (min-width: 769px) {
       .comprar-col-right { display: flex; flex-direction: column; }
       .comprar-eyebrow { order: 1; }
@@ -813,7 +903,7 @@
     }
     /* ── BLOCO FINAL DE SEGURANÇA MOBILE (prioridade máxima, evita overflow horizontal) ── */
     @media (max-width: 768px) {
-      html, body { max-width: 100vw !important; overflow-x: hidden !important; }
+      body { max-width: 100vw !important; overflow-x: hidden !important; }
       .comprar-section { max-width: 100vw !important; overflow-x: hidden !important; box-sizing: border-box !important; }
       .comprar-row { display: flex !important; flex-direction: column !important; flex-wrap: nowrap !important; width: 100% !important; max-width: 100% !important; }
       .comprar-col-left, .comprar-col-right {
@@ -829,6 +919,54 @@
       .comprar-eyebrow { order: 2 !important; margin-top: 20px !important; text-align: left !important; }
       .comprar-btn-wrap { order: 3 !important; width: 100% !important; max-width: 100% !important; }
       #buyCarousel, #stepsTrack { max-width: 100% !important; box-sizing: border-box !important; }
+    }
+    /* ── BOTÃO DE COMPRA MOBILE (novo) ── */
+    .buy-card-btn-mobile { display: none; }
+    @media (max-width: 768px) {
+      .buy-card-btn { display: none !important; }
+      .comprar-btn-wrap { display: none !important; }
+      .buy-card-btn-mobile {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        width: 100%;
+        margin: 20px 0;
+        text-decoration: none;
+        border: 1px solid #4a4a4c;
+        border-radius: 16px;
+        padding: 18px 20px;
+        cursor: pointer;
+        transition: opacity 0.2s ease;
+      }
+      .buy-card-btn-mobile:active { opacity: 0.85; }
+      .buy-mobile-left { flex: 1.3; text-align: left; max-width: 150px; }
+      .buy-mobile-title {
+        font-family: 'Helvetica Neue';
+        font-weight: 500;
+        font-size: 18px;
+        color: #1d1d1f;
+        margin: 0 0 4px;
+      }
+      .buy-mobile-subtitle {
+        font-family: 'Helvetica Neue';
+        font-weight: 400;
+        font-size: 12px;
+        color: #2b2b2b;
+        line-height: 1.4;
+        margin: 0;
+      }
+      .buy-mobile-cta {
+        font-family: 'Helvetica Neue';
+        font-weight: 300;
+        font-size: 11px;
+        color: #2b2b2b;
+        line-height: 1.4;
+        max-width: 85px;
+        text-align: right;
+        margin: 0;
+        flex: 1;
+      }
     }
   </style>
 </head>
@@ -1194,13 +1332,10 @@ document.querySelectorAll('.vant-plus').forEach(btn => {
 });
 </script>
 
-<!-- FRASES DE IMPACTO (acima do livro) -->
-<section style="background:#f5f5f7; padding:60px 64px 0; text-align:center;">
-  <p class="txt-titulo" style="font-family:'Helvetica Neue'; font-size:clamp(28px,3.4vw,44px); color:#1d1d1f; line-height:1.3; max-width:760px; margin:0 auto;">Com grandes <span style="color:#E8391D;">poderes</span>,<br/>vem grandes <span style="color:#E8391D;">responsabilidades</span>.</p>
-</section>
-
 <!-- LIVRO + TEXTO -->
-<section style="background:#ffffff; padding:100px 64px; width:100%; max-width:100%;">
+<section style="background:#ffffff; padding:100px 64px; width:100%; max-width:100%; text-align:center;">
+  <p class="txt-titulo" style="font-family:'Helvetica Neue'; font-size:clamp(28px,3.4vw,44px); color:#1d1d1f; line-height:1.3; max-width:760px; margin:0 auto 60px;">Com grandes <span style="color:#E8391D;">poderes</span>,<br/>vem grandes <span style="color:#E8391D;">responsabilidades</span>.</p>
+
   <div style="max-width:960px; margin:0 auto; display:flex; justify-content:center;">
 
     <!-- Livro -->
@@ -1228,25 +1363,34 @@ livroItems.forEach(el => livroObserver.observe(el));
 <section id="comprar" class="comprar-section" style="background:#f5f5f7; padding: 100px 64px;">
   <div style="max-width:1200px; margin:0 auto;">
 
+    <h2 class="txt-titulo comprar-title" style="font-family:'Helvetica Neue'; font-size:clamp(28px,3.8vw,48px); color:#1d1d1f; line-height:1.3; margin-bottom:48px;"><span class="comprar-title-line1">Tire seu sonho do papel.</span><br class="comprar-title-break"/><span style="color:#E8391D;">Comece hoje.</span></h2>
+
+    <!-- Botão de compra mobile (logo abaixo do título geral, acima dos slides) -->
+    <a href="compra.html" class="buy-card-btn-mobile">
+      <div class="buy-mobile-left">
+        <p class="buy-mobile-title">American High School</p>
+        <p class="buy-mobile-subtitle">Faça aqui sua application! Agende um horário.</p>
+      </div>
+      <p class="buy-mobile-cta">Seu sonho de estudar nos Estados Unidos mais perto do que você imagina.</p>
+    </a>
+
     <div class="comprar-row" style="display:flex; gap:32px; align-items:stretch; flex-wrap:wrap;">
 
       <!-- Coluna esquerda: carrossel horizontal (maior) -->
-      <div class="comprar-col-left comprar-box-left" style="flex:1.6; min-width:360px; height:540px; background:#fff; border-radius:24px; padding:28px 40px; position:relative; display:flex; flex-direction:column; justify-content:space-between; overflow:hidden;">
-
-        <h2 class="txt-titulo comprar-title" style="font-family:'Helvetica Neue'; font-size:clamp(20px,2.4vw,28px); color:#1d1d1f; line-height:1.3; margin-bottom:20px;"><span class="comprar-title-line1">Tire seu sonho do papel.</span><br class="comprar-title-break"/><span style="color:#E8391D;">Comece hoje.</span></h2>
+      <div class="comprar-col-left comprar-box-left" style="flex:1.6; min-width:360px; height:460px; background:#fff; border-radius:24px; padding:28px 40px; position:relative; display:flex; flex-direction:column; justify-content:space-between; overflow:hidden;">
 
         <div class="comprar-carousel-frame" style="height:368px; overflow:hidden;">
-        <div id="buyCarousel" style="display:flex; height:388px; overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; scrollbar-width:none; gap:14px;">
+        <div id="buyCarousel" style="display:flex; height:388px; overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; scrollbar-width:none; gap:0;">
 
           <!-- Slide 1: Manual do Aluno (título em cima, imagem grande embaixo) -->
-          <div style="flex:0 0 78%; height:100%; scroll-snap-align:start; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:11px; padding:0 8px;">
+          <div style="flex:0 0 100%; height:100%; scroll-snap-align:start; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:11px; padding:0 8px;">
             <p class="txt-subtitulo" style="font-size:clamp(17px,1.9vw,21px); color:#1d1d1f; margin:0; text-align:center; font-weight:400; letter-spacing:0px; position:relative; z-index:2;">Manual do aluno</p>
             <div class="comprar-slide-img" style="height:316px; aspect-ratio:16/9; background:#e5e5e7 url('https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/livros.jpeg') center/cover no-repeat; border-radius:14px; margin-top:-28px; position:relative; z-index:1;">
             </div>
           </div>
 
           <!-- Slide 2: Curso de inglês (texto esquerda, imagem direita) -->
-          <div style="flex:0 0 78%; height:100%; scroll-snap-align:start; display:flex; flex-direction:row-reverse; align-items:center; gap:32px; padding:0 8px;">
+          <div style="flex:0 0 100%; height:100%; scroll-snap-align:start; display:flex; flex-direction:row-reverse; align-items:center; gap:32px; padding:0 8px;">
             <div class="comprar-slide2-img" style="flex:0 0 150px; width:150px; height:200px; background:#e5e5e7; border-radius:14px; display:flex; align-items:center; justify-content:center; color:#a0a0a5; font-size:12px; font-weight:600; text-align:center; padding:16px;">
               [ Imagem do curso ]
             </div>
@@ -1254,7 +1398,7 @@ livroItems.forEach(el => livroObserver.observe(el));
           </div>
 
           <!-- Slide 3: Plataforma (título em cima, imagem grande embaixo) -->
-          <div style="flex:0 0 78%; height:100%; scroll-snap-align:start; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; padding:0 8px;">
+          <div style="flex:0 0 100%; height:100%; scroll-snap-align:start; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; padding:0 8px;">
             <p class="txt-subtitulo" style="font-size:clamp(17px,1.9vw,21px); color:#1d1d1f; margin:0; text-align:center; font-weight:400; letter-spacing:0px; margin-top:-14px;">Plataforma de estudos</p>
             <div class="comprar-slide-img" style="height:300px; aspect-ratio:16/9; background:#e5e5e7 url('https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/card-facilitta-grades.jpeg') center/cover no-repeat; border-radius:14px;">
             </div>
@@ -1263,16 +1407,52 @@ livroItems.forEach(el => livroObserver.observe(el));
         </div>
         </div>
 
-        <!-- Carrossel mobile (novo, do zero, 3 cards brancos) -->
-        <div id="buyCarouselMobile" style="display:none; height:280px; overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; scrollbar-width:none; gap:14px;">
-          <div class="mobile-slide-card" style="flex:0 0 78%; height:100%; scroll-snap-align:start; background:#ffffff; border:1px solid #ececec; border-radius:20px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; padding:20px;">
-            <p style="font-family:'Helvetica Neue'; font-weight:500; font-size:18px; color:#1d1d1f; margin:0; text-align:center;">Manual do aluno</p>
-            <div style="width:100%; flex:1; background:#e5e5e7 url('https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/livros.jpeg') center/cover no-repeat; border-radius:14px;"></div>
+        <!-- Setas -->
+        <button id="buyPrev" aria-label="Anterior" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); width:36px; height:36px; border-radius:50%; background:#fff; border:1px solid #e0e0e0; box-shadow:0 2px 8px rgba(0,0,0,0.08); display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:2;">
+          <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M11 3L5 9l6 6" stroke="#1d1d1f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button id="buyNext" aria-label="Próximo" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); width:36px; height:36px; border-radius:50%; background:#fff; border:1px solid #e0e0e0; box-shadow:0 2px 8px rgba(0,0,0,0.08); display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:2;">
+          <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M7 3l6 6-6 6" stroke="#1d1d1f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+
+        <!-- Bolinhas -->
+        <div class="comprar-dots-desktop" style="display:flex; justify-content:center;">
+          <div style="display:flex; gap:8px;">
+            <span class="buyDot" data-index="0" style="width:8px; height:8px; border-radius:50%; background:#1d1d1f; cursor:pointer; transition:background .2s;"></span>
+            <span class="buyDot" data-index="1" style="width:8px; height:8px; border-radius:50%; background:#d2d2d7; cursor:pointer; transition:background .2s;"></span>
+            <span class="buyDot" data-index="2" style="width:8px; height:8px; border-radius:50%; background:#d2d2d7; cursor:pointer; transition:background .2s;"></span>
           </div>
-          <div class="mobile-slide-card" style="flex:0 0 78%; height:100%; scroll-snap-align:start; background:#ffffff; border:1px solid #ececec; border-radius:20px;"></div>
-          <div class="mobile-slide-card" style="flex:0 0 78%; height:100%; scroll-snap-align:start; background:#ffffff; border:1px solid #ececec; border-radius:20px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; padding:20px;">
-            <p style="font-family:'Helvetica Neue'; font-weight:500; font-size:18px; color:#1d1d1f; margin:0; text-align:center;">Plataforma de estudos</p>
-            <div style="width:100%; flex:1; background:#e5e5e7 url('https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/card-facilitta-grades.jpeg') center/cover no-repeat; border-radius:14px;"></div>
+        </div>
+
+        <!-- Componente de abas mobile (estilo Apple: imagem + abas + texto) -->
+        <div id="mobileTabsComponent" class="mobile-tabs-component">
+          <div class="mobile-tab-image-wrap">
+            <div class="mobile-tab-image active" data-tab="0" style="background-image:url('https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/livros.jpeg');"></div>
+            <div class="mobile-tab-image" data-tab="1"></div>
+            <div class="mobile-tab-image" data-tab="2" style="background-image:url('https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/card-facilitta-grades.jpeg');"></div>
+          </div>
+
+          <div class="mobile-tabs-bar-wrap">
+            <button class="mobile-tabs-arrow mobile-tabs-arrow-left" id="tabsArrowLeft" aria-label="Anterior">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div class="mobile-tabs-bar" id="mobileTabsBar">
+              <div class="mobile-tabs-track" id="mobileTabsTrack">
+                <button class="mobile-tab-btn active" data-tab="0">Manual do aluno</button>
+                <button class="mobile-tab-btn" data-tab="1">Curso de inglês</button>
+                <button class="mobile-tab-btn" data-tab="2">Plataforma de estudos</button>
+              </div>
+              <div class="mobile-tab-underline" id="mobileTabUnderline"></div>
+            </div>
+            <button class="mobile-tabs-arrow mobile-tabs-arrow-right" id="tabsArrowRight" aria-label="Próximo">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+
+          <div class="mobile-tab-content-wrap">
+            <p class="mobile-tab-text active" data-tab="0">Um guia completo e exclusivo Facilitta, feito pra acompanhar o aluno em cada etapa da sua trajetória no High School Americano, com clareza sobre o que vem pela frente, do primeiro passo até a formatura.</p>
+            <p class="mobile-tab-text" data-tab="1">Aulas com uma professora americana nativa, especialista no método Fonix, a mesma técnica usada nos Estados Unidos para o aprendizado de inglês. Um curso completo e muito didático, pensado pra já preparar o aluno pra sua jornada americana.</p>
+            <p class="mobile-tab-text" data-tab="2">Uma plataforma própria, 100% em inglês e totalmente interativa. É nela que o aluno cursa as matérias, faz os exercícios, aprende e tira dúvidas, acompanhando de perto toda a sua evolução no programa.</p>
           </div>
         </div>
 
@@ -1331,6 +1511,10 @@ livroItems.forEach(el => livroObserver.observe(el));
   const stepsTrack = document.getElementById('stepsTrack');
   const trackDesktop = document.getElementById('buyCarousel');
   const trackMobile = document.getElementById('buyCarouselMobile');
+  const dots = document.querySelectorAll('.buyDot');
+  const stepDots = document.querySelectorAll('.stepDot');
+  const prevBtn = document.getElementById('buyPrev');
+  const nextBtn = document.getElementById('buyNext');
   const totalSlides = 3;
 
   let current = 0;
@@ -1338,13 +1522,20 @@ livroItems.forEach(el => livroObserver.observe(el));
 
   function activeTrack() {
     // Usa o que estiver visível de verdade (mobile ou desktop)
-    return trackMobile.offsetParent !== null ? trackMobile : trackDesktop;
+    if (trackMobile && trackMobile.offsetParent !== null) return trackMobile;
+    return trackDesktop;
   }
 
   function cardStep(track) {
     const firstCard = track.children[0];
-    const gap = 14;
+    const gap = parseFloat(getComputedStyle(track).columnGap || getComputedStyle(track).gap) || 0;
     return firstCard ? firstCard.getBoundingClientRect().width + gap : track.offsetWidth;
+  }
+
+  function updateDots(dotList, index) {
+    dotList.forEach((d, i) => {
+      d.style.background = i === index ? '#1d1d1f' : '#d2d2d7';
+    });
   }
 
   function goTo(index) {
@@ -1352,13 +1543,25 @@ livroItems.forEach(el => livroObserver.observe(el));
     isSyncing = true;
 
     const track = activeTrack();
-    track.scrollTo({ left: cardStep(track) * current, behavior: 'smooth' });
-    stepsTrack.scrollTo({ top: stepsTrack.clientHeight * current, behavior: 'smooth' });
+    if (track) track.scrollTo({ left: cardStep(track) * current, behavior: 'smooth' });
+    if (stepsTrack) stepsTrack.scrollTo({ top: stepsTrack.clientHeight * current, behavior: 'smooth' });
+
+    updateDots(dots, current);
+    updateDots(stepDots, current);
 
     setTimeout(() => { isSyncing = false; }, 500);
   }
 
-  [trackDesktop, trackMobile].forEach((track) => {
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => goTo(i));
+  });
+  stepDots.forEach((dot, i) => {
+    dot.addEventListener('click', () => goTo(i));
+  });
+  if (prevBtn) prevBtn.addEventListener('click', () => goTo(current - 1));
+  if (nextBtn) nextBtn.addEventListener('click', () => goTo(current + 1));
+
+  [trackDesktop, trackMobile].filter(Boolean).forEach((track) => {
     track.addEventListener('scroll', () => {
       if (isSyncing) return;
       if (activeTrack() !== track) return;
@@ -1474,6 +1677,85 @@ livroItems.forEach(el => livroObserver.observe(el));
       mobileMenuOverlay.classList.remove('active');
     });
   });
+</script>
+
+<!-- COMPONENTE DE ABAS MOBILE SCRIPT -->
+<script>
+(function() {
+  const tabs = document.querySelectorAll('.mobile-tab-btn');
+  const images = document.querySelectorAll('.mobile-tab-image');
+  const texts = document.querySelectorAll('.mobile-tab-text');
+  const underline = document.getElementById('mobileTabUnderline');
+  const tabsBar = document.getElementById('mobileTabsBar');
+  const track = document.getElementById('mobileTabsTrack');
+  const arrowLeft = document.getElementById('tabsArrowLeft');
+  const arrowRight = document.getElementById('tabsArrowRight');
+  if (!tabs.length || !underline || !tabsBar || !track) return;
+
+  const total = tabs.length;
+  let currentOffset = 0;
+
+  function moveTrack(index) {
+    const btn = tabs[index];
+    const barWidth = tabsBar.clientWidth;
+    const trackWidth = track.scrollWidth;
+
+    let offset;
+    if (trackWidth <= barWidth) {
+      // Cabe tudo: centraliza o bloco inteiro
+      offset = (barWidth - trackWidth) / 2;
+    } else {
+      // Centraliza o título selecionado de verdade, mesmo que seja o primeiro ou último
+      const btnCenter = btn.offsetLeft + btn.offsetWidth / 2;
+      offset = barWidth / 2 - btnCenter;
+    }
+    currentOffset = offset;
+    track.style.transform = `translateX(${offset}px)`;
+    return offset;
+  }
+
+  function moveUnderline(btn, offset) {
+    const left = btn.offsetLeft + offset;
+    underline.style.width = btn.offsetWidth + 'px';
+    underline.style.transform = `translateX(${left}px)`;
+  }
+
+  function updateArrows(index) {
+    if (!arrowLeft || !arrowRight) return;
+    arrowLeft.classList.toggle('visible', index > 0);
+    arrowRight.classList.toggle('visible', index < total - 1);
+  }
+
+  function selectTab(index) {
+    tabs.forEach((t, i) => t.classList.toggle('active', i === index));
+    images.forEach((img, i) => img.classList.toggle('active', i === index));
+    texts.forEach((txt, i) => txt.classList.toggle('active', i === index));
+    const offset = moveTrack(index);
+    moveUnderline(tabs[index], offset);
+    updateArrows(index);
+  }
+
+  tabs.forEach((btn, i) => {
+    btn.addEventListener('click', () => selectTab(i));
+  });
+  if (arrowLeft) arrowLeft.addEventListener('click', () => {
+    const activeIndex = Array.from(tabs).findIndex(t => t.classList.contains('active'));
+    if (activeIndex > 0) selectTab(activeIndex - 1);
+  });
+  if (arrowRight) arrowRight.addEventListener('click', () => {
+    const activeIndex = Array.from(tabs).findIndex(t => t.classList.contains('active'));
+    if (activeIndex < total - 1) selectTab(activeIndex + 1);
+  });
+
+  window.addEventListener('load', () => {
+    const activeIndex = Array.from(tabs).findIndex(t => t.classList.contains('active'));
+    selectTab(activeIndex >= 0 ? activeIndex : 0);
+  });
+  window.addEventListener('resize', () => {
+    const activeIndex = Array.from(tabs).findIndex(t => t.classList.contains('active'));
+    selectTab(activeIndex >= 0 ? activeIndex : 0);
+  });
+})();
 </script>
 
 <!-- NAVBAR DE SCROLL (mobile) SCRIPT -->

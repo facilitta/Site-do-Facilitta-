@@ -799,7 +799,7 @@
       .buy-card-btn { padding: 36px 20px !important; }
 
       /* Título acima do livro: largura maior, frase na mesma linha */
-      .comprar-title { max-width: 100%; font-size: clamp(22px,6.2vw,32px) !important; }
+      .comprar-title { max-width: 100%; font-size: clamp(22px,6.2vw,32px) !important; margin-bottom: 20px !important; }
       .comprar-title-line1 { white-space: nowrap; }
     }
     /* ── COMPONENTE DE ABAS MOBILE (estilo Apple) ── */
@@ -809,18 +809,24 @@
       width: 100%;
       height: 220px;
       border-radius: 16px;
-      overflow: hidden;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      -webkit-overflow-scrolling: touch;
       background: #e5e5e7;
       margin-bottom: 24px;
+      display: flex;
     }
+    .mobile-tab-image-wrap::-webkit-scrollbar { display: none; }
     .mobile-tab-image {
-      position: absolute; inset: 0;
+      flex: 0 0 100%;
+      height: 100%;
+      scroll-snap-align: start;
       background-size: cover;
       background-position: center;
-      opacity: 0;
-      transition: opacity 0.25s ease;
     }
-    .mobile-tab-image.active { opacity: 1; }
 
     .mobile-tabs-bar-wrap { position: relative; max-width: 400px; margin: 0 auto; }
     .mobile-tabs-bar {
@@ -835,7 +841,7 @@
       display: flex;
       gap: 14px;
       width: max-content;
-      transition: transform 0.3s ease;
+      transition: transform 0.25s ease;
     }
     .mobile-tabs-arrow {
       position: absolute;
@@ -877,13 +883,15 @@
       left: 0;
       height: 2px;
       background: var(--red);
-      transition: transform 0.3s ease, width 0.3s ease;
+      transition: transform 0.25s ease, width 0.25s ease;
     }
 
-    .mobile-tab-content-wrap { position: relative; min-height: 90px; }
+    .mobile-tab-content-wrap { position: relative; overflow: hidden; transition: height 0.25s ease; }
     .mobile-tab-text {
-      display: none;
+      position: absolute;
+      top: 0; left: 0; width: 100%;
       opacity: 0;
+      pointer-events: none;
       font-family: 'Helvetica Neue';
       font-weight: 400;
       font-size: 15px;
@@ -891,9 +899,9 @@
       line-height: 1.6;
       text-align: center;
       margin: 0;
-      transition: opacity 0.2s ease;
+      transition: opacity 0.25s ease;
     }
-    .mobile-tab-text.active { display: block; opacity: 1; }
+    .mobile-tab-text.active { opacity: 1; pointer-events: auto; position: relative; }
 
     @media (min-width: 769px) {
       .comprar-col-right { display: flex; flex-direction: column; }
@@ -962,7 +970,7 @@
         font-size: 11px;
         color: #2b2b2b;
         line-height: 1.4;
-        max-width: 85px;
+        max-width: 105px;
         text-align: right;
         margin: 0;
         flex: 1;
@@ -1426,7 +1434,7 @@ livroItems.forEach(el => livroObserver.observe(el));
 
         <!-- Componente de abas mobile (estilo Apple: imagem + abas + texto) -->
         <div id="mobileTabsComponent" class="mobile-tabs-component">
-          <div class="mobile-tab-image-wrap">
+          <div class="mobile-tab-image-wrap" id="mobileImageWrap">
             <div class="mobile-tab-image active" data-tab="0" style="background-image:url('https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/livros.jpeg');"></div>
             <div class="mobile-tab-image" data-tab="1"></div>
             <div class="mobile-tab-image" data-tab="2" style="background-image:url('https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/card-facilitta-grades.jpeg');"></div>
@@ -1450,9 +1458,9 @@ livroItems.forEach(el => livroObserver.observe(el));
           </div>
 
           <div class="mobile-tab-content-wrap">
-            <p class="mobile-tab-text active" data-tab="0">Um guia completo e exclusivo Facilitta, feito pra acompanhar o aluno em cada etapa da sua trajetória no High School Americano, com clareza sobre o que vem pela frente, do primeiro passo até a formatura.</p>
-            <p class="mobile-tab-text" data-tab="1">Aulas com uma professora americana nativa, especialista no método Fonix, a mesma técnica usada nos Estados Unidos para o aprendizado de inglês. Um curso completo e muito didático, pensado pra já preparar o aluno pra sua jornada americana.</p>
-            <p class="mobile-tab-text" data-tab="2">Uma plataforma própria, 100% em inglês e totalmente interativa. É nela que o aluno cursa as matérias, faz os exercícios, aprende e tira dúvidas, acompanhando de perto toda a sua evolução no programa.</p>
+            <p class="mobile-tab-text active" data-tab="0">Ao aderir, você receberá um guia completo e exclusivo Facilitta, feito pra acompanhar o aluno em cada etapa da sua trajetória no High School Americano, com clareza sobre o que vem pela frente, do primeiro passo até a formatura.</p>
+            <p class="mobile-tab-text" data-tab="1">Ao matricula-se, você receberá, totalmente grátis, nosso curso de inglês online, tendo aulas com uma professora americana nativa, especialista no método Fonix, a mesma técnica usada nos Estados Unidos para o aprendizado de inglês. Um curso completo e muito didático, pensado pra já preparar o aluno pra sua jornada americana.</p>
+            <p class="mobile-tab-text" data-tab="2">Trabalhamos com uma plataforma de ensino americana, 100% em inglês e totalmente interativa. É nela que o aluno cursa as matérias, faz os exercícios, aprende e tira dúvidas, acompanhando de perto toda a sua evolução no programa.</p>
           </div>
         </div>
 
@@ -1683,17 +1691,17 @@ livroItems.forEach(el => livroObserver.observe(el));
 <script>
 (function() {
   const tabs = document.querySelectorAll('.mobile-tab-btn');
-  const images = document.querySelectorAll('.mobile-tab-image');
   const texts = document.querySelectorAll('.mobile-tab-text');
   const underline = document.getElementById('mobileTabUnderline');
   const tabsBar = document.getElementById('mobileTabsBar');
   const track = document.getElementById('mobileTabsTrack');
   const arrowLeft = document.getElementById('tabsArrowLeft');
   const arrowRight = document.getElementById('tabsArrowRight');
+  const imageWrap = document.getElementById('mobileImageWrap');
   if (!tabs.length || !underline || !tabsBar || !track) return;
 
   const total = tabs.length;
-  let currentOffset = 0;
+  let isSyncingImage = false;
 
   function moveTrack(index) {
     const btn = tabs[index];
@@ -1702,14 +1710,11 @@ livroItems.forEach(el => livroObserver.observe(el));
 
     let offset;
     if (trackWidth <= barWidth) {
-      // Cabe tudo: centraliza o bloco inteiro
       offset = (barWidth - trackWidth) / 2;
     } else {
-      // Centraliza o título selecionado de verdade, mesmo que seja o primeiro ou último
       const btnCenter = btn.offsetLeft + btn.offsetWidth / 2;
       offset = barWidth / 2 - btnCenter;
     }
-    currentOffset = offset;
     track.style.transform = `translateX(${offset}px)`;
     return offset;
   }
@@ -1726,13 +1731,18 @@ livroItems.forEach(el => livroObserver.observe(el));
     arrowRight.classList.toggle('visible', index < total - 1);
   }
 
-  function selectTab(index) {
+  function selectTab(index, skipImageScroll) {
     tabs.forEach((t, i) => t.classList.toggle('active', i === index));
-    images.forEach((img, i) => img.classList.toggle('active', i === index));
     texts.forEach((txt, i) => txt.classList.toggle('active', i === index));
     const offset = moveTrack(index);
     moveUnderline(tabs[index], offset);
     updateArrows(index);
+
+    if (imageWrap && !skipImageScroll) {
+      isSyncingImage = true;
+      imageWrap.scrollTo({ left: imageWrap.clientWidth * index, behavior: 'smooth' });
+      setTimeout(() => { isSyncingImage = false; }, 400);
+    }
   }
 
   tabs.forEach((btn, i) => {
@@ -1747,13 +1757,25 @@ livroItems.forEach(el => livroObserver.observe(el));
     if (activeIndex < total - 1) selectTab(activeIndex + 1);
   });
 
+  // Swipe na imagem também troca a aba
+  if (imageWrap) {
+    imageWrap.addEventListener('scroll', () => {
+      if (isSyncingImage) return;
+      const index = Math.round(imageWrap.scrollLeft / imageWrap.clientWidth);
+      const activeIndex = Array.from(tabs).findIndex(t => t.classList.contains('active'));
+      if (index !== activeIndex && index >= 0 && index < total) {
+        selectTab(index, true);
+      }
+    }, { passive: true });
+  }
+
   window.addEventListener('load', () => {
     const activeIndex = Array.from(tabs).findIndex(t => t.classList.contains('active'));
-    selectTab(activeIndex >= 0 ? activeIndex : 0);
+    selectTab(activeIndex >= 0 ? activeIndex : 0, true);
   });
   window.addEventListener('resize', () => {
     const activeIndex = Array.from(tabs).findIndex(t => t.classList.contains('active'));
-    selectTab(activeIndex >= 0 ? activeIndex : 0);
+    selectTab(activeIndex >= 0 ? activeIndex : 0, true);
   });
 })();
 </script>

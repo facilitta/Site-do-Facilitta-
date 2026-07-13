@@ -281,7 +281,6 @@
       display: none;
     }
     @media (max-width: 768px) {
-      html, body { overscroll-behavior-y: none; }
       nav { position: static; }
       .hero-section { margin-top: 0; }
       .nav-sticky-mobile {
@@ -749,8 +748,8 @@
     @media (max-width: 768px) {
       .comprar-section { padding: 140px 20px 60px !important; }
       .comprar-row { gap: 24px !important; }
-      .comprar-col-left { min-width: 0 !important; width: 100%; flex-basis: 100%; }
-      .comprar-col-right { min-width: 0 !important; width: 100%; flex-basis: 100%; }
+      .comprar-col-left { flex: 0 0 100% !important; min-width: 0 !important; width: 100% !important; }
+      .comprar-col-right { flex: 0 0 100% !important; min-width: 0 !important; width: 100% !important; }
 
       /* Caixa do carrossel: altura livre, não mais travada em 460px */
       .comprar-box-left { height: auto !important; padding: 20px !important; gap: 16px; }
@@ -811,6 +810,25 @@
       .comprar-eyebrow { order: 1; }
       .comprar-btn-wrap { order: 2; }
       .comprar-steps-wrap { order: 3; }
+    }
+    /* ── BLOCO FINAL DE SEGURANÇA MOBILE (prioridade máxima, evita overflow horizontal) ── */
+    @media (max-width: 768px) {
+      html, body { max-width: 100vw !important; overflow-x: hidden !important; }
+      .comprar-section { max-width: 100vw !important; overflow-x: hidden !important; box-sizing: border-box !important; }
+      .comprar-row { display: flex !important; flex-direction: column !important; flex-wrap: nowrap !important; width: 100% !important; max-width: 100% !important; }
+      .comprar-col-left, .comprar-col-right {
+        flex: none !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box !important;
+      }
+      .comprar-box-left { width: 100% !important; max-width: 100% !important; box-sizing: border-box !important; }
+      .comprar-col-right { display: flex !important; flex-direction: column !important; }
+      .comprar-steps-wrap { order: 1 !important; width: 100% !important; max-width: 100% !important; }
+      .comprar-eyebrow { order: 2 !important; margin-top: 20px !important; text-align: left !important; }
+      .comprar-btn-wrap { order: 3 !important; width: 100% !important; max-width: 100% !important; }
+      #buyCarousel, #stepsTrack { max-width: 100% !important; box-sizing: border-box !important; }
     }
   </style>
 </head>

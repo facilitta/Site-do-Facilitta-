@@ -383,7 +383,7 @@
         display: flex;
         align-items: center;
         position: absolute;
-        left: 0; right: 0; bottom: 0;
+        left: 0; right: 0; bottom: 40px;
         height: 50px;
         padding: 0 16px;
         background: rgba(232, 57, 29, 0.85);
@@ -1896,13 +1896,15 @@ livroItems.forEach(el => livroObserver.observe(el));
   const heroSectionEl = document.querySelector('.hero-section');
   if (navStickyMobile && heroSectionEl) {
     const scrollThreshold = heroSectionEl.offsetHeight / 2;
-    window.addEventListener('scroll', function() {
+    function checkStickyNav() {
       if (window.scrollY > scrollThreshold) {
         navStickyMobile.classList.add('visible');
       } else {
         navStickyMobile.classList.remove('visible');
       }
-    }, { passive: true });
+    }
+    checkStickyNav();
+    window.addEventListener('scroll', checkStickyNav, { passive: true });
   }
 </script>
 

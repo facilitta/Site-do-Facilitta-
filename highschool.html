@@ -781,16 +781,8 @@
       #clipMsg1 p { font-size: 20px !important; }
       #clipMsg2 p { font-size: 15px !important; }
 
-      /* Comparativo: menos tamanhos diferentes, números menores, mais organizado */
-      .comparativo-row { flex-direction: column; gap: 40px !important; }
-      .comparativo-divider { display: none !important; }
-      .comparativo-section { padding: 60px 24px !important; }
-      .comp-col, .comp-col[style] { text-align: left !important; background: #ffffff !important; border-radius: 20px !important; padding: 28px 24px !important; }
-      .comp-label { font-size: 18px !important; margin-bottom: 8px !important; }
-      .comp-value { font-size: 34px !important; margin-bottom: 12px !important; }
-      .comp-suffix { font-size: 18px !important; }
-      .comp-desc { font-size: 14px !important; line-height: 1.6 !important; text-align: left !important; }
-      .comp-note { font-size: 13px !important; line-height: 1.6 !important; text-align: left !important; }
+      /* Comparativo: escondido no mobile (substituído pelo card único de vantagens) */
+      .comparativo-section { display: none !important; }
 
       /* Textos das etapas verticais (seção de compra): entrelinhas mais confortáveis */
       .steps-text { line-height: 1.5 !important; font-size: 15px !important; }
@@ -933,7 +925,7 @@
         min-height: 260px;
         background: #ffffff;
         border-radius: 20px;
-        padding: 28px 22px;
+        padding: 28px 16px;
         display: flex;
         flex-direction: column;
         scroll-snap-align: start;
@@ -951,7 +943,7 @@
       .info-card-text {
         font-family: 'Helvetica Neue';
         font-weight: 500;
-        font-size: 15px;
+        font-size: 17px;
         color: #2b2b2b;
         line-height: 1.55;
         text-align: left;
@@ -959,10 +951,75 @@
         flex: 1;
       }
       .info-card-logo, .info-card-icon {
-        height: 64px;
+        height: 88px;
         width: auto;
         align-self: center;
         object-fit: contain;
+      }
+    }
+
+    /* ── VANTAGENS EM CARD ÚNICO (mobile) ── */
+    .vantagens-mobile-section { display: none; }
+    @media (max-width: 768px) {
+      .vantagens-mobile-section {
+        display: block;
+        background: #f5f5f7;
+        padding: 60px 20px;
+      }
+      .vantagens-mobile-title {
+        font-family: 'Helvetica Neue';
+        font-weight: 500;
+        font-size: clamp(24px, 6vw, 32px);
+        color: #1d1d1f;
+        letter-spacing: -0.5px;
+        margin: 0 0 24px;
+        text-align: left;
+      }
+      .vantagens-card {
+        display: flex;
+        background: #ffffff;
+        border-radius: 24px;
+        padding: 28px 20px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      }
+      .vantagens-col { flex: 1; min-width: 0; }
+      .vantagens-divider { width: 1px; background: #d2d2d7; margin: 4px 16px; flex-shrink: 0; }
+      .vantagens-col-label {
+        font-family: 'Helvetica Neue';
+        font-weight: 700;
+        font-size: 16px;
+        color: #86868b;
+        margin: 0 0 10px;
+      }
+      .vantagens-col-label strong { color: var(--red); }
+      .vantagens-col-value {
+        font-family: 'Helvetica Neue';
+        font-weight: 700;
+        font-size: 26px;
+        color: #1d1d1f;
+        line-height: 1.1;
+        margin: 0 0 14px;
+      }
+      .vantagens-col-value span {
+        font-size: 13px;
+        font-weight: 400;
+        color: #86868b;
+      }
+      .vantagens-col-desc {
+        font-family: 'Helvetica Neue';
+        font-weight: 400;
+        font-size: 13px;
+        color: #555;
+        line-height: 1.55;
+        margin: 0 0 10px;
+      }
+      .vantagens-col-note {
+        font-family: 'Helvetica Neue';
+        font-weight: 400;
+        font-size: 11.5px;
+        color: #86868b;
+        line-height: 1.5;
+        margin: 0;
       }
     }
 
@@ -1285,6 +1342,26 @@
       <p class="info-card-eyebrow">Universities</p>
       <p class="info-card-text">Nossa equipe conta com mais de 35 anos de experiência no mercado universitário nos Estados Unidos. Parceiros de mais de 120 universidades americanas.</p>
       <img class="info-card-icon" src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/chapeuzin.png" alt="Chapéu de universitário" />
+    </div>
+  </div>
+</section>
+
+<!-- VANTAGENS EM CARD ÚNICO (mobile) -->
+<section class="vantagens-mobile-section">
+  <h2 class="vantagens-mobile-title">Quais as vantagens do Facilitta?</h2>
+  <div class="vantagens-card">
+    <div class="vantagens-col">
+      <p class="vantagens-col-label">Tradicional</p>
+      <p class="vantagens-col-value">$20 mil <span>/ Ano</span></p>
+      <p class="vantagens-col-desc">Essa é a média de valores cobrados em serviços tradicionais de intercâmbio presenciais.</p>
+      <p class="vantagens-col-note">*Esses serviços não garantem o diploma de High School Americano.</p>
+    </div>
+    <div class="vantagens-divider"></div>
+    <div class="vantagens-col">
+      <p class="vantagens-col-label"><strong>Facilitta</strong> High School</p>
+      <p class="vantagens-col-value">$7 mil <span>Completo</span></p>
+      <p class="vantagens-col-desc">Serviço completo com o processo de entrada nas faculdades e assessoria inclusos.</p>
+      <p class="vantagens-col-note">Documentação e diploma garantidos ao final do curso.</p>
     </div>
   </div>
 </section>

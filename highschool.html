@@ -919,21 +919,24 @@
       }
       .info-cards-scroll {
         display: flex;
-        gap: 36px;
+        gap: 20px;
         overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-padding-left: 20px;
         scrollbar-width: none;
         -ms-overflow-style: none;
         -webkit-overflow-scrolling: touch;
       }
       .info-cards-scroll::-webkit-scrollbar { display: none; }
       .info-card {
-        flex: 0 0 320px;
+        flex: 0 0 240px;
         min-height: 260px;
         background: #ffffff;
         border-radius: 20px;
-        padding: 30px 26px;
+        padding: 28px 22px;
         display: flex;
         flex-direction: column;
+        scroll-snap-align: start;
         box-shadow: 0 4px 16px rgba(0,0,0,0.06);
       }
       .info-card-eyebrow {
@@ -948,15 +951,15 @@
       .info-card-text {
         font-family: 'Helvetica Neue';
         font-weight: 500;
-        font-size: 18px;
+        font-size: 15px;
         color: #2b2b2b;
-        line-height: 1.65;
-        text-align: center;
+        line-height: 1.55;
+        text-align: left;
         margin: 0 0 22px;
         flex: 1;
       }
       .info-card-logo, .info-card-icon {
-        height: 28px;
+        height: 64px;
         width: auto;
         align-self: center;
         object-fit: contain;
@@ -1164,7 +1167,7 @@
 <!-- SEÇÃO TEXTO CLIPADO -->
 <section class="clip-section" id="clipSection">
   <div class="clip-sticky">
-    <video class="clip-video-bg" autoplay muted loop playsinline webkit-playsinline preload="auto">
+    <video class="clip-video-bg" id="clipVideoBg" autoplay muted loop playsinline webkit-playsinline preload="auto" style="transition: opacity 0.3s ease;">
       <source src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/FUNDO%20PARA%20ZOOM%20OUT.mp4" type="video/mp4">
     </video>
     <canvas id="clipCanvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:1;"></canvas>
@@ -1242,6 +1245,7 @@
   const section = document.getElementById('clipSection');
   const msg1 = document.getElementById('clipMsg1');
   const msg2 = document.getElementById('clipMsg2');
+  const clipVideoBg = document.getElementById('clipVideoBg');
 
   window.addEventListener('scroll', function() {
     if (!section) return;
@@ -1260,6 +1264,10 @@
     // Mensagem 2: aparece após 38%
     const msg2In = Math.max(0, Math.min(1, (progress - 0.38) / 0.03));
     if (msg2) msg2.style.opacity = msg2In;
+
+    // Vídeo: fade de saída nos últimos 10% do scroll da seção
+    const videoFadeOut = 1 - Math.max(0, Math.min(1, (progress - 0.9) / 0.1));
+    if (clipVideoBg) clipVideoBg.style.opacity = videoFadeOut;
 
   }, { passive: true });
 })();

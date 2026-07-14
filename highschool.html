@@ -376,6 +376,32 @@
     .hero-overlay {
       display: none;
     }
+    .hero-bottom-bar-mobile { display: none; }
+    @media (max-width: 768px) {
+      .hero-bottom-bar-mobile {
+        display: flex;
+        align-items: center;
+        position: absolute;
+        left: 0; right: 0; bottom: 0;
+        height: 50px;
+        padding: 0 16px;
+        background: rgba(232, 57, 29, 0.85);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        z-index: 5;
+      }
+      .hero-bottom-bar-btn {
+        display: inline-block;
+        background: #ffffff;
+        color: var(--red);
+        font-family: 'Helvetica Neue';
+        font-weight: 400;
+        font-size: 11px;
+        padding: 5px 12px;
+        border-radius: 100px;
+        text-decoration: none;
+      }
+    }
     .hero-text {
       position: absolute;
       inset: 0;
@@ -502,7 +528,7 @@
 
     /* ── WHATSAPP ── */
     .wa-float {
-      position: fixed; bottom: 32px; right: 16px; z-index: 999;
+      position: fixed; bottom: 20px; right: 16px; z-index: 999;
       width: 56px; height: 56px; border-radius: 50%;
       background: #25D366;
       box-shadow: 0 4px 20px rgba(0,0,0,0.15);
@@ -526,7 +552,7 @@
         white-space: normal;
         text-align: center;
         margin-bottom: 28px;
-        line-height: 1.25;
+        line-height: 1.05;
       }
       .hero-sub {
         font-size: 16px;
@@ -544,7 +570,7 @@
         max-width: 100%;
       }
       .wa-float {
-        bottom: 24px;
+        bottom: 14px;
         right: 16px;
         width: 48px;
         height: 48px;
@@ -901,63 +927,6 @@
       .comprar-btn-wrap { order: 2; }
       .comprar-steps-wrap { order: 3; }
     }
-    /* ── CARDS INFORMATIVOS (mobile) ── */
-    .info-cards-section { display: none; }
-    @media (max-width: 768px) {
-      .info-cards-section {
-        display: block;
-        background: #f5f5f7;
-        padding: 4px 20px 60px;
-      }
-      .info-cards-scroll {
-        display: flex;
-        gap: 20px;
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
-        scroll-padding-left: 20px;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-        -webkit-overflow-scrolling: touch;
-      }
-      .info-cards-scroll::-webkit-scrollbar { display: none; }
-      .info-card {
-        flex: 0 0 240px;
-        min-height: 260px;
-        background: #ffffff;
-        border-radius: 20px;
-        padding: 28px 16px;
-        display: flex;
-        flex-direction: column;
-        scroll-snap-align: start;
-        box-shadow: 0 4px 16px rgba(0,0,0,0.06);
-      }
-      .info-card-eyebrow {
-        font-family: 'Helvetica Neue';
-        font-weight: 400;
-        font-size: 14px;
-        color: #1d1d1f;
-        text-align: left;
-        letter-spacing: -0.2px;
-        margin: 0 0 10px;
-      }
-      .info-card-text {
-        font-family: 'Helvetica Neue';
-        font-weight: 500;
-        font-size: 17px;
-        color: #2b2b2b;
-        line-height: 1.55;
-        text-align: left;
-        margin: 0 0 22px;
-        flex: 1;
-      }
-      .info-card-logo, .info-card-icon {
-        height: 88px;
-        width: auto;
-        align-self: center;
-        object-fit: contain;
-      }
-    }
-
     /* ── VANTAGENS EM CARD ÚNICO (mobile) ── */
     .vantagens-mobile-section { display: none; }
     @media (max-width: 768px) {
@@ -1166,6 +1135,9 @@
       <source src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/MAINCOMPSITEIN1.mp4" type="video/mp4">
     </video>
     <div class="hero-overlay"></div>
+    <div class="hero-bottom-bar-mobile">
+      <a href="compra.html" class="hero-bottom-bar-btn">Apply now</a>
+    </div>
     <div class="hero-text">
       <h1 class="hero-title txt-titulo">High School<br/>Americano</h1>
       <p class="hero-sub txt-longo">Diploma de High School Americano,<br/>reconhecido internacionalmente,<br/>com suporte completo em português,<br/>sem precisar sair do Brasil</p>
@@ -1330,21 +1302,6 @@
 })();
 </script>
 
-<!-- CARDS INFORMATIVOS (mobile) -->
-<section class="info-cards-section">
-  <div class="info-cards-scroll">
-    <div class="info-card">
-      <p class="info-card-eyebrow">No seu tempo</p>
-      <p class="info-card-text">Ao se matricular no Facilitta High School, você garante um diploma americano de High School, em 6 meses ou até 3 anos. No seu rítmo. <span style="white-space:nowrap;">Só depende de você.</span></p>
-      <img class="info-card-logo" src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/logo_f_rasterizada.png" alt="Facilitta" />
-    </div>
-    <div class="info-card">
-      <p class="info-card-eyebrow">Universities</p>
-      <p class="info-card-text">Nossa equipe conta com mais de 35 anos de experiência no mercado universitário nos Estados Unidos. Parceiros de mais de 120 universidades americanas.</p>
-      <img class="info-card-icon" src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/chapeuzin.png" alt="Chapéu de universitário" />
-    </div>
-  </div>
-</section>
 
 <!-- VANTAGENS EM CARD ÚNICO (mobile) -->
 <section class="vantagens-mobile-section">

@@ -71,4 +71,4 @@ async function getAccessToken() {
   return data.access_token;
 }
 
-module.exports = { getAccessToken, CALENDAR_ID };g
+module.exports = { getAccessToken, CALENDAR_ID };

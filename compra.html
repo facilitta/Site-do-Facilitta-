@@ -87,16 +87,15 @@
     @media (max-width: 768px) {
       nav { padding: 0 14px; height: 60px; }
       .nav-links { display: none; }
-      .nav-insta { display: none; }
       .nav-right { gap: 8px; }
       .nav-cta { font-size: 12px; padding: 8px 14px; }
       .nav-burger { display: flex; }
-      .progress-wrap { top: 60px; }
+      .progress-wrap { top: 60px !important; }
       .main-wrap { padding-top: calc(60px + 79px); }
     }
 
     /* ══════════════ PROGRESS (2 etapas) ══════════════ */
-    .progress-wrap { position: fixed; top: 76px; left: 0; right: 0; z-index: 110; background: rgba(255,255,255,.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 20px 24px; }
+    .progress-wrap { position: fixed; top: 76px; left: 0; right: 0; z-index: 4; background: rgba(255,255,255,.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 20px 24px; }
     .progress { max-width: 320px; margin: 0 auto; display: flex; align-items: center; }
     .p-step { display: flex; flex-direction: column; align-items: center; gap: 8px; flex-shrink: 0; }
     .p-dot { width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid var(--border); display: flex; align-items: center; justify-content: center; font-family: 'Helvetica Neue'; font-size: 12px; font-weight: 500; color: var(--mid); background: var(--white); transition: all .25s; }
@@ -189,6 +188,10 @@
     .sec-info { display: flex; align-items: center; justify-content: center; gap: 6px; font-family: 'Helvetica Neue'; font-size: 12px; font-weight: 400; color: var(--mid); margin-top: 16px; text-align: center; }
     .sec-info svg { width: 14px; height: 14px; color: var(--red); flex-shrink: 0; }
 
+    .recaptcha-notice { font-family: 'Helvetica Neue'; font-size: 11px; color: var(--mid); text-align: center; line-height: 1.5; margin-top: 20px; }
+    .recaptcha-notice a { color: var(--mid); text-decoration: underline; }
+    .grecaptcha-badge { visibility: hidden; }
+
     .declaration-check {
       display: flex; align-items: flex-start; gap: 10px;
       margin-top: 8px; cursor: pointer;
@@ -266,6 +269,18 @@
     @media (max-width: 768px) { footer { padding: 32px 20px; } }
 
     /* ══════════════ WHATSAPP FLOAT ══════════════ */
+    .back-btn {
+      position: fixed; top: 96px; left: 24px;
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--white);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none;
+      transition: transform .2s, box-shadow .2s;
+      z-index: 99;
+    }
+    .back-btn:hover { transform: scale(1.08); box-shadow: 0 4px 20px rgba(0,0,0,0.18); }
+
     .wa-float { position: fixed; bottom: 20px; right: 16px; z-index: 999; width: 56px; height: 56px; border-radius: 50%; background: #25D366; box-shadow: 0 4px 20px rgba(0,0,0,0.15); display: flex; align-items: center; justify-content: center; transition: transform .2s, box-shadow .2s; text-decoration: none; }
     .wa-float:hover { transform: scale(1.1); box-shadow: 0 8px 28px rgba(0,0,0,0.18); }
     .wa-float img { width: 32px; height: 32px; object-fit: contain; display: block; }
@@ -290,13 +305,12 @@
         <a href="cursotecnico.html"><img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/logo_f_rasterizada.png" alt="" class="dropdown-logo">Cursos Técnicos</a>
       </div>
     </div>
-    <a href="contato.html">Contato</a>
+    <a href="contato.html">Suporte</a>
   </div>
   <div class="nav-right">
     <a class="nav-insta" href="https://www.instagram.com/facilittaacademy?igsh=MWEwamk1dTJzczN0aA==" target="_blank" aria-label="Instagram">
       <img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/instag.png" alt="Instagram" />
     </a>
-    <a href="contato.html" class="nav-cta">Suporte</a>
     <button class="nav-burger" id="navBurgerBtn" aria-label="Abrir menu">
       <span></span><span></span><span></span>
     </button>
@@ -542,6 +556,7 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
       Seus dados são usados apenas para avaliação da application
     </div>
+    <p class="recaptcha-notice">Este site é protegido por reCAPTCHA. Aplicam-se a <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Política de Privacidade</a> e os <a href="https://policies.google.com/terms" target="_blank" rel="noopener">Termos de Serviço</a> do Google.</p>
     <div class="form-success-banner" id="formSuccessBanner">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
       <p>Application enviada com sucesso! Redirecionando para o agendamento...</p>
@@ -627,6 +642,13 @@
 </footer>
 
 <!-- WHATSAPP -->
+<!-- BOTÃO VOLTAR -->
+<a href="#" onclick="history.back(); return false;" class="back-btn" title="Voltar">
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+    <path d="M12 4L6 10L12 16" stroke="#E8391D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</a>
+
 <a class="wa-float" href="https://wa.me/5521995204080?text=Ol%C3%A1%2C%20gostaria%20de%20saber%20mais%20sobre%20os%20programas%20do%20Facilitta." target="_blank" aria-label="Fale pelo WhatsApp">
   <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjMwIiBoZWlnaHQ9IjMwIj4KICA8cGF0aCBmaWxsPSIjZmZmZmZmIiBkPSJNMTIgMEM1LjM3MyAwIDAgNS4zNzMgMCAxMmMwIDIuMTIzLjU1NSA0LjExNiAxLjUyNCA1Ljg0N0wwIDI0bDYuMzEtMS41MDdBMTEuOTQ1IDExLjk0NSAwIDAgMCAxMiAyNGM2LjYyNyAwIDEyLTUuMzczIDEyLTEyUzE4LjYyNyAwIDEyIDB6bTAgMjJjLTEuODUgMC0zLjU4Ny0uNS01LjA4Mi0xLjM3MWwtLjM2NC0uMjEzLTMuNzQyLjg5NC45NDQtMy42NS0uMjM2LS4zNzVBOS45NiA5Ljk2IDAgMCAxIDIgMTJDMiA2LjQ3NyA2LjQ3NyAyIDEyIDJzMTAgNC40NzcgMTAgMTAtNC40NzcgMTAtMTAgMTB6bTUuNDA2LTcuMzg3Yy0uMjk3LS4xNDgtMS43NTYtLjg2Ni0yLjAyOC0uOTY1LS4yNzItLjA5OS0uNDctLjE0OC0uNjY4LjE0OS0uMTk4LjI5Ni0uNzY3Ljk2NC0uOTQgMS4xNjMtLjE3NC4xOTgtLjM0Ny4yMjMtLjY0NC4wNzQtLjI5Ny0uMTQ4LTEuMjU1LS40NjMtMi4zOS0xLjQ3NS0uODgzLS43ODgtMS40OC0xLjc2MS0xLjY1My0yLjA1OS0uMTczLS4yOTctLjAxOS0uNDU4LjEzLS42MDYuMTM0LS4xMzMuMjk3LS4zNDcuNDQ2LS41MjEuMTQ5LS4xNzQuMTk4LS4yOTguMjk3LS40OTcuMS0uMTk4LjA1LS4zNzItLjAyNS0uNTIxLS4wNzQtLjE0OC0uNjY4LTEuNjExLS45MTYtMi4yMDYtLjI0MS0uNTc5LS40ODYtLjUwMS0uNjY4LS41MWwtLjU3LS4wMWMtLjE5OCAwLS41Mi4wNzQtLjc5Mi4zNzItLjI3Mi4yOTgtMS4wNCAxLjAxNi0xLjA0IDIuNDc5IDAgMS40NjMgMS4wNjUgMi44NzYgMS4yMTMgMy4wNzQuMTQ5LjE5OCAyLjA5NiAzLjIgNS4wNzcgNC40ODcuNzA5LjMwNiAxLjI2My40ODkgMS42OTQuNjI2LjcxMi4yMjYgMS4zNi4xOTQgMS44NzIuMTE4LjU3MS0uMDg1IDEuNzU4LS43MTkgMi4wMDYtMS40MTMuMjQ4LS42OTUuMjQ4LTEuMjkuMTczLTEuNDEzLS4wNzQtLjEyNC0uMjcyLS4xOTgtLjU3LS4zNDd6Ii8+Cjwvc3ZnPg==" alt="WhatsApp" />
 </a>

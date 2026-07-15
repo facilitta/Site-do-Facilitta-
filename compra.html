@@ -56,11 +56,10 @@
     .nav-dropdown:hover .nav-dropdown-toggle { opacity: 1; background: rgba(232,57,29,0.08); }
     .nav-dropdown-menu { display: none; position: absolute; top: calc(100% - 8px); left: 50%; transform: translateX(-50%); background: #fff; border: 1px solid rgba(0,0,0,0.08); border-radius: 0 0 12px 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.10); padding: 8px 0; min-width: 200px; z-index: 200; pointer-events: none; }
     .nav-dropdown:hover .nav-dropdown-menu { display: block; pointer-events: auto; }
-    .nav-dropdown-menu a { display: flex; align-items: center; gap: 12px; padding: 12px 20px; font-size: 14px; font-weight: 500; color: var(--dark); text-decoration: none; opacity: 0.7; transition: opacity .2s, background .2s; border-bottom: 1px solid rgba(0,0,0,0.06); white-space: nowrap; }
+    .nav-dropdown-menu a { display: flex; align-items: center; padding: 14px 24px; font-size: 14px; font-weight: 500; color: var(--dark); text-decoration: none; opacity: 0.7; transition: opacity .2s, background .2s; border-bottom: 1px solid rgba(0,0,0,0.06); white-space: nowrap; }
     .nav-dropdown-menu a:last-child { border-bottom: none; }
     .nav-dropdown-menu a:hover { opacity: 1; background: rgba(232,57,29,0.08); color: var(--red); }
-    .dropdown-logo { width: 18px; height: 18px; object-fit: contain; flex-shrink: 0; transition: transform 0.4s ease-in-out; }
-    .nav-dropdown-menu a:hover .dropdown-logo { transform: rotate(180deg); }
+    .nav-logo:hover img { transform: rotate(180deg); }
     .nav-cta { background: var(--red); color: #fff; font-size: 14px; font-weight: 700; padding: 10px 22px; border-radius: 100px; text-decoration: none; transition: opacity .2s, transform .15s; white-space: nowrap; }
     .nav-cta:hover { opacity: 0.88; transform: scale(1.02); }
     .nav-burger { display: none; flex-direction: column; justify-content: center; align-items: flex-end; gap: 4px; width: 22px; height: 16px; background: none; border: none; cursor: pointer; padding: 0; }
@@ -299,10 +298,9 @@
     <div class="nav-dropdown">
       <a class="nav-dropdown-toggle">Programas</a>
       <div class="nav-dropdown-menu">
-        <a href="highschool.html"><img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/logo_f_rasterizada.png" alt="" class="dropdown-logo">High School</a>
-        <a href="posgraduacao.html"><img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/logo_f_rasterizada.png" alt="" class="dropdown-logo">Pós Graduação</a>
-        <a href="english.html"><img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/logo_f_rasterizada.png" alt="" class="dropdown-logo">English Classes</a>
-        <a href="cursotecnico.html"><img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/logo_f_rasterizada.png" alt="" class="dropdown-logo">Cursos Técnicos</a>
+        <a href="highschool.html">High School</a>
+        <a href="english.html">English Classes</a>
+        <a href="cursotecnico.html">Cursos Técnicos</a>
       </div>
     </div>
     <a href="contato.html">Suporte</a>
@@ -326,7 +324,6 @@
       </button>
       <div class="mobile-accordion-panel" id="mobilePanelProgramas">
         <a href="highschool.html">High School</a>
-        <a href="posgraduacao.html">Pós Graduação</a>
         <a href="english.html">English Classes</a>
         <a href="cursotecnico.html">Cursos Técnicos</a>
       </div>

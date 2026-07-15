@@ -271,6 +271,7 @@
     .wa-float img { width: 32px; height: 32px; object-fit: contain; display: block; }
     @media (max-width: 768px) { .wa-float { bottom: 14px; right: 16px; width: 48px; height: 48px; } .wa-float img { width: 26px; height: 26px; } }
   </style>
+  <script src="https://www.google.com/recaptcha/api.js?render=6LeI3lEtAAAAALXcttdqhE90xVLFcKnUzI_2kMc3"></script>
 </head>
 <body>
 
@@ -712,6 +713,8 @@ function buildPayload(){
 
 let lastPayload = null;
 
+const RECAPTCHA_SITE_KEY = '6LeI3lEtAAAAALXcttdqhE90xVLFcKnUzI_2kMc3';
+
 async function submitApplication(){
   const err = validateForm();
   if(err){ showErr(err); return; }
@@ -722,10 +725,16 @@ async function submitApplication(){
 
   try{
     lastPayload = buildPayload();
+    const recaptchaToken = await new Promise((resolve, reject) => {
+      if(typeof grecaptcha === 'undefined'){ reject(new Error('Não foi possível carregar a verificação de segurança. Recarregue a página.')); return; }
+      grecaptcha.ready(() => {
+        grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'enviar_application' }).then(resolve).catch(reject);
+      });
+    });
     const res = await fetch('/api/aplicacao',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body: JSON.stringify(lastPayload),
+      body: JSON.stringify({ ...lastPayload, recaptchaToken }),
     });
     if(!res.ok){
       const e = await res.json().catch(()=>({}));

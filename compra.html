@@ -48,7 +48,6 @@
     }
     .nav-logo { display: flex; align-items: center; }
     .nav-logo img { height: 38px; width: auto; display: block; object-fit: contain; transition: transform .4s ease-in-out; }
-    .nav-logo:hover img { transform: rotate(180deg); }
     .nav-links { position: absolute; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 40px; white-space: nowrap; }
     .nav-links a { font-size: 14px; font-weight: 500; color: var(--dark); text-decoration: none; opacity: 0.6; transition: opacity .2s; }
     .nav-links a:hover { opacity: 1; }
@@ -92,10 +91,12 @@
       .nav-right { gap: 8px; }
       .nav-cta { font-size: 12px; padding: 8px 14px; }
       .nav-burger { display: flex; }
+      .progress-wrap { top: 60px; }
+      .main-wrap { padding-top: calc(60px + 79px); }
     }
 
     /* ══════════════ PROGRESS (2 etapas) ══════════════ */
-    .progress-wrap { position: sticky; top: 76px; z-index: 50; background: rgba(255,255,255,.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 20px 24px; }
+    .progress-wrap { position: fixed; top: 76px; left: 0; right: 0; z-index: 110; background: rgba(255,255,255,.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 20px 24px; }
     .progress { max-width: 320px; margin: 0 auto; display: flex; align-items: center; }
     .p-step { display: flex; flex-direction: column; align-items: center; gap: 8px; flex-shrink: 0; }
     .p-dot { width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid var(--border); display: flex; align-items: center; justify-content: center; font-family: 'Helvetica Neue'; font-size: 12px; font-weight: 500; color: var(--mid); background: var(--white); transition: all .25s; }
@@ -103,7 +104,7 @@
     .p-dot.done { border-color: var(--red); background: var(--red); color: #fff; }
     .p-dot.done::after { content: "✓"; }
     .p-dot.done span { display: none; }
-    .p-label { font-family: 'Helvetica Neue'; font-size: 10px; font-weight: 500; color: var(--mid); letter-spacing: .6px; text-transform: uppercase; transition: color .25s; white-space: nowrap; }
+    .p-label { font-family: 'Helvetica Neue'; font-size: 10px; font-weight: 500; color: var(--mid); letter-spacing: .6px; transition: color .25s; white-space: nowrap; }
     .p-label.active { color: var(--red); }
     .p-line { flex: 1; height: 1px; background: var(--border); margin: 0 10px; margin-bottom: 18px; transition: background .25s; }
     .p-line.done { background: var(--red); }
@@ -115,14 +116,14 @@
     .step.active { display: block; animation: fadeUp .5s cubic-bezier(.22,.68,0,1.01); }
     @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-    .step-meta { font-family: 'Helvetica Neue'; font-size: 12px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--red); margin-bottom: 14px; margin-top: 44px; }
-    .step-title { font-family: 'Helvetica Neue'; font-weight: 700; font-size: clamp(30px,5vw,44px); letter-spacing: -1px; color: var(--dark); margin-bottom: 10px; line-height: 1.08; }
-    .step-desc { font-family: 'Helvetica Neue'; font-size: 16px; font-weight: 400; color: var(--mid); margin-bottom: 36px; line-height: 1.6; }
+    .step-meta { font-family: 'Helvetica Neue'; font-size: 13px; font-weight: 500; letter-spacing: 1.5px; color: var(--mid); margin-bottom: 14px; margin-top: 44px; }
+    .step-title { font-family: 'Helvetica Neue'; font-weight: 500; font-size: clamp(30px,5vw,44px); letter-spacing: -1px; color: var(--dark); margin-bottom: 10px; line-height: 1.08; }
+    .step-desc { font-family: 'Helvetica Neue'; font-size: 17px; font-weight: 400; color: var(--mid); margin-bottom: 36px; line-height: 1.6; }
 
     /* ══════════════ CATEGORIAS DO FORMULÁRIO ══════════════ */
     .form-category { margin-bottom: 44px; }
-    .form-category-title { font-family: 'Helvetica Neue'; font-weight: 700; font-size: 13px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--red); margin-bottom: 4px; }
-    .form-category-sub { font-family: 'Helvetica Neue'; font-size: 13px; color: var(--mid); margin-bottom: 22px; }
+    .form-category-title { font-family: 'Helvetica Neue'; font-weight: 500; font-size: 30px; letter-spacing: -0.5px; color: var(--dark); margin-bottom: 6px; }
+    .form-category-sub { font-family: 'Helvetica Neue'; font-size: 14.5px; color: var(--mid); margin-bottom: 22px; }
     .form-category-divider { height: 1px; background: var(--border); margin: 0 0 28px; }
 
     /* ══════════════ FORM FIELDS ══════════════ */
@@ -130,7 +131,7 @@
     .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
     .row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
     .field { display: flex; flex-direction: column; gap: 7px; }
-    .field label { font-family: 'Helvetica Neue'; font-size: 11px; font-weight: 500; letter-spacing: .7px; text-transform: uppercase; color: var(--mid); }
+    .field label { font-family: 'Helvetica Neue'; font-size: 14px; font-weight: 400; letter-spacing: .3px; color: var(--mid); }
     .field label .opt { font-weight: 400; text-transform: none; letter-spacing: 0; font-size: 10px; }
     .f-input {
       width: 100%; height: 52px; padding: 0 16px;
@@ -304,8 +305,7 @@
 
     <!-- CATEGORIA: ALUNO -->
     <div class="form-category">
-      <p class="form-category-title">Dados do aluno</p>
-      <p class="form-category-sub">Informações pessoais do candidato</p>
+      <p class="form-category-title">Informações do candidato</p>
       <div class="fields">
         <div class="field">
           <label>Nome completo</label>
@@ -380,7 +380,6 @@
     <!-- CATEGORIA: RESPONSÁVEL -->
     <div class="form-category">
       <p class="form-category-title">Dados do responsável</p>
-      <p class="form-category-sub">Informações de quem é responsável legal pelo aluno</p>
       <div class="fields">
         <div class="field">
           <label>Nome completo do responsável</label>
@@ -445,11 +444,11 @@
         </div>
         <div class="row2">
           <div class="field">
-            <label>Escola atual</label>
+            <label>Instituição de ensino atual</label>
             <input class="f-input" id="a-escola" type="text" placeholder="Nome da escola"/>
           </div>
           <div class="field">
-            <label>Ano / série atual</label>
+            <label>Escolaridade atual</label>
             <input class="f-input" id="a-serie" type="text" placeholder="Ex: 9º ano, 2º ano do EM"/>
           </div>
         </div>
@@ -471,10 +470,9 @@
     <!-- CATEGORIA: REDAÇÃO -->
     <div class="form-category">
       <p class="form-category-title">Redação</p>
-      <p class="form-category-sub">Escrita pelo próprio candidato</p>
       <div class="fields">
         <div class="field">
-          <label>Descreva seus objetivos para o futuro e como o diploma americano de High School se encaixa nos seus planos</label>
+          <label>Conte um pouco sobre você: quais são seus objetivos, o que te motiva a estudar nos Estados Unidos, e como o diploma de High School Americano se encaixa nos seus planos para o futuro.</label>
           <textarea class="f-textarea" id="redacao" placeholder="Escreva aqui sua redação..." maxlength="3000"></textarea>
           <p class="char-count"><span id="redacaoCount">0</span> / 3000 caracteres</p>
         </div>

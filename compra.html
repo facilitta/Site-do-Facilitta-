@@ -96,7 +96,7 @@
     }
 
     /* ══════════════ PROGRESS (2 etapas) ══════════════ */
-    .progress-wrap { position: fixed; top: 76px; left: 0; right: 0; z-index: 5; background: rgba(255,255,255,.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 20px 24px; }
+    .progress-wrap { position: fixed; top: 76px; left: 0; right: 0; z-index: 110; background: rgba(255,255,255,.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 20px 24px; }
     .progress { max-width: 320px; margin: 0 auto; display: flex; align-items: center; }
     .p-step { display: flex; flex-direction: column; align-items: center; gap: 8px; flex-shrink: 0; }
     .p-dot { width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid var(--border); display: flex; align-items: center; justify-content: center; font-family: 'Helvetica Neue'; font-size: 12px; font-weight: 500; color: var(--mid); background: var(--white); transition: all .25s; }
@@ -106,8 +106,19 @@
     .p-dot.done span { display: none; }
     .p-label { font-family: 'Helvetica Neue'; font-size: 10px; font-weight: 500; color: var(--mid); letter-spacing: .6px; transition: color .25s; white-space: nowrap; }
     .p-label.active { color: var(--red); }
-    .p-line { flex: 1; height: 1px; background: var(--border); margin: 0 10px; margin-bottom: 18px; transition: background .25s; }
+    .p-line { position: relative; flex: 1; height: 2px; background: var(--border); margin: 0 10px; margin-bottom: 18px; border-radius: 2px; overflow: visible; transition: height .3s ease, background .25s; }
     .p-line.done { background: var(--red); }
+    .p-line-fill { position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: var(--red); border-radius: 2px; transition: width .5s cubic-bezier(.22,.68,0,1.01); }
+    .p-line.complete { height: 3px; }
+    .p-line.complete .p-line-fill {
+      width: 100%;
+      box-shadow: 0 0 4px 1px rgba(255,255,255,.5), 0 0 2px 1px var(--red);
+      animation: pLineGlow 0.35s ease-in-out 3 alternate;
+    }
+    @keyframes pLineGlow {
+      from { box-shadow: 0 0 6px 1px rgba(255,255,255,.8), 0 0 3px 1px var(--red); }
+      to   { box-shadow: 0 0 14px 4px rgba(255,255,255,1), 0 0 8px 2px var(--red); }
+    }
 
     /* ══════════════ MAIN ══════════════ */
     .main-wrap { padding-top: calc(76px + 79px); min-height: 100vh; padding-bottom: 100px; }
@@ -323,7 +334,7 @@
       <div class="p-dot active" id="pd1"><span>1</span></div>
       <div class="p-label active" id="pl1">Formulário</div>
     </div>
-    <div class="p-line" id="pl-1-2"></div>
+    <div class="p-line" id="pl-1-2"><div class="p-line-fill" id="pl-1-2-fill"></div></div>
     <div class="p-step">
       <div class="p-dot" id="pd2"><span>2</span></div>
       <div class="p-label" id="pl2">Agendamento</div>
@@ -660,6 +671,25 @@ function validateForm(){
   return null;
 }
 
+// ── PROGRESSO ANIMADO DA LINHA (Formulário → Agendamento) ──────────
+const REQUIRED_FIELD_IDS = [
+  'a-nome','a-nasc','a-email','a-tel','a-cep','a-rua','a-num','a-cidade','a-estado',
+  'r-nome','r-parent','r-cpf','r-nasc','r-profissao','r-email','r-tel',
+  'programa','a-escola','a-serie','a-ingles','redacao',
+];
+
+function updateFormProgress(){
+  const filled = REQUIRED_FIELD_IDS.filter(id => v(id)).length;
+  const pct = Math.round((filled / REQUIRED_FIELD_IDS.length) * 100);
+
+  const fill = document.getElementById('pl-1-2-fill');
+  const line = document.getElementById('pl-1-2');
+  if(!fill || !line) return;
+
+  fill.style.width = pct + '%';
+  line.classList.toggle('complete', pct === 100);
+}
+
 function buildPayload(){
   const progId = v('programa');
   return {
@@ -914,6 +944,13 @@ document.addEventListener('DOMContentLoaded',()=>{
   const redacaoCount = document.getElementById('redacaoCount');
   redacao?.addEventListener('input', () => {
     redacaoCount.textContent = redacao.value.length;
+  });
+
+  REQUIRED_FIELD_IDS.forEach(id => {
+    const el = document.getElementById(id);
+    if(!el) return;
+    el.addEventListener('input', updateFormProgress);
+    el.addEventListener('change', updateFormProgress);
   });
 });
 </script>

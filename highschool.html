@@ -346,7 +346,7 @@
     /* MOBILE NAV */
     @media (max-width: 768px) {
       nav { padding: 0 14px; height: 60px; }
-      .hero-video-placeholder { height: calc(100dvh - 60px); }
+      .hero-video-placeholder { height: calc(100dvh - 60px) !important; }
       .hero-section { margin-top: 0 !important; }
       .nav-links { display: none; }
       .nav-right { gap: 6px; }
@@ -362,8 +362,6 @@
       background: #111;
       overflow: hidden;
     }
-     @media (max-width: 768px) {
-       .hero-video-placeholder { height: calc(90dvh - 60px); }
     .hero-video-placeholder {
       width: 100%;
       height: calc(100vh - 76px);
@@ -391,7 +389,7 @@
         background: rgba(232, 57, 29, 0.85);
         backdrop-filter: blur(8px);
         -webkit-backdrop-filter: blur(8px);
-        z-index: 2;
+        z-index: 999;
       }
       .hero-bottom-bar-btn {
         display: inline-block;
@@ -426,7 +424,7 @@
       font-size: clamp(32px, 4.2vw, 60px);
       color: #1a1a1a;
       letter-spacing: -1px;
-      line-height: 0.5;
+      line-height: 1.0;
       margin-bottom: 24px;
     }
     .hero-bullets {

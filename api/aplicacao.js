@@ -78,6 +78,28 @@ function buildEmailHtml({ programa, aluno, responsavel, redacao }) {
   </div>`;
 }
 
+const RECAPTCHA_MIN_SCORE = 0.5;
+
+async function verifyRecaptcha(token) {
+  const secret = process.env.RECAPTCHA_SECRET_KEY;
+  if (!secret) {
+    console.error('RECAPTCHA_SECRET_KEY não configurada.');
+    return { ok: false, reason: 'config' };
+  }
+  if (!token) return { ok: false, reason: 'missing-token' };
+
+  const verifyRes = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({ secret, response: token }),
+  });
+  const data = await verifyRes.json();
+  if (!data.success || (typeof data.score === 'number' && data.score < RECAPTCHA_MIN_SCORE)) {
+    return { ok: false, reason: 'low-score', data };
+  }
+  return { ok: true, data };
+}
+
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Método não permitido.' });
@@ -90,7 +112,14 @@ module.exports = async (req, res) => {
   }
   body = body || {};
 
-  const { programa, aluno, responsavel, redacao } = body;
+  const { programa, aluno, responsavel, redacao, recaptchaToken } = body;
+
+  const recaptcha = await verifyRecaptcha(recaptchaToken);
+  if (!recaptcha.ok) {
+    console.error('Falha na verificação do reCAPTCHA:', recaptcha.reason, recaptcha.data);
+    res.status(400).json({ error: 'Não foi possível confirmar que você não é um robô. Tente novamente.' });
+    return;
+  }
 
   // Validação básica no servidor (não confia só no front-end)
   if (!programa || !programa.nome) {

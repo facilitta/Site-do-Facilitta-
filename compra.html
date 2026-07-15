@@ -209,20 +209,27 @@
 
     /* ══════════════ AGENDAMENTO: SELEÇÃO DE DIA E HORÁRIO ══════════════ */
     .agenda-section-label { font-family: 'Helvetica Neue'; font-size: 14px; font-weight: 500; color: var(--dark); margin-bottom: 14px; }
-    .date-picker { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 32px; }
-    .date-picker::-webkit-scrollbar { display: none; }
-    .date-btn {
-      flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; gap: 4px;
-      min-width: 64px; padding: 12px 10px;
-      border: 1.5px solid var(--border); border-radius: 12px;
-      background: var(--white); cursor: pointer;
-      font-family: 'Helvetica Neue'; transition: border-color .15s, background .15s;
+
+    .calendar-wrap { margin-bottom: 8px; max-width: 380px; }
+    .calendar-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+    .calendar-header p { font-family: 'Helvetica Neue'; font-size: 16px; font-weight: 500; color: var(--dark); text-transform: capitalize; }
+    .calendar-nav { width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid var(--border); background: var(--white); cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--dark); transition: border-color .15s, background .15s; }
+    .calendar-nav:hover { border-color: rgba(232,57,29,.4); }
+    .calendar-nav svg { width: 16px; height: 16px; }
+    .calendar-dow-row { display: grid; grid-template-columns: repeat(7, 1fr); margin-bottom: 6px; }
+    .calendar-dow-row span { text-align: center; font-family: 'Helvetica Neue'; font-size: 11px; font-weight: 500; color: var(--mid); }
+    .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 32px; }
+    .calendar-day {
+      aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+      border-radius: 10px; border: 1.5px solid transparent;
+      font-family: 'Helvetica Neue'; font-size: 14px; color: var(--dark);
+      background: var(--white); cursor: pointer; transition: border-color .15s, background .15s;
     }
-    .date-btn:hover { border-color: rgba(232,57,29,.4); }
-    .date-btn.sel { border-color: var(--red); background: rgba(232,57,29,.05); }
-    .date-btn .dow { font-size: 11px; color: var(--mid); text-transform: capitalize; }
-    .date-btn .dom { font-size: 18px; font-weight: 500; color: var(--dark); }
-    .date-btn.sel .dom, .date-btn.sel .dow { color: var(--red); }
+    .calendar-day:hover { border-color: rgba(232,57,29,.4); }
+    .calendar-day.sel { border-color: var(--red); background: var(--red); color: #fff; }
+    .calendar-day.disabled { color: #c8c8cc; background: #f0f0f2; cursor: not-allowed; }
+    .calendar-day.disabled:hover { border-color: transparent; }
+    .calendar-day.empty { visibility: hidden; cursor: default; }
 
     .slots-wrap { margin-bottom: 8px; }
     .slots-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 10px; margin-bottom: 8px; }
@@ -537,12 +544,46 @@
 
     <div id="agendamentoContent">
       <p class="agenda-section-label">Escolha um dia</p>
-      <div class="date-picker" id="datePicker"></div>
+      <div class="calendar-wrap">
+        <div class="calendar-header">
+          <button type="button" class="calendar-nav" onclick="changeMonth(-1)" aria-label="Mês anterior">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <p id="calendarMonthLabel"></p>
+          <button type="button" class="calendar-nav" onclick="changeMonth(1)" aria-label="Próximo mês">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+        <div class="calendar-dow-row">
+          <span>Dom</span><span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span>
+        </div>
+        <div class="calendar-grid" id="calendarGrid"></div>
+      </div>
+
+      <div class="form-category-divider"></div>
+
+      <p class="agenda-section-label">Seus dados de contato</p>
+      <div class="fields" style="margin-bottom:32px;">
+        <div class="field">
+          <label>Nome completo</label>
+          <input class="f-input" id="ag-nome" type="text" placeholder="Nome completo" autocomplete="name"/>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label>E-mail</label>
+            <input class="f-input" id="ag-email" type="email" placeholder="email@exemplo.com" autocomplete="email"/>
+          </div>
+          <div class="field">
+            <label>WhatsApp</label>
+            <input class="f-input" id="ag-whatsapp" type="tel" placeholder="(11) 99999-9999" autocomplete="tel"/>
+          </div>
+        </div>
+      </div>
 
       <div class="slots-wrap" id="slotsWrap" style="display:none;">
         <p class="agenda-section-label">Horários disponíveis</p>
         <div class="slots-grid" id="slotsGrid"></div>
-        <p class="slots-empty" id="slotsEmpty" style="display:none;">Nenhum horário livre nesse dia. Tenta outro dia acima.</p>
+        <p class="slots-empty" id="slotsEmpty" style="display:none;">Nenhum horário livre nesse dia. Tenta outro dia no calendário.</p>
       </div>
 
       <div class="err-msg" id="err2"></div>
@@ -557,7 +598,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
       </div>
       <p class="step-title" style="font-size:26px; margin-bottom:12px;">Horário confirmado</p>
-      <p class="step-desc" style="margin-bottom:0;" id="agendamentoSuccessText">Enviamos um email de confirmação com o link da reunião.</p>
+      <p class="step-desc" style="margin-bottom:0;" id="agendamentoSuccessText">Enviamos um email de confirmação com os detalhes.</p>
     </div>
   </div>
 
@@ -680,42 +721,75 @@ function goToAgendamento(){
   document.getElementById('pl-1-2').classList.add('done');
 
   window.scrollTo({top:0,behavior:'smooth'});
-  renderDatePicker();
+  renderCalendar();
 }
 
 // ── AGENDAMENTO ───────────────────────────────────────────────────
 let selectedDate = null;
 let selectedSlot = null;
+let calendarViewDate = new Date();
+const MAX_DAYS_AHEAD = 14;
 const DOW_NAMES = ['dom','seg','ter','qua','qui','sex','sáb'];
+const MONTH_NAMES = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
 
-function renderDatePicker(){
-  const wrap = document.getElementById('datePicker');
-  wrap.innerHTML = '';
+function dateKey(d){
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
+function changeMonth(delta){
+  calendarViewDate = new Date(calendarViewDate.getFullYear(), calendarViewDate.getMonth() + delta, 1);
+  renderCalendar();
+}
+
+function renderCalendar(){
+  const grid = document.getElementById('calendarGrid');
+  const label = document.getElementById('calendarMonthLabel');
+  grid.innerHTML = '';
+
+  const year = calendarViewDate.getFullYear();
+  const month = calendarViewDate.getMonth();
+  label.textContent = `${MONTH_NAMES[month]} ${year}`;
+
   const today = new Date();
-  let added = 0;
-  let i = 1;
-  while(added < 10 && i < 30){
-    const d = new Date(today.getTime() + i*86400000);
+  today.setHours(0,0,0,0);
+  const maxDate = new Date(today.getTime() + MAX_DAYS_AHEAD*86400000);
+
+  const firstDay = new Date(year, month, 1);
+  const startWeekday = firstDay.getDay();
+  const daysInMonth = new Date(year, month+1, 0).getDate();
+
+  for(let i=0; i<startWeekday; i++){
+    const empty = document.createElement('div');
+    empty.className = 'calendar-day empty';
+    grid.appendChild(empty);
+  }
+
+  for(let day=1; day<=daysInMonth; day++){
+    const d = new Date(year, month, day);
+    d.setHours(0,0,0,0);
     const dow = d.getDay();
-    if(dow !== 0 && dow !== 6){
-      const dateStr = d.toISOString().slice(0,10);
-      const btn = document.createElement('button');
-      btn.className = 'date-btn';
-      btn.type = 'button';
-      btn.innerHTML = `<span class="dow">${DOW_NAMES[dow]}</span><span class="dom">${d.getDate()}</span>`;
-      btn.onclick = () => selectDate(dateStr, btn);
-      wrap.appendChild(btn);
-      added++;
+    const isWeekend = dow === 0 || dow === 6;
+    const isPast = d < today;
+    const isTooFar = d > maxDate;
+    const disabled = isWeekend || isPast || isTooFar;
+    const key = dateKey(d);
+
+    const cell = document.createElement('div');
+    cell.className = 'calendar-day' + (disabled ? ' disabled' : '');
+    cell.textContent = day;
+    if(key === selectedDate) cell.classList.add('sel');
+    if(!disabled){
+      cell.onclick = () => selectDate(key, cell);
     }
-    i++;
+    grid.appendChild(cell);
   }
 }
 
-async function selectDate(dateStr, btnEl){
+async function selectDate(dateStr, cellEl){
   selectedDate = dateStr;
   selectedSlot = null;
-  document.querySelectorAll('.date-btn').forEach(b => b.classList.remove('sel'));
-  btnEl.classList.add('sel');
+  document.querySelectorAll('.calendar-day').forEach(c => c.classList.remove('sel'));
+  cellEl.classList.add('sel');
 
   document.getElementById('btnConfirmarAgendamento').style.display = 'none';
   const slotsWrap = document.getElementById('slotsWrap');
@@ -757,8 +831,14 @@ function selectSlot(slot, btnEl){
 }
 
 async function confirmarAgendamento(){
+  const agNome = document.getElementById('ag-nome').value.trim();
+  const agEmail = document.getElementById('ag-email').value.trim();
+  const agWhatsapp = document.getElementById('ag-whatsapp').value.trim();
+
+  if(!agNome){ showErr2('Nome é obrigatório.'); return; }
+  if(!agEmail){ showErr2('E-mail é obrigatório.'); return; }
+  if(!agWhatsapp){ showErr2('WhatsApp é obrigatório.'); return; }
   if(!selectedSlot){ showErr2('Selecione um horário.'); return; }
-  if(!lastPayload){ showErr2('Não encontramos os dados da sua application. Recarregue a página e tente novamente.'); return; }
 
   const btn = document.getElementById('btnConfirmarAgendamento');
   btn.classList.add('loading'); btn.disabled = true;
@@ -770,9 +850,11 @@ async function confirmarAgendamento(){
       body: JSON.stringify({
         start: selectedSlot.start,
         end: selectedSlot.end,
-        aluno: lastPayload.aluno,
-        responsavel: lastPayload.responsavel,
-        programa: lastPayload.programa,
+        label: selectedSlot.label,
+        contato: { nome: agNome, email: agEmail, whatsapp: agWhatsapp },
+        aluno: lastPayload?.aluno,
+        responsavel: lastPayload?.responsavel,
+        programa: lastPayload?.programa,
       }),
     });
     if(!res.ok){

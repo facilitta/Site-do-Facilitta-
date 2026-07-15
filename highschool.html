@@ -91,7 +91,8 @@
       border-bottom: 1px solid rgba(0,0,0,0.07);
     }
     .nav-logo { display: flex; align-items: center; }
-    .nav-logo img { height: 38px; width: auto; display: block; object-fit: contain; }
+    .nav-logo img { height: 38px; width: auto; display: block; object-fit: contain; transition: transform .4s ease-in-out; }
+    .nav-logo:hover img { transform: rotate(180deg); }
     .nav-links {
       position: absolute; left: 50%; transform: translateX(-50%);
       display: flex; align-items: center; gap: 40px;
@@ -152,8 +153,7 @@
     .nav-dropdown-menu a {
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 12px 20px;
+      padding: 14px 24px;
       font-size: 14px;
       font-weight: 500;
       color: var(--dark);
@@ -169,12 +169,6 @@
       background: rgba(232,57,29,0.08);
       color: var(--red);
     }
-    .dropdown-logo {
-      width: 18px; height: 18px;
-      object-fit: contain; flex-shrink: 0;
-      transition: transform 0.4s ease-in-out;
-    }
-    .nav-dropdown-menu a:hover .dropdown-logo { transform: rotate(180deg); }
 
     .nav-cta {
       background: var(--red); color: #fff; font-size: 14px; font-weight: 700;
@@ -1073,10 +1067,9 @@
     <div class="nav-dropdown">
       <a class="nav-dropdown-toggle">Programas</a>
       <div class="nav-dropdown-menu">
-        <a href="highschool.html" onclick="window.location.reload(); return false;"><img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/logo_f_rasterizada.png" alt="" class="dropdown-logo">High School</a>
-        <a href="posgraduacao.html"><img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/logo_f_rasterizada.png" alt="" class="dropdown-logo">Pós Graduação</a>
-        <a href="english.html"><img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/logo_f_rasterizada.png" alt="" class="dropdown-logo">English Classes</a>
-        <a href="tecnicos.html"><img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/logo_f_rasterizada.png" alt="" class="dropdown-logo">Cursos Técnicos</a>
+        <a href="highschool.html" onclick="window.location.reload(); return false;">High School</a>
+        <a href="english.html">English Classes</a>
+        <a href="tecnicos.html">Cursos Técnicos</a>
       </div>
     </div>
     <a href="contato.html">Contato</a>

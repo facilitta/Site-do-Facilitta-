@@ -627,22 +627,23 @@ nav {
         padding: 0 10px;
       }
       .mobile-card {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-start;
-        text-align: center;
-        padding: 24px 16px;
+        position: relative;
+        display: block;
+        padding: 0;
         background: #ffffff;
+        border-radius: 16px;
+        overflow: hidden;
       }
       .mobile-card-img {
         width: 100%;
-        max-width: 100%;
         height: auto;
         display: block;
-        border-radius: 16px;
       }
       .mobile-card-btn {
+        position: absolute;
+        left: 50%;
+        bottom: 32px;
+        transform: translateX(-50%);
         display: inline-block;
         background: var(--red);
         color: #fff;
@@ -653,9 +654,9 @@ nav {
         font-family: 'Helvetica Neue';
         text-decoration: none;
         transition: opacity .2s, transform .15s;
-        margin-top: 20px;
+        white-space: nowrap;
       }
-      .mobile-card-btn:hover { opacity: 0.88; transform: scale(1.02); }
+      .mobile-card-btn:hover { opacity: 0.88; transform: translateX(-50%) scale(1.02); }
     }
 
     .programs {

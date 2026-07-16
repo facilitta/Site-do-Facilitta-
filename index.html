@@ -627,34 +627,20 @@ nav {
         padding: 0 10px;
       }
       .mobile-card {
-        min-height: 68vh;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: flex-start;
         text-align: center;
-        padding: 56px 32px 40px;
+        padding: 24px 16px;
         background: #ffffff;
       }
-      .mobile-card-hs { background: #FDECE4; }
-      .mobile-card-curso { background: #FCE4E4; }
-      .mobile-card-text h3 {
-        font-family: 'Helvetica Neue';
-        font-weight: 500;
-        font-size: 30px;
-        letter-spacing: -1px;
-        line-height: 1.15;
-        color: var(--dark);
-        margin-bottom: 14px;
-      }
-      .mobile-card-text p {
-        font-family: 'Helvetica Neue';
-        font-weight: 400;
-        font-size: 16px;
-        line-height: 1.55;
-        color: #555;
-        max-width: 300px;
-        margin: 0 auto 36px;
+      .mobile-card-img {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        display: block;
+        border-radius: 16px;
       }
       .mobile-card-btn {
         display: inline-block;
@@ -667,6 +653,7 @@ nav {
         font-family: 'Helvetica Neue';
         text-decoration: none;
         transition: opacity .2s, transform .15s;
+        margin-top: 20px;
       }
       .mobile-card-btn:hover { opacity: 0.88; transform: scale(1.02); }
     }
@@ -742,7 +729,7 @@ nav {
     .nav-right { display: flex; align-items: center; gap: 14px; justify-content: flex-end; }
     .nav-insta {
       display: flex; align-items: center; justify-content: center;
-      width: 48px; height: 48px; border-radius: 50%;
+      width: 32px; height: 32px; border-radius: 50%;
       overflow: hidden;
       flex-shrink: 0;
     }
@@ -862,7 +849,7 @@ nav {
     </div>
     <div class="about-card-photo">
       <div class="about-card-photo-frame">
-        <img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/GABRIELRINDO.jpg" alt="Gabriel Frozi, CEO da Facilitta Academy" />
+        <img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/GABRIEL%20SITE%20FACILITTA_1.38.2.jpg" alt="Gabriel Frozi, CEO da Facilitta Academy" />
       </div>
       <p class="about-card-photo-caption">Gabriel Frozi, CEO da Facilitta Academy</p>
     </div>
@@ -896,27 +883,18 @@ nav {
   <h2 class="about-title programs-title-mobile" style="text-align: center;">O que você quer explorar?</h2>
   <div class="programs-mobile-carousel">
     <div class="mobile-card mobile-card-hs">
-      <div class="mobile-card-text">
-        <h3>Facilitta High School</h3>
-        <p>O ensino médio americano de forma acessível</p>
-      </div>
+      <img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/cardmobile%201.jpg" alt="Facilitta High School" class="mobile-card-img" />
       <a href="highschool.html" class="mobile-card-btn">Saiba mais</a>
     </div>
 
-    <div class="mobile-card mobile-card-english">
-      <div class="mobile-card-text">
-        <h3>Facilitta English</h3>
-        <p>Curso completo de língua inglesa</p>
-      </div>
-      <a href="english.html" class="mobile-card-btn">Saiba mais</a>
+    <div class="mobile-card mobile-card-curso">
+      <img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/cardmobile2.jpg" alt="Facilitta Curso Técnico" class="mobile-card-img" />
+      <a href="cursotecnico.html" class="mobile-card-btn">Saiba mais</a>
     </div>
 
-    <div class="mobile-card mobile-card-curso">
-      <div class="mobile-card-text">
-        <h3>Curso Técnico</h3>
-        <p><em>Certificate Program</em> em até 8 cursos técnicos americanos</p>
-      </div>
-      <a href="cursotecnico.html" class="mobile-card-btn">Saiba mais</a>
+    <div class="mobile-card mobile-card-english">
+      <img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/cardmobile3.jpg" alt="Facilitta English" class="mobile-card-img" />
+      <a href="english.html" class="mobile-card-btn">Saiba mais</a>
     </div>
   </div>
 </section>

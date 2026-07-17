@@ -383,7 +383,7 @@
         background: rgba(232, 57, 29, 0.85);
         backdrop-filter: blur(8px);
         -webkit-backdrop-filter: blur(8px);
-        z-index: 2;
+        z-index: 5;
       }
       .hero-bottom-bar-btn {
         display: inline-block;
@@ -493,6 +493,40 @@
       border-radius: 50%;
       background: rgba(255,255,255,0.9);
       display: flex; align-items: center; justify-content: center;
+    }
+
+    /* ── CARROSSEL VERTICAL DE VÍDEOS (mobile, estilo stories) ── */
+    .videos-scroll-mobile { display: none; }
+    @media (max-width: 768px) {
+      .videos-scroll { display: none; }
+      .videos-scroll-mobile {
+        display: flex;
+        gap: 16px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-bottom: 20px;
+        scroll-padding-left: 20px;
+        box-sizing: border-box;
+      }
+      .videos-scroll-mobile::-webkit-scrollbar { display: none; }
+      .video-card-vert {
+        flex: 0 0 62%;
+        scroll-snap-align: start;
+        border-radius: 24px;
+        overflow: hidden;
+        background: #111;
+        aspect-ratio: 9/16;
+        position: relative;
+      }
+      .video-card-vert video {
+        width: 100%; height: 100%;
+        object-fit: cover;
+        display: block;
+      }
     }
     .play-btn svg { margin-left: 3px; }
 
@@ -1155,33 +1189,32 @@
   <div class="videos-scroll">
 
     <div class="video-card">
-      <div class="video-card-placeholder">
-        <div class="play-btn">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-            <path d="M5 3l10 6-10 6V3z" fill="#111"/>
-          </svg>
-        </div>
-      </div>
+      <video src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/gabrielposhero.MP4" controls playsinline preload="metadata"></video>
     </div>
 
     <div class="video-card">
-      <div class="video-card-placeholder">
-        <div class="play-btn">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-            <path d="M5 3l10 6-10 6V3z" fill="#111"/>
-          </svg>
-        </div>
-      </div>
+      <video src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/xerxesposhero.MP4" controls playsinline preload="metadata"></video>
     </div>
 
     <div class="video-card">
-      <div class="video-card-placeholder">
-        <div class="play-btn">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-            <path d="M5 3l10 6-10 6V3z" fill="#111"/>
-          </svg>
-        </div>
-      </div>
+      <video src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/alefposhero.MP4" controls playsinline preload="metadata"></video>
+    </div>
+
+  </div>
+
+  <!-- CARROSSEL VERTICAL (mobile, estilo stories) -->
+  <div class="videos-scroll-mobile">
+
+    <div class="video-card-vert">
+      <video src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/gabrielvertposhero.MP4" controls playsinline preload="metadata"></video>
+    </div>
+
+    <div class="video-card-vert">
+      <video src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/xerxesvertposhero.MP4" controls playsinline preload="metadata"></video>
+    </div>
+
+    <div class="video-card-vert">
+      <video src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/alefvertposhero.MP4" controls playsinline preload="metadata"></video>
     </div>
 
   </div>

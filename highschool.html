@@ -476,13 +476,66 @@
       background: #111;
       aspect-ratio: 16/9;
       position: relative;
-      cursor: pointer;
     }
-    .video-card video {
+    .video-card .video-el {
       width: 100%; height: 100%;
       object-fit: cover;
       display: block;
     }
+    .video-progress {
+      position: absolute;
+      left: 16px; right: 16px; bottom: 16px;
+      height: 3px;
+      background: rgba(255,255,255,0.3);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .video-progress-fill {
+      height: 100%; width: 0%;
+      background: #ffffff;
+      border-radius: 2px;
+    }
+
+    /* ── CONTROLES DOS VÍDEOS (play/pause + setas) ── */
+    .videos-controls {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 12px;
+      padding: 20px 56px 0;
+      opacity: 0;
+      transition: opacity .6s ease;
+    }
+    .videos-controls.visible { opacity: 1; }
+    .video-playpause {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      background: #c0c0c0;
+      color: #ffffff;
+      border: none;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: opacity .2s, transform .15s;
+    }
+    .video-playpause:hover { opacity: .88; }
+    .video-playpause .icon-play { margin-left: 3px; }
+    .video-arrows { display: flex; gap: 10px; }
+    .video-arrow {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: #c0c0c0;
+      color: #ffffff;
+      border: none;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: opacity .2s;
+    }
+    .video-arrow:hover { opacity: .8; }
+    .videos-controls-mobile { display: none; }
     .video-card-placeholder {
       width: 100%; height: 100%;
       background: #1e1e1e;
@@ -514,7 +567,7 @@
       }
       .videos-scroll-mobile::-webkit-scrollbar { display: none; }
       .video-card-vert {
-        flex: 0 0 62%;
+        flex: 0 0 86%;
         scroll-snap-align: start;
         border-radius: 24px;
         overflow: hidden;
@@ -522,10 +575,20 @@
         aspect-ratio: 9/16;
         position: relative;
       }
-      .video-card-vert video {
+      .video-card-vert .video-el {
         width: 100%; height: 100%;
         object-fit: cover;
         display: block;
+      }
+      .videos-scroll-mobile { gap: 32px !important; }
+      .videos-controls { display: none; }
+      .videos-controls-mobile {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 12px;
+        padding: 20px 20px 0;
+        position: relative;
       }
     }
     .play-btn svg { margin-left: 3px; }
@@ -1186,37 +1249,73 @@
 <!-- VÍDEOS SCROLL HORIZONTAL -->
 <section class="videos-section">
   <p class="videos-title">O que é o Facilitta High School?</p>
-  <div class="videos-scroll">
+  <div class="videos-scroll" id="videosScrollWide">
 
     <div class="video-card">
-      <video src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/gabrielposhero.MP4" controls playsinline preload="metadata"></video>
+      <video class="video-el" src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/gabrielposhero.MP4" playsinline preload="auto"></video>
+      <div class="video-progress"><div class="video-progress-fill"></div></div>
     </div>
 
     <div class="video-card">
-      <video src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/xerxesposhero.MP4" controls playsinline preload="metadata"></video>
+      <video class="video-el" src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/xerxesposhero.MP4" playsinline preload="auto"></video>
+      <div class="video-progress"><div class="video-progress-fill"></div></div>
     </div>
 
     <div class="video-card">
-      <video src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/alefposhero.MP4" controls playsinline preload="metadata"></video>
+      <video class="video-el" src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/alefposhero.MP4" playsinline preload="auto"></video>
+      <div class="video-progress"><div class="video-progress-fill"></div></div>
     </div>
 
   </div>
 
+  <div class="videos-controls">
+    <button class="video-playpause" id="videoPlayPauseWide" aria-label="Play/Pause">
+      <svg class="icon-play" width="22" height="22" viewBox="0 0 18 18" fill="none"><path d="M5 3l10 6-10 6V3z" fill="currentColor"/></svg>
+      <svg class="icon-pause" width="22" height="22" viewBox="0 0 18 18" fill="none" style="display:none;"><rect x="3.5" y="2.5" width="4" height="13" fill="currentColor"/><rect x="10.5" y="2.5" width="4" height="13" fill="currentColor"/></svg>
+    </button>
+    <div class="video-arrows">
+      <button class="video-arrow" id="videoPrevWide" aria-label="Anterior">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <button class="video-arrow" id="videoNextWide" aria-label="Próximo">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+  </div>
+
   <!-- CARROSSEL VERTICAL (mobile, estilo stories) -->
-  <div class="videos-scroll-mobile">
+  <div class="videos-scroll-mobile" id="videosScrollMobile">
 
     <div class="video-card-vert">
-      <video src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/gabrielvertposhero.MP4" controls playsinline preload="metadata"></video>
+      <video class="video-el" src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/gabrielvertposhero.MP4" playsinline preload="auto"></video>
+      <div class="video-progress"><div class="video-progress-fill"></div></div>
     </div>
 
     <div class="video-card-vert">
-      <video src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/xerxesvertposhero.MP4" controls playsinline preload="metadata"></video>
+      <video class="video-el" src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/xerxesvertposhero.MP4" playsinline preload="auto"></video>
+      <div class="video-progress"><div class="video-progress-fill"></div></div>
     </div>
 
     <div class="video-card-vert">
-      <video src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/alefvertposhero.MP4" controls playsinline preload="metadata"></video>
+      <video class="video-el" src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/alefvertposhero.MP4" playsinline preload="auto"></video>
+      <div class="video-progress"><div class="video-progress-fill"></div></div>
     </div>
 
+  </div>
+
+  <div class="videos-controls videos-controls-mobile">
+    <button class="video-playpause" id="videoPlayPauseMobile" aria-label="Play/Pause">
+      <svg class="icon-play" width="22" height="22" viewBox="0 0 18 18" fill="none"><path d="M5 3l10 6-10 6V3z" fill="currentColor"/></svg>
+      <svg class="icon-pause" width="22" height="22" viewBox="0 0 18 18" fill="none" style="display:none;"><rect x="3.5" y="2.5" width="4" height="13" fill="currentColor"/><rect x="10.5" y="2.5" width="4" height="13" fill="currentColor"/></svg>
+    </button>
+    <div class="video-arrows">
+      <button class="video-arrow" id="videoPrevMobile" aria-label="Anterior">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <button class="video-arrow" id="videoNextMobile" aria-label="Próximo">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
   </div>
 </section>
 
@@ -1789,6 +1888,99 @@ livroItems.forEach(el => livroObserver.observe(el));
       navDropdown.classList.remove('active');
     }
   });
+</script>
+
+<!-- CARROSSEL DE VÍDEOS SCRIPT -->
+<script>
+(function() {
+  function setupVideoCarousel(scrollId, prevBtnId, nextBtnId, playPauseBtnId) {
+    const scrollEl = document.getElementById(scrollId);
+    if (!scrollEl) return;
+    const cards = Array.from(scrollEl.children);
+    const videos = cards.map(c => c.querySelector('.video-el'));
+    const fills = cards.map(c => c.querySelector('.video-progress-fill'));
+    const prevBtn = document.getElementById(prevBtnId);
+    const nextBtn = document.getElementById(nextBtnId);
+    const playPauseBtn = document.getElementById(playPauseBtnId);
+    if (!playPauseBtn) return;
+    const iconPlay = playPauseBtn.querySelector('.icon-play');
+    const iconPause = playPauseBtn.querySelector('.icon-pause');
+
+    let activeIndex = 0;
+
+    function updatePlayPauseIcon() {
+      const v = videos[activeIndex];
+      const playing = v && !v.paused && !v.ended;
+      iconPlay.style.display = playing ? 'none' : 'block';
+      iconPause.style.display = playing ? 'block' : 'none';
+    }
+
+    function setActive(index) {
+      if (index === activeIndex) return;
+      const prev = videos[activeIndex];
+      if (prev && !prev.paused) prev.pause();
+      activeIndex = index;
+      updatePlayPauseIcon();
+    }
+
+    // Detecta qual vídeo está mais visível na tela (snap scroll)
+    const observer = new IntersectionObserver((entries) => {
+      let best = null;
+      entries.forEach(entry => {
+        if (!best || entry.intersectionRatio > best.intersectionRatio) best = entry;
+      });
+      if (best && best.intersectionRatio > 0.5) {
+        const idx = cards.indexOf(best.target);
+        if (idx !== -1) setActive(idx);
+      }
+    }, { root: scrollEl, threshold: [0.5, 0.6, 0.7, 0.8, 0.9, 1] });
+
+    cards.forEach(c => observer.observe(c));
+
+    videos.forEach((v, i) => {
+      if (!v) return;
+      v.addEventListener('timeupdate', () => {
+        if (fills[i] && v.duration) {
+          fills[i].style.width = (v.currentTime / v.duration * 100) + '%';
+        }
+      });
+      v.addEventListener('play', () => { if (i === activeIndex) updatePlayPauseIcon(); });
+      v.addEventListener('pause', () => { if (i === activeIndex) updatePlayPauseIcon(); });
+      v.addEventListener('ended', () => { if (i === activeIndex) updatePlayPauseIcon(); });
+    });
+
+    playPauseBtn.addEventListener('click', () => {
+      const v = videos[activeIndex];
+      if (!v) return;
+      if (v.paused) { v.play(); } else { v.pause(); }
+    });
+
+    function goTo(index) {
+      index = Math.max(0, Math.min(cards.length - 1, index));
+      cards[index].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    }
+
+    if (prevBtn) prevBtn.addEventListener('click', () => goTo(activeIndex - 1));
+    if (nextBtn) nextBtn.addEventListener('click', () => goTo(activeIndex + 1));
+  }
+
+  setupVideoCarousel('videosScrollWide', 'videoPrevWide', 'videoNextWide', 'videoPlayPauseWide');
+  setupVideoCarousel('videosScrollMobile', 'videoPrevMobile', 'videoNextMobile', 'videoPlayPauseMobile');
+
+  // Revela os controles suavemente quando a seção de vídeos entra na tela
+  document.querySelectorAll('.videos-controls').forEach(controls => {
+    const scrollEl = controls.previousElementSibling;
+    if (!scrollEl) return;
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          controls.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.4 });
+    revealObserver.observe(scrollEl);
+  });
+})();
 </script>
 
 <!-- MENU MOBILE SCRIPT -->

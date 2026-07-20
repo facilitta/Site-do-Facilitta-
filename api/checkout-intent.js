@@ -35,6 +35,10 @@ module.exports = async (req, res) => {
     res.status(400).json({ error: 'Dados do aluno incompletos.' });
     return;
   }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(aluno.email)) {
+    res.status(400).json({ error: 'E-mail do aluno em formato inválido.' });
+    return;
+  }
   if (!agendamento?.start || !agendamento?.contato?.email) {
     res.status(400).json({ error: 'Escolha um horário antes de continuar pro pagamento.' });
     return;

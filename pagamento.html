@@ -51,13 +51,13 @@
     .step-desc { font-size: 16px; color: var(--mid); margin-bottom: 32px; line-height: 1.6; }
 
     /* VÍDEO (reaproveitado do highschool.html) */
-    .videos-scroll, .videos-scroll-mobile { display: flex; justify-content: center; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: 6px; }
+    .videos-scroll, .videos-scroll-mobile { display: flex; justify-content: center; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: 6px; margin-top: 20px; }
     .videos-scroll::-webkit-scrollbar, .videos-scroll-mobile::-webkit-scrollbar { display: none; }
     .videos-scroll-mobile { display: none; }
-    .video-card { flex: 0 0 calc(75% - 14px); scroll-snap-align: start; border-radius: 16px; overflow: hidden; background: #111; aspect-ratio: 16/9; position: relative; }
+    .video-card { flex: 0 0 92%; scroll-snap-align: start; border-radius: 16px; overflow: hidden; background: #111; aspect-ratio: 16/9; position: relative; margin-bottom: 4px; }
     .video-card .video-el { width: 100%; height: 100%; object-fit: cover; display: block; }
     .video-expand-btn { position: absolute; bottom: 14px; right: 14px; width: 32px; height: 32px; background: transparent; color: #fff; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 2; filter: drop-shadow(0 1px 3px rgba(0,0,0,.5)); }
-    .videos-controls { position: relative; display: flex; align-items: center; justify-content: flex-end; padding: 16px 8px 0; }
+    .videos-controls { position: relative; display: flex; align-items: center; justify-content: flex-end; padding: 28px 8px 0; margin-bottom: 20px; min-height: 68px; }
     .video-center-controls { position: absolute; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 16px; }
     .video-dots { display: flex; align-items: center; gap: 8px; }
     .video-progress-single { position: relative; width: 44px; height: 8px; border-radius: 4px; background: rgba(192,192,192,.35); overflow: hidden; }
@@ -70,7 +70,7 @@
     @media (max-width: 768px) {
       .videos-scroll { display: none; }
       .videos-scroll-mobile { display: flex; gap: 32px; padding-left: 4px; }
-      .video-card-vert { flex: 0 0 86%; scroll-snap-align: start; border-radius: 24px; overflow: hidden; background: #111; aspect-ratio: 9/16; position: relative; }
+      .video-card-vert { flex: 0 0 96%; scroll-snap-align: start; border-radius: 24px; overflow: hidden; background: #111; aspect-ratio: 9/16; position: relative; margin-bottom: 4px; }
       .video-card-vert .video-el { width: 100%; height: 100%; object-fit: cover; display: block; }
       .video-card-vert .video-expand-btn { top: 14px; left: 14px; bottom: auto; right: auto; }
     }
@@ -166,7 +166,6 @@
   <div class="step active step-outer" id="s1">
     <p class="step-meta">Etapa 1 de 4</p>
     <h1 class="step-title">Antes de começar</h1>
-    <p class="step-desc">Assista aos depoimentos de quem já faz parte da Facilitta Academy.</p>
 
     <div class="videos-scroll" id="videosScrollWide">
       <div class="video-card">
@@ -263,7 +262,7 @@
         <div class="row3">
           <div class="field"><label>Cidade</label><input class="f-input" id="end-cidade" type="text"/></div>
           <div class="field"><label>Estado</label><input class="f-input" id="end-estado" type="text"/></div>
-          <div class="field"><label>CEP</label><input class="f-input" id="end-cep" type="text"/></div>
+          <div class="field"><label>CEP</label><input class="f-input" id="end-cep" type="text" maxlength="9"/></div>
         </div>
       </div>
     </div>
@@ -286,7 +285,7 @@
         <div class="row3">
           <div class="field"><label>Cidade</label><input class="f-input" id="esc-cidade" type="text"/></div>
           <div class="field"><label>Estado</label><input class="f-input" id="esc-estado" type="text"/></div>
-          <div class="field"><label>CEP</label><input class="f-input" id="esc-cep" type="text"/></div>
+          <div class="field"><label>CEP</label><input class="f-input" id="esc-cep" type="text" maxlength="9"/></div>
         </div>
       </div>
     </div>
@@ -472,6 +471,10 @@ function showErr(elId, msg){ const el=document.getElementById(elId); if(el) el.t
 function submitForm(){
   const required = ['al-nome','al-sobrenome','al-email','al-sexo','al-nasc','pai-nome','pai-email','pai-cel','mae-nome','mae-email','mae-cel','end-rua','end-cidade','end-estado','end-cep','esc-nome','esc-diretor','esc-tel','esc-email','esc-rua','esc-cidade','esc-estado','esc-cep','assinatura'];
   for(const id of required){ if(!v(id)){ showErr('err2','Preencha todos os campos obrigatórios.'); return; } }
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  for(const id of ['al-email','pai-email','mae-email','esc-email']){
+    if(!emailRegex.test(v(id))){ showErr('err2','Verifique se os e-mails estão no formato correto (ex: nome@exemplo.com).'); return; }
+  }
   const ano = document.querySelector('input[name="ano"]:checked');
   if(!ano){ showErr('err2','Selecione o ano letivo.'); return; }
   showErr('err2','');
@@ -550,6 +553,7 @@ function confirmarAgendamentoLocal(){
   const nome = v('ag-nome'), email = v('ag-email'), whatsapp = v('ag-whatsapp');
   if(!nome){ showErr('err3','Nome é obrigatório.'); return; }
   if(!email){ showErr('err3','E-mail é obrigatório.'); return; }
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ showErr('err3','Verifique se o e-mail está no formato correto (ex: nome@exemplo.com).'); return; }
   if(!whatsapp){ showErr('err3','WhatsApp é obrigatório.'); return; }
   if(!selectedSlot){ showErr('err3','Selecione um horário.'); return; }
 
@@ -605,6 +609,43 @@ async function confirmarPagamento(){
   // a criação da agenda e o envio dos emails no servidor.
   goToStep(5);
 }
+
+// ══════════════════ CEP: máscara + busca automática de endereço (ViaCEP) ══════════════════
+function maskCEP(e){
+  let val = e.target.value.replace(/\D/g,'').slice(0,8);
+  if(val.length>5) val = val.replace(/(\d{5})(\d{0,3})/,'$1-$2');
+  e.target.value = val;
+}
+
+async function buscarCEP(cepDigits, prefix){
+  try{
+    const r = await fetch(`https://viacep.com.br/ws/${cepDigits}/json/`);
+    const d = await r.json();
+    if(!d.erro){
+      const rua = document.getElementById(`${prefix}-rua`);
+      const cidade = document.getElementById(`${prefix}-cidade`);
+      const estado = document.getElementById(`${prefix}-estado`);
+      if(rua) rua.value = d.logradouro || rua.value;
+      if(cidade) cidade.value = d.localidade || '';
+      if(estado) estado.value = d.uf || '';
+    }
+  }catch(e){}
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const endCep = document.getElementById('end-cep');
+  const escCep = document.getElementById('esc-cep');
+  if(endCep) endCep.addEventListener('input', (e) => {
+    maskCEP(e);
+    const digits = e.target.value.replace(/\D/g,'');
+    if(digits.length === 8) buscarCEP(digits, 'end');
+  });
+  if(escCep) escCep.addEventListener('input', (e) => {
+    maskCEP(e);
+    const digits = e.target.value.replace(/\D/g,'');
+    if(digits.length === 8) buscarCEP(digits, 'esc');
+  });
+});
 </script>
 
 </body>

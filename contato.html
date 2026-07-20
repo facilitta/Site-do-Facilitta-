@@ -319,6 +319,9 @@
       font-size: 15px;
       font-weight: 600;
     }
+    .recaptcha-notice { font-family: 'Helvetica Neue'; font-size: 11px; color: var(--mid); line-height: 1.5; margin-top: 4px; }
+    .recaptcha-notice a { color: var(--mid); text-decoration: underline; }
+    .grecaptcha-badge { visibility: hidden; }
 
     /* ── FOOTER ── */
     footer {
@@ -370,6 +373,7 @@
     .wa-float:hover { transform: scale(1.1); box-shadow: 0 8px 28px rgba(0,0,0,0.18); }
     .wa-float img { width: 32px; height: 32px; object-fit: contain; display: block; }
   </style>
+  <script src="https://www.google.com/recaptcha/api.js?render=6LeI3lEtAAAAALXcttdqhE90xVLFcKnUzI_2kMc3"></script>
 </head>
 <body>
 
@@ -495,6 +499,7 @@
         <textarea id="mensagem" placeholder="Sua mensagem" required></textarea>
       </div>
       <button type="submit" class="form-submit">Enviar mensagem</button>
+      <p class="recaptcha-notice">Este site é protegido por reCAPTCHA. Aplicam-se a <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Política de Privacidade</a> e os <a href="https://policies.google.com/terms" target="_blank" rel="noopener">Termos de Serviço</a> do Google.</p>
       <div class="form-success" id="formSuccess">✓ Mensagem enviada! Entraremos em contato em breve.</div>
     </form>
   </section>
@@ -526,6 +531,8 @@
     if (!isOpen) item.classList.add('open');
   }
 
+  const RECAPTCHA_SITE_KEY = '6LeI3lEtAAAAALXcttdqhE90xVLFcKnUzI_2kMc3';
+
   async function sendMail(e) {
     e.preventDefault();
     const btn = e.target.querySelector('.form-submit');
@@ -537,10 +544,17 @@
     btn.textContent = 'Enviando...';
 
     try {
+      const recaptchaToken = await new Promise((resolve, reject) => {
+        if (typeof grecaptcha === 'undefined') { reject(new Error('Verificação de segurança não carregou.')); return; }
+        grecaptcha.ready(() => {
+          grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'enviar_contato' }).then(resolve).catch(reject);
+        });
+      });
+
       const res = await fetch('/api/contato', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, assunto, mensagem })
+        body: JSON.stringify({ email, assunto, mensagem, recaptchaToken })
       });
 
       if (res.ok) {

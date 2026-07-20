@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj4KICA8cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iI0U4MzkxRCIvPgogIDxyZWN0IHg9IjIwIiB5PSIxNSIgd2lkdGg9IjYwIiBoZWlnaHQ9IjE1IiBmaWxsPSJ3aGl0ZSIvPgogIDxyZWN0IHg9IjIwIiB5PSIxNSIgd2lkdGg9IjE1IiBoZWlnaHQ9IjcwIiBmaWxsPSJ3aGl0ZSIvPgogIDxyZWN0IHg9IjIwIiB5PSI0MiIgd2lkdGg9IjQwIiBoZWlnaHQ9IjEzIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4=" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Matrícula | Facilitta Academy</title>
+  <script src="https://js.stripe.com/v3/"></script>
+  <script src="https://www.google.com/recaptcha/api.js?render=6LeI3lEtAAAAALXcttdqhE90xVLFcKnUzI_2kMc3"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --red: #E8391D; --dark: #2B2B2B; --white: #FFFFFF; --mid: #6e6e73; --border: #d9d9de; --bg: #f5f5f7;
+    }
+    @font-face { font-family: 'Helvetica Neue'; src: url('https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/fonts/HelveticaNeueBold.otf') format('opentype'); font-weight: 700; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Helvetica Neue'; src: url('https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/fonts/HelveticaNeueMedium.otf') format('opentype'); font-weight: 500; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Helvetica Neue'; src: url('https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/fonts/HelveticaNeueRoman.otf') format('opentype'); font-weight: 400; font-style: normal; font-display: swap; }
+    html { scroll-behavior: smooth; }
+    body { font-family: "Helvetica Neue"; background: var(--bg); color: var(--dark); overflow-x: hidden; }
+    * { font-style: normal !important; }
+
+    /* NAV (padrão do site) */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 48px; height: 76px; background: rgba(255,255,255,0.96); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(0,0,0,0.07); }
+    .nav-logo img { height: 38px; width: auto; display: block; object-fit: contain; transition: transform .4s ease-in-out; }
+    .nav-logo:hover img { transform: rotate(180deg); }
+    .nav-cta { background: var(--red); color: #fff; font-size: 14px; font-weight: 700; padding: 10px 22px; border-radius: 100px; text-decoration: none; }
+    @media (max-width: 768px) { nav { padding: 0 14px; height: 60px; } }
+
+    /* PROGRESSO (4 etapas) */
+    .progress-wrap { position: fixed; top: 76px; left: 0; right: 0; z-index: 4; background: rgba(255,255,255,.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 18px 24px; overflow-x: auto; }
+    .progress { max-width: 460px; margin: 0 auto; display: flex; align-items: center; }
+    .p-step { display: flex; flex-direction: column; align-items: center; gap: 6px; flex-shrink: 0; }
+    .p-dot { width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 500; color: var(--mid); background: #fff; transition: all .25s; }
+    .p-dot.active { border-color: var(--red); color: var(--red); }
+    .p-dot.done { border-color: var(--red); background: var(--red); color: #fff; }
+    .p-dot.done::after { content: "✓"; } .p-dot.done span { display:none; }
+    .p-label { font-size: 9.5px; font-weight: 500; color: var(--mid); white-space: nowrap; }
+    .p-label.active { color: var(--red); }
+    .p-line { flex: 1; height: 1px; background: var(--border); margin: 0 6px; margin-bottom: 16px; min-width: 20px; }
+    .p-line.done { background: var(--red); }
+    @media (max-width: 768px) { .progress-wrap { top: 60px; } }
+
+    .main-wrap { padding-top: calc(76px + 72px); min-height: 100vh; padding-bottom: 100px; }
+    @media (max-width: 768px) { .main-wrap { padding-top: calc(60px + 72px); } }
+    .step-outer { max-width: 720px; margin: 0 auto; padding: 0 24px; }
+    .step { display: none; }
+    .step.active { display: block; animation: fadeUp .5s cubic-bezier(.22,.68,0,1.01); }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .step-meta { font-size: 13px; font-weight: 500; letter-spacing: 1.5px; color: var(--mid); margin-bottom: 14px; margin-top: 44px; }
+    .step-title { font-weight: 500; font-size: clamp(28px,4vw,40px); letter-spacing: -1px; color: var(--dark); margin-bottom: 10px; line-height: 1.1; }
+    .step-desc { font-size: 16px; color: var(--mid); margin-bottom: 32px; line-height: 1.6; }
+
+    /* VÍDEO (reaproveitado do highschool.html) */
+    .videos-scroll, .videos-scroll-mobile { display: flex; justify-content: center; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: 6px; }
+    .videos-scroll::-webkit-scrollbar, .videos-scroll-mobile::-webkit-scrollbar { display: none; }
+    .videos-scroll-mobile { display: none; }
+    .video-card { flex: 0 0 calc(75% - 14px); scroll-snap-align: start; border-radius: 16px; overflow: hidden; background: #111; aspect-ratio: 16/9; position: relative; }
+    .video-card .video-el { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .video-expand-btn { position: absolute; bottom: 14px; right: 14px; width: 32px; height: 32px; background: transparent; color: #fff; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 2; filter: drop-shadow(0 1px 3px rgba(0,0,0,.5)); }
+    .videos-controls { position: relative; display: flex; align-items: center; justify-content: flex-end; padding: 16px 8px 0; }
+    .video-center-controls { position: absolute; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 16px; }
+    .video-dots { display: flex; align-items: center; gap: 8px; }
+    .video-progress-single { position: relative; width: 44px; height: 8px; border-radius: 4px; background: rgba(192,192,192,.35); overflow: hidden; }
+    .video-progress-single-fill { position: absolute; left:0; top:0; bottom:0; width: 0%; background: #c0c0c0; border-radius: 4px; }
+    .video-dot { position: relative; width: 8px; height: 8px; border-radius: 4px; background: #c0c0c0; border: none; padding: 0; cursor: pointer; overflow: hidden; transition: width .3s ease, background .3s ease; }
+    .video-dot.active { width: 40px; background: rgba(192,192,192,.35); }
+    .video-dot-fill { position: absolute; left:0; top:0; bottom:0; width: 0%; background: #c0c0c0; border-radius: 4px; }
+    .video-playpause { width: 48px; height: 48px; border-radius: 50%; background: #c0c0c0; color: #fff; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .video-playpause .icon-play { margin-left: 3px; }
+    @media (max-width: 768px) {
+      .videos-scroll { display: none; }
+      .videos-scroll-mobile { display: flex; gap: 32px; padding-left: 4px; }
+      .video-card-vert { flex: 0 0 86%; scroll-snap-align: start; border-radius: 24px; overflow: hidden; background: #111; aspect-ratio: 9/16; position: relative; }
+      .video-card-vert .video-el { width: 100%; height: 100%; object-fit: cover; display: block; }
+      .video-card-vert .video-expand-btn { top: 14px; left: 14px; bottom: auto; right: auto; }
+    }
+    .btn-continue-video { margin-top: 48px; }
+
+    /* FORMULÁRIO */
+    .form-category { margin-bottom: 40px; }
+    .form-category-title { font-weight: 500; font-size: 26px; letter-spacing: -0.5px; color: var(--dark); margin-bottom: 4px; }
+    .form-category-sub { font-size: 14px; color: var(--mid); margin-bottom: 20px; }
+    .form-category-divider { height: 1px; background: var(--border); margin: 0 0 26px; }
+    .fields { display: flex; flex-direction: column; gap: 14px; }
+    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+    .field { display: flex; flex-direction: column; gap: 7px; }
+    .field label { font-size: 14px; color: var(--mid); }
+    .f-input { width: 100%; height: 52px; padding: 0 16px; border: 1.5px solid var(--border); border-radius: 12px; font-size: 16px; color: var(--dark); background: #fff; outline: none; transition: border-color .15s; }
+    .f-input:focus { border-color: var(--red); }
+    select.f-input { appearance: none; cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236e6e73' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 44px; }
+    .radio-row { display: flex; gap: 20px; flex-wrap: wrap; }
+    .radio-opt { display: flex; align-items: center; gap: 8px; font-size: 15px; color: var(--dark); cursor: pointer; }
+    .radio-opt input { width: 18px; height: 18px; accent-color: var(--red); }
+    @media (max-width: 560px) { .row2, .row3 { grid-template-columns: 1fr; } }
+
+    /* AGENDAMENTO (reaproveitado do compra.html) */
+    .agenda-section-label { font-size: 14px; font-weight: 500; color: var(--dark); margin-bottom: 14px; }
+    .calendar-wrap { max-width: 380px; margin-bottom: 8px; }
+    .calendar-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+    .calendar-header p { font-size: 16px; font-weight: 500; color: var(--dark); text-transform: capitalize; }
+    .calendar-nav { width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid var(--border); background: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--dark); }
+    .calendar-dow-row { display: grid; grid-template-columns: repeat(7,1fr); margin-bottom: 6px; }
+    .calendar-dow-row span { text-align: center; font-size: 11px; font-weight: 500; color: var(--mid); }
+    .calendar-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 6px; margin-bottom: 32px; }
+    .calendar-day { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; border-radius: 10px; border: 1.5px solid transparent; font-size: 14px; color: var(--dark); background: #fff; cursor: pointer; }
+    .calendar-day.sel { border-color: var(--red); background: var(--red); color: #fff; }
+    .calendar-day.disabled { color: #c8c8cc; background: #f0f0f2; cursor: not-allowed; }
+    .calendar-day.empty { visibility: hidden; }
+    .slots-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(90px,1fr)); gap: 10px; margin-bottom: 8px; }
+    .slot-btn { padding: 12px 8px; border: 1.5px solid var(--border); border-radius: 10px; background: #fff; cursor: pointer; text-align: center; font-size: 14px; color: var(--dark); }
+    .slot-btn.sel { border-color: var(--red); background: var(--red); color: #fff; }
+    .slots-empty, .slots-loading { font-size: 14px; color: var(--mid); padding: 12px 0; }
+
+    /* PAGAMENTO */
+    #stripe-payment-element { margin-bottom: 20px; }
+    .price-box { background: #fff; border: 1.5px solid var(--border); border-radius: 14px; padding: 20px; margin-bottom: 24px; }
+    .price-box p:first-child { font-size: 13px; color: var(--mid); margin-bottom: 6px; }
+    .price-box p:last-child { font-size: 28px; font-weight: 700; color: var(--dark); }
+
+    /* BOTÕES */
+    .btn-continue { width: fit-content; height: auto; background: var(--red); color: #fff; font-size: 14px; font-weight: 700; border: none; border-radius: 100px; cursor: pointer; padding: 12px 26px; display: flex; align-items: center; justify-content: center; gap: 8px; margin: 12px auto 0; transition: opacity .2s, transform .15s; }
+    .btn-continue:hover:not(:disabled) { opacity: .9; }
+    .btn-continue:disabled { opacity: .45; cursor: not-allowed; }
+    .btn-spinner { width: 14px; height: 14px; border: 2px solid rgba(255,255,255,.35); border-top-color: #fff; border-radius: 50%; animation: spin .7s linear infinite; display: none; }
+    .btn-continue.loading .btn-spinner { display: block; } .btn-continue.loading .btn-text { display: none; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .err-msg { font-size: 12.5px; color: #ef4444; margin-top: 10px; min-height: 16px; text-align: center; }
+    .declaration-check { display: flex; align-items: flex-start; gap: 10px; margin-top: 8px; cursor: pointer; }
+    .declaration-check input { margin-top: 3px; width: 16px; height: 16px; accent-color: var(--red); cursor: pointer; }
+    .declaration-check span { font-size: 13px; color: var(--mid); line-height: 1.5; }
+    .recaptcha-notice { font-size: 11px; color: var(--mid); text-align: center; line-height: 1.5; margin-top: 16px; }
+    .recaptcha-notice a { color: var(--mid); }
+    .grecaptcha-badge { visibility: hidden; }
+
+    /* SUCESSO FINAL */
+    .success-screen { text-align: center; padding: 60px 0; }
+    .success-icon { width: 72px; height: 72px; margin: 0 auto 28px; border-radius: 50%; background: rgba(34,197,94,.1); display: flex; align-items: center; justify-content: center; color: #22c55e; }
+
+    footer { background: var(--red); color: #fff; padding: 40px 48px; }
+    footer p { font-size: 13px; color: rgba(255,255,255,0.65); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo"><img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/logo_f_rasterizada.png" alt="Facilitta Academy" /></a>
+  <a href="contato.html" class="nav-cta">Suporte</a>
+</nav>
+
+<div class="progress-wrap">
+  <div class="progress">
+    <div class="p-step"><div class="p-dot active" id="pd1"><span>1</span></div><div class="p-label active" id="pl1">Vídeo</div></div>
+    <div class="p-line" id="ln12"></div>
+    <div class="p-step"><div class="p-dot" id="pd2"><span>2</span></div><div class="p-label" id="pl2">Formulário</div></div>
+    <div class="p-line" id="ln23"></div>
+    <div class="p-step"><div class="p-dot" id="pd3"><span>3</span></div><div class="p-label" id="pl3">Agendamento</div></div>
+    <div class="p-line" id="ln34"></div>
+    <div class="p-step"><div class="p-dot" id="pd4"><span>4</span></div><div class="p-label" id="pl4">Pagamento</div></div>
+  </div>
+</div>
+
+<div class="main-wrap">
+
+  <!-- ETAPA 1: VÍDEO -->
+  <div class="step active step-outer" id="s1">
+    <p class="step-meta">Etapa 1 de 4</p>
+    <h1 class="step-title">Antes de começar</h1>
+    <p class="step-desc">Assista aos depoimentos de quem já faz parte da Facilitta Academy.</p>
+
+    <div class="videos-scroll" id="videosScrollWide">
+      <div class="video-card">
+        <video class="video-el" src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/gabrielposhero.MP4" playsinline preload="auto"></video>
+        <button class="video-expand-btn" aria-label="Tela cheia">
+          <svg class="icon-expand" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M21 16v3a2 2 0 0 1-2 2h-3M8 21H5a2 2 0 0 1-2-2v-3"/></svg>
+          <svg class="icon-collapse" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><path d="M9 3v3a2 2 0 0 1-2 2H4M15 3v3a2 2 0 0 0 2 2h3M4 15h3a2 2 0 0 1 2 2v3M20 15h-3a2 2 0 0 0-2 2v3"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="videos-scroll-mobile" id="videosScrollMobile">
+      <div class="video-card-vert">
+        <video class="video-el" src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/gabrielvertposhero.MP4" playsinline preload="auto"></video>
+        <button class="video-expand-btn" aria-label="Tela cheia">
+          <svg class="icon-expand" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15v5h5M20 9V4h-5M4 20l6-6M20 4l-6 6"/></svg>
+          <svg class="icon-collapse" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><path d="M9 15H4v5M15 9h5V4M9 15l-6 6M15 9l6-6"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="videos-controls">
+      <div class="video-center-controls">
+        <div class="video-progress-single" id="videoProgressSingle"><div class="video-progress-single-fill" id="videoProgressFill"></div></div>
+        <button class="video-playpause" id="videoPlayPause" aria-label="Play/Pause">
+          <svg class="icon-play" width="20" height="20" viewBox="0 0 18 18" fill="none"><path d="M5 3l10 6-10 6V3z" fill="currentColor"/></svg>
+          <svg class="icon-pause" width="20" height="20" viewBox="0 0 18 18" fill="none" style="display:none;"><rect x="3.5" y="2.5" width="4" height="13" fill="currentColor"/><rect x="10.5" y="2.5" width="4" height="13" fill="currentColor"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <button class="btn-continue btn-continue-video" onclick="goToStep(2)"><span class="btn-text">Continuar</span></button>
+  </div>
+
+  <!-- ETAPA 2: FORMULÁRIO -->
+  <div class="step step-outer" id="s2">
+    <p class="step-meta">Etapa 2 de 4</p>
+    <h1 class="step-title">Formulário de matrícula</h1>
+    <p class="step-desc">Preencha as informações abaixo com atenção.</p>
+
+    <div class="form-category">
+      <p class="form-category-title">Programa</p>
+      <div class="fields">
+        <div class="field">
+          <label>Curso / ano letivo</label>
+          <div class="radio-row">
+            <label class="radio-opt"><input type="radio" name="ano" value="1º Ano"> 1º Ano</label>
+            <label class="radio-opt"><input type="radio" name="ano" value="2º Ano"> 2º Ano</label>
+            <label class="radio-opt"><input type="radio" name="ano" value="3º Ano"> 3º Ano</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-category-divider"></div>
+
+    <div class="form-category">
+      <p class="form-category-title">Informações do aluno</p>
+      <div class="fields">
+        <div class="row2">
+          <div class="field"><label>Nome</label><input class="f-input" id="al-nome" type="text"/></div>
+          <div class="field"><label>Sobrenome</label><input class="f-input" id="al-sobrenome" type="text"/></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label>Apelido <span style="opacity:.6;">(opcional)</span></label><input class="f-input" id="al-apelido" type="text"/></div>
+          <div class="field"><label>E-mail</label><input class="f-input" id="al-email" type="email"/></div>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label>Sexo</label>
+            <select class="f-input" id="al-sexo"><option value="">Selecione</option><option>Masculino</option><option>Feminino</option></select>
+          </div>
+          <div class="field"><label>Data de nascimento</label><input class="f-input" id="al-nasc" type="date"/></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-category-divider"></div>
+
+    <div class="form-category">
+      <p class="form-category-title">Informações dos pais</p>
+      <div class="fields">
+        <div class="field"><label>Nome completo do pai</label><input class="f-input" id="pai-nome" type="text"/></div>
+        <div class="row2">
+          <div class="field"><label>E-mail do pai</label><input class="f-input" id="pai-email" type="email"/></div>
+          <div class="field"><label>Celular do pai</label><input class="f-input" id="pai-cel" type="tel"/></div>
+        </div>
+        <div class="field"><label>Nome completo da mãe</label><input class="f-input" id="mae-nome" type="text"/></div>
+        <div class="row2">
+          <div class="field"><label>E-mail da mãe</label><input class="f-input" id="mae-email" type="email"/></div>
+          <div class="field"><label>Celular da mãe</label><input class="f-input" id="mae-cel" type="tel"/></div>
+        </div>
+        <div class="field"><label>Endereço</label><input class="f-input" id="end-rua" type="text"/></div>
+        <div class="row3">
+          <div class="field"><label>Cidade</label><input class="f-input" id="end-cidade" type="text"/></div>
+          <div class="field"><label>Estado</label><input class="f-input" id="end-estado" type="text"/></div>
+          <div class="field"><label>CEP</label><input class="f-input" id="end-cep" type="text"/></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-category-divider"></div>
+
+    <div class="form-category">
+      <p class="form-category-title">Informação da escola no Brasil</p>
+      <div class="fields">
+        <div class="field"><label>Nome da escola</label><input class="f-input" id="esc-nome" type="text"/></div>
+        <div class="row2">
+          <div class="field"><label>Nome do diretor</label><input class="f-input" id="esc-diretor" type="text"/></div>
+          <div class="field"><label>Telefone</label><input class="f-input" id="esc-tel" type="tel"/></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label>E-mail</label><input class="f-input" id="esc-email" type="email"/></div>
+          <div class="field"><label>Webpage <span style="opacity:.6;">(opcional)</span></label><input class="f-input" id="esc-web" type="text"/></div>
+        </div>
+        <div class="field"><label>Endereço</label><input class="f-input" id="esc-rua" type="text"/></div>
+        <div class="row3">
+          <div class="field"><label>Cidade</label><input class="f-input" id="esc-cidade" type="text"/></div>
+          <div class="field"><label>Estado</label><input class="f-input" id="esc-estado" type="text"/></div>
+          <div class="field"><label>CEP</label><input class="f-input" id="esc-cep" type="text"/></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-category-divider"></div>
+
+    <div class="form-category">
+      <p class="form-category-title">Certificação</p>
+      <div class="fields">
+        <div class="field"><label>Assinatura (digite seu nome completo)</label><input class="f-input" id="assinatura" type="text" placeholder="Nome completo do estudante"/></div>
+      </div>
+    </div>
+
+    <label class="declaration-check">
+      <input type="checkbox" id="declaracao-form" onchange="document.getElementById('btnFormContinuar').disabled = !this.checked"/>
+      <span>Atestamos que todas as informações fornecidas acima são precisas.</span>
+    </label>
+
+    <div class="err-msg" id="err2"></div>
+    <button class="btn-continue" id="btnFormContinuar" onclick="submitForm()" disabled><span class="btn-text">Continuar</span></button>
+  </div>
+
+  <!-- ETAPA 3: AGENDAMENTO -->
+  <div class="step step-outer" id="s3">
+    <p class="step-meta">Etapa 3 de 4</p>
+    <h1 class="step-title">Agendamento</h1>
+    <p class="step-desc">Escolha um dia e horário para sua primeira reunião de assessoria.</p>
+
+    <p class="agenda-section-label">Escolha um dia</p>
+    <div class="calendar-wrap">
+      <div class="calendar-header">
+        <button type="button" class="calendar-nav" onclick="changeMonth(-1)">‹</button>
+        <p id="calendarMonthLabel"></p>
+        <button type="button" class="calendar-nav" onclick="changeMonth(1)">›</button>
+      </div>
+      <div class="calendar-dow-row"><span>Dom</span><span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span></div>
+      <div class="calendar-grid" id="calendarGrid"></div>
+    </div>
+
+    <div class="form-category-divider"></div>
+
+    <p class="agenda-section-label">Seus dados de contato</p>
+    <div class="fields" style="margin-bottom:32px;">
+      <div class="field"><label>Nome completo</label><input class="f-input" id="ag-nome" type="text"/></div>
+      <div class="row2">
+        <div class="field"><label>E-mail</label><input class="f-input" id="ag-email" type="email"/></div>
+        <div class="field"><label>WhatsApp</label><input class="f-input" id="ag-whatsapp" type="tel"/></div>
+      </div>
+    </div>
+
+    <div id="slotsWrap" style="display:none;">
+      <p class="agenda-section-label">Horários disponíveis</p>
+      <div class="slots-grid" id="slotsGrid"></div>
+      <p class="slots-empty" id="slotsEmpty" style="display:none;">Nenhum horário livre nesse dia. Tenta outro dia no calendário.</p>
+    </div>
+
+    <div class="err-msg" id="err3"></div>
+    <button class="btn-continue" id="btnAgendaContinuar" style="display:none;" onclick="confirmarAgendamentoLocal()"><span class="btn-text">Continuar</span></button>
+  </div>
+
+  <!-- ETAPA 4: PAGAMENTO -->
+  <div class="step step-outer" id="s4">
+    <p class="step-meta">Etapa 4 de 4</p>
+    <h1 class="step-title">Pagamento</h1>
+    <p class="step-desc">Pagamento seguro, processado dentro do site. Parcelamento disponível.</p>
+
+    <div class="price-box">
+      <p>Valor da matrícula</p>
+      <p id="priceLabel">Carregando...</p>
+    </div>
+
+    <div id="stripe-payment-element"></div>
+
+    <div class="err-msg" id="err4"></div>
+    <button class="btn-continue" id="btnPagar" onclick="confirmarPagamento()">
+      <span class="btn-text">Confirmar pagamento</span>
+      <div class="btn-spinner"></div>
+    </button>
+    <p class="recaptcha-notice">Este site é protegido por reCAPTCHA. Aplicam-se a <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Política de Privacidade</a> e os <a href="https://policies.google.com/terms" target="_blank" rel="noopener">Termos de Serviço</a> do Google.</p>
+  </div>
+
+  <!-- SUCESSO -->
+  <div class="step step-outer" id="s5">
+    <div class="success-screen">
+      <div class="success-icon">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <p class="step-title" style="font-size:28px;">Matrícula confirmada!</p>
+      <p class="step-desc">Recebemos seu pagamento. Em instantes você vai receber um email de confirmação com o comprovante e os detalhes da sua primeira reunião de assessoria.</p>
+    </div>
+  </div>
+
+</div>
+
+<footer><p>© 2026 Facilitta Academy. Todos os direitos reservados.</p></footer>
+
+<script>
+// ══════════════════ NAVEGAÇÃO ENTRE ETAPAS ══════════════════
+const STEP_ORDER = [1,2,3,4];
+function goToStep(n){
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('s'+n).classList.add('active');
+  for(let i=1;i<=4;i++){
+    const dot = document.getElementById('pd'+i);
+    const label = document.getElementById('pl'+i);
+    dot.classList.remove('active','done'); label.classList.remove('active');
+    if(i < n){ dot.classList.add('done'); }
+    else if(i === n){ dot.classList.add('active'); label.classList.add('active'); }
+  }
+  ['ln12','ln23','ln34'].forEach((id,idx) => {
+    document.getElementById(id).classList.toggle('done', n > idx+1);
+  });
+  window.scrollTo({top:0, behavior:'smooth'});
+  if(n === 4) iniciarPagamento();
+}
+
+// ══════════════════ ETAPA 1: VÍDEO ÚNICO ══════════════════
+(function(){
+  function isMobile(){ return window.matchMedia('(max-width: 768px)').matches; }
+  function getActiveVideo(){
+    return isMobile()
+      ? document.querySelector('#videosScrollMobile .video-el')
+      : document.querySelector('#videosScrollWide .video-el');
+  }
+
+  const playPauseBtn = document.getElementById('videoPlayPause');
+  const progressFill = document.getElementById('videoProgressFill');
+  if(!playPauseBtn) return;
+  const iconPlay = playPauseBtn.querySelector('.icon-play');
+  const iconPause = playPauseBtn.querySelector('.icon-pause');
+
+  function updateIcon(){
+    const v = getActiveVideo();
+    const playing = v && !v.paused && !v.ended;
+    iconPlay.style.display = playing ? 'none' : 'block';
+    iconPause.style.display = playing ? 'block' : 'none';
+  }
+
+  const allVideos = [document.querySelector('#videosScrollWide .video-el'), document.querySelector('#videosScrollMobile .video-el')];
+  allVideos.forEach(v => {
+    if(!v) return;
+    v.addEventListener('timeupdate', () => { if(v === getActiveVideo() && v.duration && progressFill) progressFill.style.width = (v.currentTime/v.duration*100)+'%'; });
+    v.addEventListener('play', () => { if(v === getActiveVideo()) updateIcon(); });
+    v.addEventListener('pause', () => { if(v === getActiveVideo()) updateIcon(); });
+    v.addEventListener('ended', updateIcon);
+    v.addEventListener('loadedmetadata', () => { if(v.currentTime === 0) v.currentTime = 0.1; });
+  });
+
+  playPauseBtn.addEventListener('click', () => {
+    const v = getActiveVideo(); if(!v) return;
+    if(v.paused) v.play(); else v.pause();
+  });
+
+  document.querySelectorAll('.video-card, .video-card-vert').forEach(card => {
+    const video = card.querySelector('.video-el'); const btn = card.querySelector('.video-expand-btn');
+    if(!video || !btn) return;
+    const iconExpand = btn.querySelector('.icon-expand'); const iconCollapse = btn.querySelector('.icon-collapse');
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if(document.fullscreenElement === video || video.webkitDisplayingFullscreen){
+        if(document.exitFullscreen) document.exitFullscreen().catch(()=>{});
+        if(video.webkitExitFullscreen) video.webkitExitFullscreen();
+        return;
+      }
+      if(video.webkitEnterFullscreen) video.webkitEnterFullscreen();
+      else if(video.requestFullscreen) video.requestFullscreen().catch(()=>{});
+    });
+    document.addEventListener('fullscreenchange', () => {
+      const isFs = document.fullscreenElement === video;
+      video.controls = isFs;
+      iconExpand.style.display = isFs ? 'none' : 'block';
+      iconCollapse.style.display = isFs ? 'block' : 'none';
+    });
+    video.addEventListener('webkitendfullscreen', () => { video.controls = false; iconExpand.style.display='block'; iconCollapse.style.display='none'; });
+  });
+})();
+
+// ══════════════════ ETAPA 2: FORMULÁRIO ══════════════════
+let formData = null;
+function v(id){ return document.getElementById(id)?.value?.trim(); }
+function showErr(elId, msg){ const el=document.getElementById(elId); if(el) el.textContent = msg; }
+
+function submitForm(){
+  const required = ['al-nome','al-sobrenome','al-email','al-sexo','al-nasc','pai-nome','pai-email','pai-cel','mae-nome','mae-email','mae-cel','end-rua','end-cidade','end-estado','end-cep','esc-nome','esc-diretor','esc-tel','esc-email','esc-rua','esc-cidade','esc-estado','esc-cep','assinatura'];
+  for(const id of required){ if(!v(id)){ showErr('err2','Preencha todos os campos obrigatórios.'); return; } }
+  const ano = document.querySelector('input[name="ano"]:checked');
+  if(!ano){ showErr('err2','Selecione o ano letivo.'); return; }
+  showErr('err2','');
+
+  formData = {
+    aluno: { nome:v('al-nome'), sobrenome:v('al-sobrenome'), apelido:v('al-apelido')||'', email:v('al-email'), sexo:v('al-sexo'), nascimento:v('al-nasc'), ano: ano.value, assinatura: v('assinatura') },
+    pais: { pai: { nome:v('pai-nome'), email:v('pai-email'), celular:v('pai-cel') }, mae: { nome:v('mae-nome'), email:v('mae-email'), celular:v('mae-cel') }, endereco: { rua:v('end-rua'), cidade:v('end-cidade'), estado:v('end-estado'), cep:v('end-cep') } },
+    escola: { nome:v('esc-nome'), diretor:v('esc-diretor'), tel:v('esc-tel'), email:v('esc-email'), web:v('esc-web')||'', rua:v('esc-rua'), cidade:v('esc-cidade'), estado:v('esc-estado'), cep:v('esc-cep') },
+  };
+  goToStep(3);
+  renderCalendar();
+}
+
+// ══════════════════ ETAPA 3: AGENDAMENTO ══════════════════
+let selectedDate = null, selectedSlot = null, calendarViewDate = new Date();
+const MAX_DAYS_AHEAD = 14;
+const MONTH_NAMES = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+
+function dateKey(d){ return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
+function changeMonth(delta){ calendarViewDate = new Date(calendarViewDate.getFullYear(), calendarViewDate.getMonth()+delta, 1); renderCalendar(); }
+
+function renderCalendar(){
+  const grid = document.getElementById('calendarGrid'); const label = document.getElementById('calendarMonthLabel');
+  grid.innerHTML = '';
+  const year = calendarViewDate.getFullYear(), month = calendarViewDate.getMonth();
+  label.textContent = `${MONTH_NAMES[month]} ${year}`;
+  const today = new Date(); today.setHours(0,0,0,0);
+  const maxDate = new Date(today.getTime() + MAX_DAYS_AHEAD*86400000);
+  const firstDay = new Date(year, month, 1); const startWeekday = firstDay.getDay();
+  const daysInMonth = new Date(year, month+1, 0).getDate();
+  for(let i=0;i<startWeekday;i++){ const empty=document.createElement('div'); empty.className='calendar-day empty'; grid.appendChild(empty); }
+  for(let day=1; day<=daysInMonth; day++){
+    const d = new Date(year, month, day); d.setHours(0,0,0,0);
+    const dow = d.getDay(); const isWeekend = dow===0||dow===6;
+    const isPast = d < today; const isTooFar = d > maxDate;
+    const disabled = isWeekend || isPast || isTooFar;
+    const key = dateKey(d);
+    const cell = document.createElement('div');
+    cell.className = 'calendar-day' + (disabled ? ' disabled' : '');
+    cell.textContent = day;
+    if(key === selectedDate) cell.classList.add('sel');
+    if(!disabled) cell.onclick = () => selectDate(key, cell);
+    grid.appendChild(cell);
+  }
+}
+
+async function selectDate(dateStr, cellEl){
+  selectedDate = dateStr; selectedSlot = null;
+  document.querySelectorAll('.calendar-day').forEach(c => c.classList.remove('sel'));
+  cellEl.classList.add('sel');
+  document.getElementById('btnAgendaContinuar').style.display = 'none';
+  const slotsWrap = document.getElementById('slotsWrap'); const slotsGrid = document.getElementById('slotsGrid'); const slotsEmpty = document.getElementById('slotsEmpty');
+  slotsWrap.style.display = 'block'; slotsGrid.innerHTML = '<p class="slots-loading">Consultando horários disponíveis...</p>'; slotsEmpty.style.display = 'none';
+  showErr('err3','');
+  try{
+    const res = await fetch(`/api/disponibilidade?data=${dateStr}`);
+    const data = await res.json();
+    slotsGrid.innerHTML = '';
+    if(!data.slots || data.slots.length === 0){ slotsEmpty.style.display = 'block'; return; }
+    data.slots.forEach(slot => {
+      const btn = document.createElement('button'); btn.className='slot-btn'; btn.type='button'; btn.textContent = slot.label;
+      btn.onclick = () => selectSlot(slot, btn);
+      slotsGrid.appendChild(btn);
+    });
+  }catch(e){ slotsGrid.innerHTML=''; showErr('err3','Não foi possível consultar os horários agora.'); }
+}
+function selectSlot(slot, btnEl){
+  selectedSlot = slot;
+  document.querySelectorAll('.slot-btn').forEach(b => b.classList.remove('sel'));
+  btnEl.classList.add('sel');
+  document.getElementById('btnAgendaContinuar').style.display = 'flex';
+  showErr('err3','');
+}
+
+function confirmarAgendamentoLocal(){
+  const nome = v('ag-nome'), email = v('ag-email'), whatsapp = v('ag-whatsapp');
+  if(!nome){ showErr('err3','Nome é obrigatório.'); return; }
+  if(!email){ showErr('err3','E-mail é obrigatório.'); return; }
+  if(!whatsapp){ showErr('err3','WhatsApp é obrigatório.'); return; }
+  if(!selectedSlot){ showErr('err3','Selecione um horário.'); return; }
+
+  // Não cria o evento agora — só guarda a escolha. O evento só é criado
+  // de verdade depois que o pagamento for confirmado (via webhook do Stripe).
+  formData.agendamento = { start: selectedSlot.start, end: selectedSlot.end, label: selectedSlot.label, contato: { nome, email, whatsapp } };
+  goToStep(4);
+}
+
+// ══════════════════ ETAPA 4: PAGAMENTO (Stripe) ══════════════════
+let stripeInstance = null, elementsInstance = null, clientSecretGlobal = null;
+
+async function iniciarPagamento(){
+  if(stripeInstance) return; // já iniciado
+  try{
+    const res = await fetch('/api/checkout-intent', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ aluno: formData.aluno, pais: formData.pais, escola: formData.escola, agendamento: formData.agendamento }),
+    });
+    const data = await res.json();
+    if(!res.ok) throw new Error(data.error || 'Não foi possível iniciar o pagamento.');
+
+    clientSecretGlobal = data.clientSecret;
+    stripeInstance = Stripe(data.publishableKey);
+    elementsInstance = stripeInstance.elements({ clientSecret: data.clientSecret });
+    const paymentElement = elementsInstance.create('payment');
+    paymentElement.mount('#stripe-payment-element');
+
+    document.getElementById('priceLabel').textContent = 'Consulte o valor e as opções de parcelamento no formulário de pagamento abaixo';
+  }catch(e){
+    showErr('err4', e.message);
+  }
+}
+
+async function confirmarPagamento(){
+  if(!stripeInstance || !elementsInstance){ showErr('err4','Aguarde o formulário de pagamento carregar.'); return; }
+  const btn = document.getElementById('btnPagar');
+  btn.classList.add('loading'); btn.disabled = true; showErr('err4','');
+
+  const { error } = await stripeInstance.confirmPayment({
+    elements: elementsInstance,
+    confirmParams: { return_url: window.location.href },
+    redirect: 'if_required',
+  });
+
+  if(error){
+    showErr('err4', error.message || 'Não foi possível confirmar o pagamento.');
+    btn.classList.remove('loading'); btn.disabled = false;
+    return;
+  }
+
+  // Pagamento confirmado no navegador — o webhook do Stripe vai processar
+  // a criação da agenda e o envio dos emails no servidor.
+  goToStep(5);
+}
+</script>
+
+</body>
+</html>

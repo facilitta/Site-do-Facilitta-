@@ -1,53 +1,108 @@
-export default async function handler(req, res) {
-  // Só aceita POST
+// api/contato.js
+//
+// Recebe os dados do formulário de contato (email, assunto, mensagem),
+// verifica o reCAPTCHA v3, e envia um email pra Suporte@facilitta.org via Resend.
+
+const DESTINATION_EMAIL = 'Suporte@facilitta.org';
+const FROM_EMAIL = 'Facilitta Academy <aplicacoes@facilitta.org>';
+const RECAPTCHA_MIN_SCORE = 0.5;
+
+function escapeHtml(str) {
+  if (str === undefined || str === null) return '';
+  return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+async function verifyRecaptcha(token) {
+  const secret = process.env.RECAPTCHA_SECRET_KEY;
+  if (!secret) {
+    console.error('RECAPTCHA_SECRET_KEY não configurada.');
+    return { ok: false, reason: 'config' };
+  }
+  if (!token) return { ok: false, reason: 'missing-token' };
+
+  const verifyRes = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({ secret, response: token }),
+  });
+  const data = await verifyRes.json();
+  if (!data.success || (typeof data.score === 'number' && data.score < RECAPTCHA_MIN_SCORE)) {
+    return { ok: false, reason: 'low-score', data };
+  }
+  return { ok: true, data };
+}
+
+module.exports = async (req, res) => {
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Método não permitido' });
+    res.status(405).json({ error: 'Método não permitido.' });
+    return;
   }
 
-  const { email, assunto, mensagem } = req.body;
+  let body = req.body;
+  if (typeof body === 'string') {
+    try { body = JSON.parse(body); } catch (e) { body = {}; }
+  }
+  body = body || {};
 
-  // Validação básica
+  const { email, assunto, mensagem, recaptchaToken } = body;
+
+  const recaptcha = await verifyRecaptcha(recaptchaToken);
+  if (!recaptcha.ok) {
+    console.error('Falha na verificação do reCAPTCHA:', recaptcha.reason, recaptcha.data);
+    res.status(400).json({ error: 'Não foi possível confirmar que você não é um robô. Tente novamente.' });
+    return;
+  }
+
   if (!email || !assunto || !mensagem) {
-    return res.status(400).json({ error: 'Preencha todos os campos' });
+    res.status(400).json({ error: 'Preencha todos os campos.' });
+    return;
   }
 
   try {
-    const response = await fetch('https://api.resend.com/emails', {
+    const apiKey = process.env.RESEND_API_KEY;
+    if (!apiKey) {
+      throw new Error('RESEND_API_KEY não configurada.');
+    }
+
+    const emailRes = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
+        Authorization: `Bearer ${apiKey}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: 'Site Facilitta <noreply@facilitta.org>',
-        to: 'Suporte@facilitta.org',
+        from: FROM_EMAIL,
+        to: [DESTINATION_EMAIL],
         reply_to: email,
-        subject: `[Contato] ${assunto}`,
+        subject: `Novo contato — ${assunto}`,
         html: `
-          <div style="font-family: Inter, sans-serif; max-width: 600px; margin: 0 auto;">
-            <h2 style="color: #E8391D;">Nova mensagem pelo site</h2>
-            <p><strong>De:</strong> ${email}</p>
-            <p><strong>Assunto:</strong> ${assunto}</p>
-            <hr style="border: 1px solid #eee; margin: 20px 0;" />
-            <p><strong>Mensagem:</strong></p>
-            <p style="color: #444; line-height: 1.6;">${mensagem.replace(/\n/g, '<br/>')}</p>
-            <hr style="border: 1px solid #eee; margin: 20px 0;" />
-            <p style="font-size: 12px; color: #999;">Enviado pelo formulário de contato do site facilitta.org</p>
+          <div style="font-family:Helvetica,Arial,sans-serif; max-width:520px; margin:0 auto; background:#f5f5f7; padding:32px 16px;">
+            <div style="background:#ffffff; border-radius:16px; overflow:hidden; border:1px solid #e5e5e7;">
+              <div style="background:#E8391D; padding:20px 28px;">
+                <p style="margin:0; color:#ffffff; font-size:16px; font-weight:700;">Nova mensagem de contato</p>
+              </div>
+              <div style="padding:24px 28px;">
+                <p style="margin:0 0 6px; color:#6e6e73; font-size:12px;">E-mail</p>
+                <p style="margin:0 0 16px; color:#1d1d1f; font-size:14px; font-weight:600;">${escapeHtml(email)}</p>
+                <p style="margin:0 0 6px; color:#6e6e73; font-size:12px;">Assunto</p>
+                <p style="margin:0 0 16px; color:#1d1d1f; font-size:14px; font-weight:600;">${escapeHtml(assunto)}</p>
+                <p style="margin:0 0 6px; color:#6e6e73; font-size:12px;">Mensagem</p>
+                <p style="margin:0; color:#1d1d1f; font-size:14px; line-height:1.6; white-space:pre-wrap;">${escapeHtml(mensagem)}</p>
+              </div>
+            </div>
           </div>
         `,
       }),
     });
 
-    if (!response.ok) {
-      const error = await response.json();
-      console.error('Resend error:', error);
-      return res.status(500).json({ error: 'Erro ao enviar email' });
+    if (!emailRes.ok) {
+      const text = await emailRes.text();
+      throw new Error(text);
     }
 
-    return res.status(200).json({ success: true });
-
+    res.status(200).json({ ok: true });
   } catch (err) {
-    console.error('Erro:', err);
-    return res.status(500).json({ error: 'Erro interno' });
+    console.error('Erro ao enviar contato:', err);
+    res.status(500).json({ error: 'Não foi possível enviar sua mensagem agora. Tente novamente.' });
   }
-}
+};

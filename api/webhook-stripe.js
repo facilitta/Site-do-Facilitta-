@@ -94,6 +94,14 @@ async function criarEventoNaAgenda(impersonateEmail, { aluno, agendamento }) {
   return createRes.json();
 }
 
+async function buscarPaymentIntent(id, secretKey) {
+  const r = await fetch(`https://api.stripe.com/v1/payment_intents/${id}`, {
+    headers: { Authorization: `Bearer ${secretKey}` },
+  });
+  if (!r.ok) throw new Error(`Erro ao consultar parte ${id}: ${await r.text()}`);
+  return r.json();
+}
+
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {
     res.status(405).send('Método não permitido.');
@@ -133,8 +141,41 @@ module.exports = async (req, res) => {
   try { escola = JSON.parse(metadata.escola || '{}'); } catch (e) {}
   try { agendamento = JSON.parse(metadata.agendamento || '{}'); } catch (e) {}
 
-  const receiptUrl = paymentIntent.charges?.data?.[0]?.receipt_url || '';
-  const valorPago = (paymentIntent.amount / 100).toLocaleString('pt-BR', { style: 'currency', currency: paymentIntent.currency.toUpperCase() });
+  const totalPartes = parseInt(metadata.total_partes || '1', 10);
+  const isFinalParte = (metadata.is_final_parte || 'true') === 'true';
+  const siblingIds = (metadata.sibling_intent_ids || '').split(',').map(s => s.trim()).filter(Boolean);
+
+  // Se essa matrícula tem mais de uma parte, só a ÚLTIMA parte confirmada é
+  // responsável por checar se TODAS as outras já foram aprovadas, e finalizar.
+  if (totalPartes > 1 && !isFinalParte) {
+    console.log(`Parte ${metadata.parte_numero}/${totalPartes} aprovada, aguardando as demais.`);
+    res.status(200).json({ received: true, waitingOtherParts: true });
+    return;
+  }
+
+  let todosPagamentos = [paymentIntent];
+  if (totalPartes > 1 && siblingIds.length > 0) {
+    try {
+      const secretKey = process.env.STRIPE_SECRET_KEY;
+      const siblings = await Promise.all(siblingIds.map(id => buscarPaymentIntent(id, secretKey)));
+      const algumNaoPago = siblings.some(p => p.status !== 'succeeded');
+      if (algumNaoPago) {
+        console.log('Ainda tem parte(s) não aprovada(s), aguardando.');
+        res.status(200).json({ received: true, waitingOtherParts: true });
+        return;
+      }
+      todosPagamentos = [paymentIntent, ...siblings];
+    } catch (err) {
+      console.error('Erro ao checar as outras partes:', err);
+      res.status(500).json({ error: 'Erro ao verificar as outras partes do pagamento.' });
+      return;
+    }
+  }
+
+  const valorTotalCents = todosPagamentos.reduce((sum, p) => sum + p.amount, 0);
+  const valorPago = (valorTotalCents / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  const receiptUrls = todosPagamentos.map(p => p.charges?.data?.[0]?.receipt_url).filter(Boolean);
+  const receiptUrl = receiptUrls[0] || '';
   const dataLabel = new Date(agendamento.start).toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric', timeZone: 'America/Sao_Paulo' });
   const horaLabel = agendamento.label || new Date(agendamento.start).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', timeZone: 'America/Sao_Paulo' });
 

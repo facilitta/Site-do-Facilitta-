@@ -29,7 +29,7 @@
     /* PROGRESSO (4 etapas) */
     .progress-wrap { position: fixed; top: 76px; left: 0; right: 0; z-index: 4; background: rgba(255,255,255,.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 18px 24px; overflow-x: auto; }
     .progress { max-width: 460px; margin: 0 auto; display: flex; align-items: center; }
-    .p-step { display: flex; flex-direction: column; align-items: center; gap: 6px; flex-shrink: 0; }
+    .p-step { display: flex; flex-direction: column; align-items: center; gap: 6px; flex-shrink: 0; cursor: pointer; }
     .p-dot { width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 500; color: var(--mid); background: #fff; transition: all .25s; }
     .p-dot.active { border-color: var(--red); color: var(--red); }
     .p-dot.done { border-color: var(--red); background: var(--red); color: #fff; }
@@ -70,7 +70,7 @@
     @media (max-width: 768px) {
       .videos-scroll { display: none; }
       .videos-scroll-mobile { display: flex; gap: 32px; padding-left: 4px; }
-      .video-card-vert { flex: 0 0 96%; scroll-snap-align: start; border-radius: 24px; overflow: hidden; background: #111; aspect-ratio: 9/16; position: relative; margin-bottom: 4px; }
+      .video-card-vert { flex: 0 0 86%; scroll-snap-align: start; border-radius: 24px; overflow: hidden; background: #111; aspect-ratio: 9/16; position: relative; margin-bottom: 4px; }
       .video-card-vert .video-el { width: 100%; height: 100%; object-fit: cover; display: block; }
       .video-card-vert .video-expand-btn { top: 14px; left: 14px; bottom: auto; right: auto; }
     }
@@ -88,6 +88,7 @@
     .field label { font-size: 14px; color: var(--mid); }
     .f-input { width: 100%; height: 52px; padding: 0 16px; border: 1.5px solid var(--border); border-radius: 12px; font-size: 16px; color: var(--dark); background: #fff; outline: none; transition: border-color .15s; }
     .f-input:focus { border-color: var(--red); }
+    .f-input.invalid { border-color: #ef4444; background: rgba(239,68,68,.04); }
     select.f-input { appearance: none; cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236e6e73' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 44px; }
     .radio-row { display: flex; gap: 20px; flex-wrap: wrap; }
     .radio-opt { display: flex; align-items: center; gap: 8px; font-size: 15px; color: var(--dark); cursor: pointer; }
@@ -116,7 +117,7 @@
     #stripe-payment-element { margin-bottom: 20px; }
     .price-box { background: #fff; border: 1.5px solid var(--border); border-radius: 14px; padding: 20px; margin-bottom: 24px; }
     .price-box p:first-child { font-size: 13px; color: var(--mid); margin-bottom: 6px; }
-    .price-box p:last-child { font-size: 28px; font-weight: 700; color: var(--dark); }
+    .price-box p:last-child { font-size: 18px; font-weight: 400; color: var(--dark); }
 
     /* BOTÕES */
     .btn-continue { width: fit-content; height: auto; background: var(--red); color: #fff; font-size: 14px; font-weight: 700; border: none; border-radius: 100px; cursor: pointer; padding: 12px 26px; display: flex; align-items: center; justify-content: center; gap: 8px; margin: 12px auto 0; transition: opacity .2s, transform .15s; }
@@ -150,13 +151,13 @@
 
 <div class="progress-wrap">
   <div class="progress">
-    <div class="p-step"><div class="p-dot active" id="pd1"><span>1</span></div><div class="p-label active" id="pl1">Vídeo</div></div>
+    <div class="p-step" onclick="tryGoToStep(1)"><div class="p-dot active" id="pd1"><span>1</span></div><div class="p-label active" id="pl1">Vídeo</div></div>
     <div class="p-line" id="ln12"></div>
-    <div class="p-step"><div class="p-dot" id="pd2"><span>2</span></div><div class="p-label" id="pl2">Formulário</div></div>
+    <div class="p-step" onclick="tryGoToStep(2)"><div class="p-dot" id="pd2"><span>2</span></div><div class="p-label" id="pl2">Formulário</div></div>
     <div class="p-line" id="ln23"></div>
-    <div class="p-step"><div class="p-dot" id="pd3"><span>3</span></div><div class="p-label" id="pl3">Agendamento</div></div>
+    <div class="p-step" onclick="tryGoToStep(3)"><div class="p-dot" id="pd3"><span>3</span></div><div class="p-label" id="pl3">Agendamento</div></div>
     <div class="p-line" id="ln34"></div>
-    <div class="p-step"><div class="p-dot" id="pd4"><span>4</span></div><div class="p-label" id="pl4">Pagamento</div></div>
+    <div class="p-step" onclick="tryGoToStep(4)"><div class="p-dot" id="pd4"><span>4</span></div><div class="p-label" id="pl4">Pagamento</div></div>
   </div>
 </div>
 
@@ -209,6 +210,13 @@
     <div class="form-category">
       <p class="form-category-title">Programa</p>
       <div class="fields">
+        <div class="field">
+          <label>Qual programa você está adquirindo?</label>
+          <select class="f-input" id="produto-id">
+            <option value="">Selecione</option>
+            <option value="highschool">Facilitta High School</option>
+          </select>
+        </div>
         <div class="field">
           <label>Curso / ano letivo</label>
           <div class="radio-row">
@@ -350,21 +358,62 @@
   <div class="step step-outer" id="s4">
     <p class="step-meta">Etapa 4 de 4</p>
     <h1 class="step-title">Pagamento</h1>
-    <p class="step-desc">Pagamento seguro, processado dentro do site. Parcelamento disponível.</p>
+    <p class="step-desc">Pagamento seguro, processado dentro do site.</p>
 
     <div class="price-box">
-      <p>Valor da matrícula</p>
-      <p id="priceLabel">Carregando...</p>
+      <p>Valor total</p>
+      <p id="totalPriceLabel">Carregando...</p>
     </div>
 
-    <div id="stripe-payment-element"></div>
+    <!-- CONFIGURAÇÃO: quantos métodos e divisão do valor -->
+    <div id="pagamentoConfig">
+      <div class="fields" style="margin-bottom:20px;">
+        <div class="field">
+          <label>Quantos meios de pagamento você quer usar?</label>
+          <select class="f-input" id="qtdMetodos" onchange="onQtdMetodosChange()">
+            <option value="1">1 meio de pagamento</option>
+            <option value="2">2 meios de pagamento (dividir o valor)</option>
+          </select>
+        </div>
+      </div>
 
-    <div class="err-msg" id="err4"></div>
-    <button class="btn-continue" id="btnPagar" onclick="confirmarPagamento()">
-      <span class="btn-text">Confirmar pagamento</span>
-      <div class="btn-spinner"></div>
-    </button>
-    <p class="recaptcha-notice">Este site é protegido por reCAPTCHA. Aplicam-se a <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Política de Privacidade</a> e os <a href="https://policies.google.com/terms" target="_blank" rel="noopener">Termos de Serviço</a> do Google.</p>
+      <div class="row2" id="splitFields" style="display:none; margin-bottom:20px;">
+        <div class="field"><label>Valor da 1ª parte (R$)</label><input class="f-input" id="valorParte1" type="number" min="0.01" step="0.01" oninput="atualizarValorParte2()"/></div>
+        <div class="field"><label>Valor da 2ª parte (R$)</label><input class="f-input" id="valorParte2" type="text" readonly/></div>
+      </div>
+
+      <div class="row2" id="metodoFields" style="margin-bottom:12px;">
+        <div class="field">
+          <label id="metodoParte1Label">Método de pagamento</label>
+          <select class="f-input" id="metodoParte1">
+            <option value="card">Cartão (parcelado)</option>
+            <option value="pix">Pix</option>
+          </select>
+        </div>
+        <div class="field" id="metodoParte2Wrap" style="display:none;">
+          <label>Método da 2ª parte</label>
+          <select class="f-input" id="metodoParte2">
+            <option value="card">Cartão (parcelado)</option>
+            <option value="pix">Pix</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="err-msg" id="errConfig"></div>
+      <button class="btn-continue" onclick="prepararPartes()"><span class="btn-text">Continuar pro pagamento</span></button>
+    </div>
+
+    <!-- PAGAMENTO ATIVO: uma parte de cada vez -->
+    <div id="pagamentoAtivo" style="display:none;">
+      <p class="agenda-section-label" id="parteLabel">Parte 1 de 1</p>
+      <div id="stripe-payment-element"></div>
+      <div class="err-msg" id="err4"></div>
+      <button class="btn-continue" id="btnPagar" onclick="confirmarParteAtual()">
+        <span class="btn-text">Confirmar pagamento</span>
+        <div class="btn-spinner"></div>
+      </button>
+      <p class="recaptcha-notice">Este site é protegido por reCAPTCHA. Aplicam-se a <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Política de Privacidade</a> e os <a href="https://policies.google.com/terms" target="_blank" rel="noopener">Termos de Serviço</a> do Google.</p>
+    </div>
   </div>
 
   <!-- SUCESSO -->
@@ -385,18 +434,26 @@
 <script>
 // ══════════════════ NAVEGAÇÃO ENTRE ETAPAS ══════════════════
 const STEP_ORDER = [1,2,3,4];
+let highestStepReached = 1;
+
+function tryGoToStep(n){
+  // sem trava por enquanto — clique livre em qualquer etapa da barra
+  goToStep(n);
+}
+
 function goToStep(n){
+  if(n > highestStepReached) highestStepReached = n;
   document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
   document.getElementById('s'+n).classList.add('active');
   for(let i=1;i<=4;i++){
     const dot = document.getElementById('pd'+i);
     const label = document.getElementById('pl'+i);
     dot.classList.remove('active','done'); label.classList.remove('active');
-    if(i < n){ dot.classList.add('done'); }
-    else if(i === n){ dot.classList.add('active'); label.classList.add('active'); }
+    if(i < highestStepReached || (i < n)){ dot.classList.add('done'); }
+    if(i === n){ dot.classList.add('active'); label.classList.add('active'); }
   }
   ['ln12','ln23','ln34'].forEach((id,idx) => {
-    document.getElementById(id).classList.toggle('done', n > idx+1);
+    document.getElementById(id).classList.toggle('done', highestStepReached > idx+1);
   });
   window.scrollTo({top:0, behavior:'smooth'});
   if(n === 4) iniciarPagamento();
@@ -468,18 +525,39 @@ let formData = null;
 function v(id){ return document.getElementById(id)?.value?.trim(); }
 function showErr(elId, msg){ const el=document.getElementById(elId); if(el) el.textContent = msg; }
 
+function markField(id, invalid){
+  const el = document.getElementById(id);
+  if(el) el.classList.toggle('invalid', !!invalid);
+}
+
 function submitForm(){
   const required = ['al-nome','al-sobrenome','al-email','al-sexo','al-nasc','pai-nome','pai-email','pai-cel','mae-nome','mae-email','mae-cel','end-rua','end-cidade','end-estado','end-cep','esc-nome','esc-diretor','esc-tel','esc-email','esc-rua','esc-cidade','esc-estado','esc-cep','assinatura'];
-  for(const id of required){ if(!v(id)){ showErr('err2','Preencha todos os campos obrigatórios.'); return; } }
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  for(const id of ['al-email','pai-email','mae-email','esc-email']){
-    if(!emailRegex.test(v(id))){ showErr('err2','Verifique se os e-mails estão no formato correto (ex: nome@exemplo.com).'); return; }
-  }
+  const emailFields = ['al-email','pai-email','mae-email','esc-email'];
+  let hasError = false;
+
+  required.forEach(id => {
+    const invalid = !v(id);
+    markField(id, invalid);
+    if(invalid) hasError = true;
+  });
+  emailFields.forEach(id => {
+    const invalid = !v(id) || !emailRegex.test(v(id));
+    markField(id, invalid);
+    if(invalid) hasError = true;
+  });
+  const produtoInvalid = !v('produto-id');
+  markField('produto-id', produtoInvalid);
+  if(produtoInvalid) hasError = true;
+
   const ano = document.querySelector('input[name="ano"]:checked');
-  if(!ano){ showErr('err2','Selecione o ano letivo.'); return; }
+  if(!ano) hasError = true;
+
+  if(hasError){ showErr('err2','Verifique os campos destacados em vermelho.'); return; }
   showErr('err2','');
 
   formData = {
+    produtoId: v('produto-id'),
     aluno: { nome:v('al-nome'), sobrenome:v('al-sobrenome'), apelido:v('al-apelido')||'', email:v('al-email'), sexo:v('al-sexo'), nascimento:v('al-nasc'), ano: ano.value, assinatura: v('assinatura') },
     pais: { pai: { nome:v('pai-nome'), email:v('pai-email'), celular:v('pai-cel') }, mae: { nome:v('mae-nome'), email:v('mae-email'), celular:v('mae-cel') }, endereco: { rua:v('end-rua'), cidade:v('end-cidade'), estado:v('end-estado'), cep:v('end-cep') } },
     escola: { nome:v('esc-nome'), diretor:v('esc-diretor'), tel:v('esc-tel'), email:v('esc-email'), web:v('esc-web')||'', rua:v('esc-rua'), cidade:v('esc-cidade'), estado:v('esc-estado'), cep:v('esc-cep') },
@@ -551,11 +629,15 @@ function selectSlot(slot, btnEl){
 
 function confirmarAgendamentoLocal(){
   const nome = v('ag-nome'), email = v('ag-email'), whatsapp = v('ag-whatsapp');
-  if(!nome){ showErr('err3','Nome é obrigatório.'); return; }
-  if(!email){ showErr('err3','E-mail é obrigatório.'); return; }
-  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ showErr('err3','Verifique se o e-mail está no formato correto (ex: nome@exemplo.com).'); return; }
-  if(!whatsapp){ showErr('err3','WhatsApp é obrigatório.'); return; }
+  let hasError = false;
+
+  const nomeInvalid = !nome; markField('ag-nome', nomeInvalid); if(nomeInvalid) hasError = true;
+  const emailInvalid = !email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); markField('ag-email', emailInvalid); if(emailInvalid) hasError = true;
+  const whatsappInvalid = !whatsapp; markField('ag-whatsapp', whatsappInvalid); if(whatsappInvalid) hasError = true;
+
+  if(hasError){ showErr('err3','Verifique os campos destacados em vermelho.'); return; }
   if(!selectedSlot){ showErr('err3','Selecione um horário.'); return; }
+  showErr('err3','');
 
   // Não cria o evento agora — só guarda a escolha. O evento só é criado
   // de verdade depois que o pagamento for confirmado (via webhook do Stripe).
@@ -563,32 +645,117 @@ function confirmarAgendamentoLocal(){
   goToStep(4);
 }
 
-// ══════════════════ ETAPA 4: PAGAMENTO (Stripe) ══════════════════
-let stripeInstance = null, elementsInstance = null, clientSecretGlobal = null;
+// ══════════════════ ETAPA 4: PAGAMENTO (Stripe, com 1 ou 2 partes) ══════════════════
+let stripeInstance = null, elementsInstance = null;
+let precoTotalCents = 0;
+let partes = [];       // [{ numero, valorCents, metodo, paymentIntentId }]
+let parteAtualIndex = 0;
+let matriculaIdGlobal = null;
+
+function gerarMatriculaId(){
+  return 'mat_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+}
 
 async function iniciarPagamento(){
-  if(stripeInstance) return; // já iniciado
+  if(precoTotalCents) return; // já consultado
+  if(!formData || !formData.produtoId){
+    document.getElementById('totalPriceLabel').textContent = '—';
+    showErr('errConfig','Preencha o Formulário (etapa 2) antes de chegar aqui, pra gente saber qual produto e valor cobrar.');
+    return;
+  }
+  try{
+    const res = await fetch(`/api/checkout-intent?produtoId=${encodeURIComponent(formData.produtoId)}`);
+    const data = await res.json();
+    if(!res.ok) throw new Error(data.error || 'Não foi possível consultar o preço.');
+    precoTotalCents = data.precoCents;
+    document.getElementById('totalPriceLabel').textContent = data.priceLabel;
+    document.getElementById('valorParte1').max = (precoTotalCents/100).toFixed(2);
+  }catch(e){
+    showErr('errConfig', e.message);
+  }
+}
+
+function onQtdMetodosChange(){
+  const qtd = document.getElementById('qtdMetodos').value;
+  const dois = qtd === '2';
+  document.getElementById('splitFields').style.display = dois ? 'grid' : 'none';
+  document.getElementById('metodoParte2Wrap').style.display = dois ? 'block' : 'none';
+  document.getElementById('metodoParte1Label').textContent = dois ? 'Método da 1ª parte' : 'Método de pagamento';
+  if(dois){
+    document.getElementById('valorParte1').value = (precoTotalCents/100/2).toFixed(2);
+    atualizarValorParte2();
+  }
+}
+
+function atualizarValorParte2(){
+  const parte1 = parseFloat(document.getElementById('valorParte1').value) || 0;
+  const restante = (precoTotalCents/100) - parte1;
+  document.getElementById('valorParte2').value = restante >= 0 ? restante.toFixed(2) : '0.00';
+}
+
+function prepararPartes(){
+  showErr('errConfig','');
+  const qtd = document.getElementById('qtdMetodos').value;
+  matriculaIdGlobal = gerarMatriculaId();
+
+  if(qtd === '1'){
+    partes = [{ numero: 1, valorCents: precoTotalCents, metodo: document.getElementById('metodoParte1').value }];
+  } else {
+    const valor1 = Math.round(parseFloat(document.getElementById('valorParte1').value) * 100);
+    const valor2 = precoTotalCents - valor1;
+    if(!valor1 || valor1 <= 0 || valor2 <= 0){
+      showErr('errConfig','A divisão dos valores precisa somar o valor total, e as duas partes precisam ser maiores que zero.');
+      return;
+    }
+    partes = [
+      { numero: 1, valorCents: valor1, metodo: document.getElementById('metodoParte1').value },
+      { numero: 2, valorCents: valor2, metodo: document.getElementById('metodoParte2').value },
+    ];
+  }
+
+  parteAtualIndex = 0;
+  document.getElementById('pagamentoConfig').style.display = 'none';
+  document.getElementById('pagamentoAtivo').style.display = 'block';
+  montarParte(parteAtualIndex);
+}
+
+async function montarParte(index){
+  const parte = partes[index];
+  document.getElementById('parteLabel').textContent = partes.length > 1 ? `Parte ${parte.numero} de ${partes.length}` : 'Pagamento';
+  document.getElementById('stripe-payment-element').innerHTML = '';
+  showErr('err4','');
+
+  const siblingIds = partes.filter((p,i) => i !== index && p.paymentIntentId).map(p => p.paymentIntentId);
+
   try{
     const res = await fetch('/api/checkout-intent', {
       method: 'POST', headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ aluno: formData.aluno, pais: formData.pais, escola: formData.escola, agendamento: formData.agendamento }),
+      body: JSON.stringify({
+        aluno: formData.aluno, pais: formData.pais, escola: formData.escola, agendamento: formData.agendamento,
+        produtoId: formData.produtoId,
+        metodo: parte.metodo,
+        valorCents: parte.valorCents,
+        matriculaId: matriculaIdGlobal,
+        parteNumero: String(parte.numero),
+        totalPartes: String(partes.length),
+        isFinalParte: String(index === partes.length - 1),
+        siblingIntentIds: siblingIds.join(','),
+      }),
     });
     const data = await res.json();
-    if(!res.ok) throw new Error(data.error || 'Não foi possível iniciar o pagamento.');
+    if(!res.ok) throw new Error(data.error || 'Não foi possível iniciar essa parte do pagamento.');
 
-    clientSecretGlobal = data.clientSecret;
+    partes[index].paymentIntentId = data.paymentIntentId;
     stripeInstance = Stripe(data.publishableKey);
     elementsInstance = stripeInstance.elements({ clientSecret: data.clientSecret });
     const paymentElement = elementsInstance.create('payment');
     paymentElement.mount('#stripe-payment-element');
-
-    document.getElementById('priceLabel').textContent = 'Consulte o valor e as opções de parcelamento no formulário de pagamento abaixo';
   }catch(e){
     showErr('err4', e.message);
   }
 }
 
-async function confirmarPagamento(){
+async function confirmarParteAtual(){
   if(!stripeInstance || !elementsInstance){ showErr('err4','Aguarde o formulário de pagamento carregar.'); return; }
   const btn = document.getElementById('btnPagar');
   btn.classList.add('loading'); btn.disabled = true; showErr('err4','');
@@ -605,9 +772,17 @@ async function confirmarPagamento(){
     return;
   }
 
-  // Pagamento confirmado no navegador — o webhook do Stripe vai processar
-  // a criação da agenda e o envio dos emails no servidor.
-  goToStep(5);
+  btn.classList.remove('loading'); btn.disabled = false;
+
+  if(parteAtualIndex < partes.length - 1){
+    parteAtualIndex++;
+    montarParte(parteAtualIndex);
+  } else {
+    // Todas as partes confirmadas no navegador — o webhook do Stripe vai processar
+    // a criação da agenda e o envio dos emails no servidor, só depois de checar
+    // que todas as partes foram realmente aprovadas.
+    goToStep(5);
+  }
 }
 
 // ══════════════════ CEP: máscara + busca automática de endereço (ViaCEP) ══════════════════
@@ -644,6 +819,11 @@ document.addEventListener('DOMContentLoaded', () => {
     maskCEP(e);
     const digits = e.target.value.replace(/\D/g,'');
     if(digits.length === 8) buscarCEP(digits, 'esc');
+  });
+
+  document.querySelectorAll('.f-input').forEach(el => {
+    el.addEventListener('input', () => el.classList.remove('invalid'));
+    el.addEventListener('change', () => el.classList.remove('invalid'));
   });
 });
 </script>

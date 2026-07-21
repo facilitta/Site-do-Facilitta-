@@ -18,18 +18,49 @@ const PRODUTOS_USD = {
 
 let cotacaoCache = null; // { valor, buscadoEm } — evita bater na API a cada clique na mesma invocação
 
+// AJUSTAR de vez em quando (é usado só se as duas APIs de cotação falharem)
+const COTACAO_FALLBACK = 5.40;
+
 async function getCotacaoDolar() {
   const agora = Date.now();
   if (cotacaoCache && (agora - cotacaoCache.buscadoEm) < 5 * 60 * 1000) {
     return cotacaoCache.valor; // reaproveita por até 5 minutos
   }
-  const r = await fetch('https://economia.awesomeapi.com.br/json/last/USD-BRL');
-  if (!r.ok) throw new Error('Não foi possível consultar a cotação do dólar.');
-  const data = await r.json();
-  const valor = parseFloat(data?.USDBRL?.bid);
-  if (!valor) throw new Error('Cotação do dólar inválida.');
-  cotacaoCache = { valor, buscadoEm: agora };
-  return valor;
+
+  // Tenta a primeira API
+  try {
+    const r = await fetch('https://economia.awesomeapi.com.br/json/last/USD-BRL');
+    if (r.ok) {
+      const data = await r.json();
+      const valor = parseFloat(data?.USDBRL?.bid);
+      if (valor) {
+        cotacaoCache = { valor, buscadoEm: agora };
+        return valor;
+      }
+    }
+  } catch (e) {
+    console.error('Falha na 1ª API de cotação:', e.message);
+  }
+
+  // Tenta uma segunda API, caso a primeira falhe
+  try {
+    const r2 = await fetch('https://open.er-api.com/v6/latest/USD');
+    if (r2.ok) {
+      const data2 = await r2.json();
+      const valor2 = data2?.rates?.BRL;
+      if (valor2) {
+        cotacaoCache = { valor: valor2, buscadoEm: agora };
+        return valor2;
+      }
+    }
+  } catch (e) {
+    console.error('Falha na 2ª API de cotação:', e.message);
+  }
+
+  // Se as duas falharem, usa o valor de segurança pra nunca travar o pagamento
+  console.error('Usando cotação de segurança (fallback):', COTACAO_FALLBACK);
+  cotacaoCache = { valor: COTACAO_FALLBACK, buscadoEm: agora };
+  return COTACAO_FALLBACK;
 }
 
 async function getPrecoProdutoCents(produtoId) {

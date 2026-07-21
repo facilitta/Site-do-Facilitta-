@@ -15,8 +15,6 @@
       --red-2: #C42E15;
       --dark: #2B2B2B;
       --white: #FFFFFF;
-
-      /* Escala tipográfica padrão do site */
       --fw-titulo: 700;
       --fw-subtitulo: 500;
       --fw-corpo: 400;
@@ -25,63 +23,36 @@
       --ls-corpo: 0px;
     }
 
-    /* ── HELVETICA NEUE (fontes próprias) ── */
     @font-face {
       font-family: 'Helvetica Neue';
       src: url('https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/fonts/HelveticaNeueBold.otf') format('opentype');
-      font-weight: 700;
-      font-style: normal;
-      font-display: swap;
+      font-weight: 700; font-style: normal; font-display: swap;
     }
     @font-face {
       font-family: 'Helvetica Neue';
       src: url('https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/fonts/HelveticaNeueMedium.otf') format('opentype');
-      font-weight: 500;
-      font-style: normal;
-      font-display: swap;
+      font-weight: 500; font-style: normal; font-display: swap;
     }
     @font-face {
       font-family: 'Helvetica Neue';
       src: url('https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/fonts/HelveticaNeueRoman.otf') format('opentype');
-      font-weight: 400;
-      font-style: normal;
-      font-display: swap;
+      font-weight: 400; font-style: normal; font-display: swap;
     }
     @font-face {
       font-family: 'Helvetica Neue';
       src: url('https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/fonts/HelveticaNeueLight.otf') format('opentype');
-      font-weight: 300;
-      font-style: normal;
-      font-display: swap;
+      font-weight: 300; font-style: normal; font-display: swap;
     }
 
-    /* ── CLASSES DE TIPOGRAFIA PADRÃO ── */
-    .txt-titulo {
-      font-family: 'Helvetica Neue';
-      font-weight: var(--fw-titulo);
-      letter-spacing: var(--ls-titulo);
-    }
-    .txt-subtitulo {
-      font-family: 'Helvetica Neue';
-      font-weight: var(--fw-subtitulo);
-      letter-spacing: var(--ls-titulo);
-    }
-    .txt-corpo {
-      font-family: 'Helvetica Neue';
-      font-weight: var(--fw-corpo);
-      letter-spacing: var(--ls-corpo);
-    }
-    .txt-longo {
-      font-family: 'Helvetica Neue';
-      font-weight: var(--fw-texto-longo);
-      letter-spacing: var(--ls-corpo);
-    }
+    .txt-titulo { font-family: 'Helvetica Neue'; font-weight: var(--fw-titulo); letter-spacing: var(--ls-titulo); }
+    .txt-subtitulo { font-family: 'Helvetica Neue'; font-weight: var(--fw-subtitulo); letter-spacing: var(--ls-titulo); }
+    .txt-corpo { font-family: 'Helvetica Neue'; font-weight: var(--fw-corpo); letter-spacing: var(--ls-corpo); }
+    .txt-longo { font-family: 'Helvetica Neue'; font-weight: var(--fw-texto-longo); letter-spacing: var(--ls-corpo); }
 
     html { scroll-behavior: smooth; }
     body { font-family: "Helvetica Neue"; background: var(--white); color: var(--dark); overflow-x: hidden; }
     * { font-style: normal !important; }
 
-    /* NAV */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       display: flex; align-items: center; justify-content: space-between;
@@ -104,71 +75,32 @@
     }
     .nav-links a:hover { opacity: 1; }
 
-    /* DROPDOWN */
-    .nav-dropdown { 
-      position: relative;
-      padding: 8px 0;
-      margin: 0 -8px;
-      white-space: nowrap;
-    }
+    .nav-dropdown { position: relative; padding: 8px 0; margin: 0 -8px; white-space: nowrap; }
     .nav-dropdown-toggle {
       font-size: 14px; font-weight: 450; color: var(--dark);
       text-decoration: none; opacity: 0.6; transition: opacity .2s, background .2s;
-      cursor: pointer;
-      padding: 8px 12px;
-      border-radius: 8px 8px 0 0;
-      display: block;
-      white-space: nowrap;
+      cursor: pointer; padding: 8px 12px; border-radius: 8px 8px 0 0;
+      display: block; white-space: nowrap;
     }
-    .nav-dropdown:hover .nav-dropdown-toggle { 
-      opacity: 1;
-      background: rgba(232,57,29,0.08);
-    }
+    .nav-dropdown:hover .nav-dropdown-toggle { opacity: 1; background: rgba(232,57,29,0.08); }
     .nav-dropdown-menu {
-      display: none;
-      position: absolute;
-      top: calc(100% - 8px);
+      display: none; position: absolute; top: calc(100% - 8px);
       left: 50%; transform: translateX(-50%);
-      background: #fff;
-      border: 1px solid rgba(0,0,0,0.08);
-      border-radius: 0 0 12px 12px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.10);
-      padding: 8px 0;
-      min-width: 200px;
-      z-index: 200;
-      pointer-events: none;
+      background: #fff; border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 0 0 12px 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.10);
+      padding: 8px 0; min-width: 200px; z-index: 200; pointer-events: none;
     }
-    .nav-dropdown:hover .nav-dropdown-menu {
-      display: block;
-      pointer-events: auto;
-    }
-    .nav-dropdown.active .nav-dropdown-menu {
-      display: block;
-      pointer-events: auto;
-    }
-    .nav-dropdown.active .nav-dropdown-toggle {
-      opacity: 1;
-      background: rgba(232,57,29,0.08);
-    }
+    .nav-dropdown:hover .nav-dropdown-menu { display: block; pointer-events: auto; }
+    .nav-dropdown.active .nav-dropdown-menu { display: block; pointer-events: auto; }
+    .nav-dropdown.active .nav-dropdown-toggle { opacity: 1; background: rgba(232,57,29,0.08); }
     .nav-dropdown-menu a {
-      display: flex;
-      align-items: center;
-      padding: 14px 24px;
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--dark);
-      text-decoration: none;
-      opacity: 0.7;
-      transition: opacity .2s, background .2s;
-      border-bottom: 1px solid rgba(0,0,0,0.06);
-      white-space: nowrap;
+      display: flex; align-items: center; padding: 14px 24px;
+      font-size: 14px; font-weight: 500; color: var(--dark);
+      text-decoration: none; opacity: 0.7; transition: opacity .2s, background .2s;
+      border-bottom: 1px solid rgba(0,0,0,0.06); white-space: nowrap;
     }
     .nav-dropdown-menu a:last-child { border-bottom: none; }
-    .nav-dropdown-menu a:hover { 
-      opacity: 1; 
-      background: rgba(232,57,29,0.08);
-      color: var(--red);
-    }
+    .nav-dropdown-menu a:hover { opacity: 1; background: rgba(232,57,29,0.08); color: var(--red); }
 
     .nav-cta {
       background: var(--red); color: #fff; font-size: 14px; font-weight: 700;
@@ -177,167 +109,83 @@
     }
     .nav-cta:hover { opacity: 0.88; transform: scale(1.02); }
 
-    /* ── BOTÃO HAMBÚRGUER (mobile) ── */
     .nav-burger {
-      display: none;
-      flex-direction: column;
-      justify-content: center;
-      align-items: flex-end;
-      gap: 4px;
-      width: 22px;
-      height: 16px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 0;
+      display: none; flex-direction: column; justify-content: center;
+      align-items: flex-end; gap: 4px; width: 22px; height: 16px;
+      background: none; border: none; cursor: pointer; padding: 0;
     }
-    .nav-burger span {
-      display: block;
-      height: 2px;
-      border-radius: 2px;
-      background: var(--red);
-    }
+    .nav-burger span { display: block; height: 2px; border-radius: 2px; background: var(--red); }
     .nav-burger span:nth-child(1) { width: 100%; }
     .nav-burger span:nth-child(2) { width: 68%; }
     .nav-burger span:nth-child(3) { width: 100%; }
 
-    /* ── MENU OVERLAY MOBILE ── */
     .mobile-menu-overlay {
-      position: fixed;
-      inset: 0;
-      background: #ffffff;
-      z-index: 300;
-      display: flex;
-      flex-direction: column;
-      padding: 24px 28px;
-      transform: translateY(-8px);
-      opacity: 0;
-      visibility: hidden;
+      position: fixed; inset: 0; background: #ffffff; z-index: 300;
+      display: flex; flex-direction: column; padding: 24px 28px;
+      transform: translateY(-8px); opacity: 0; visibility: hidden;
       transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s;
     }
-    .mobile-menu-overlay.active {
-      transform: translateY(0);
-      opacity: 1;
-      visibility: visible;
-    }
+    .mobile-menu-overlay.active { transform: translateY(0); opacity: 1; visibility: visible; }
     .mobile-menu-close {
-      align-self: flex-end;
-      width: 32px; height: 32px;
-      position: relative;
-      background: none; border: none; cursor: pointer;
-      margin-top: 8px;
+      align-self: flex-end; width: 32px; height: 32px; position: relative;
+      background: none; border: none; cursor: pointer; margin-top: 8px;
     }
     .mobile-menu-close::before, .mobile-menu-close::after {
-      content: '';
-      position: absolute;
-      top: 50%; left: 50%;
-      width: 22px; height: 2px;
-      background: var(--dark);
+      content: ''; position: absolute; top: 50%; left: 50%;
+      width: 22px; height: 2px; background: var(--dark);
     }
     .mobile-menu-close::before { transform: translate(-50%,-50%) rotate(45deg); }
     .mobile-menu-close::after { transform: translate(-50%,-50%) rotate(-45deg); }
 
     .mobile-menu-content { margin-top: 56px; }
     .mobile-accordion-toggle {
-      width: 100%;
-      display: flex; align-items: center; gap: 12px;
-      background: none; border: none;
-      font-family: 'Helvetica Neue'; font-weight: 500; font-size: 21px;
-      color: var(--dark);
-      padding: 22px 0;
-      text-align: left;
-      cursor: pointer;
+      width: 100%; display: flex; align-items: center; gap: 12px;
+      background: none; border: none; font-family: 'Helvetica Neue';
+      font-weight: 500; font-size: 21px; color: var(--dark);
+      padding: 22px 0; text-align: left; cursor: pointer;
     }
-    .mobile-accordion-arrow {
-      display: inline-flex;
-      flex-shrink: 0;
-      transition: transform 0.3s ease;
-      color: var(--red);
-    }
+    .mobile-accordion-arrow { display: inline-flex; flex-shrink: 0; transition: transform 0.3s ease; color: var(--red); }
     .mobile-accordion.open .mobile-accordion-arrow { transform: rotate(90deg); }
     .mobile-accordion-panel {
-      max-height: 0;
-      opacity: 0;
-      overflow: hidden;
-      transform-origin: top;
+      max-height: 0; opacity: 0; overflow: hidden; transform-origin: top;
       transition: max-height 0.45s ease, opacity 0.35s ease;
       display: flex; flex-direction: column;
     }
     .mobile-accordion.open .mobile-accordion-panel { max-height: 260px; opacity: 1; }
     .mobile-accordion-panel a {
-      padding: 14px 0 14px 30px;
-      font-family: 'Helvetica Neue'; font-weight: 400; font-size: 16px; color: #555;
-      text-decoration: none;
+      padding: 14px 0 14px 30px; font-family: 'Helvetica Neue';
+      font-weight: 400; font-size: 16px; color: #555; text-decoration: none;
     }
 
-    /* ── NAVBAR DE SCROLL (mobile) ── */
-    .nav-sticky-mobile {
-      display: none;
-    }
+    .nav-sticky-mobile { display: none; }
     @media (max-width: 768px) {
       nav { position: static; }
       .hero-section { margin-top: 0; }
       .nav-sticky-mobile {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        position: fixed;
-        top: 0; left: 0; right: 0;
-        height: 50px;
-        padding: 0 16px;
+        display: flex; align-items: center; justify-content: space-between;
+        position: fixed; top: 0; left: 0; right: 0; height: 50px; padding: 0 16px;
         background: rgba(232, 57, 29, 0.85);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-        z-index: 250;
-        transform: translateY(-100%);
-        transition: transform 0.35s ease;
+        backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+        z-index: 250; transform: translateY(-100%); transition: transform 0.35s ease;
       }
       .nav-sticky-mobile.visible { transform: translateY(0); }
-      .nav-sticky-title {
-        font-family: 'Helvetica Neue';
-        font-weight: 500;
-        font-size: 14px;
-        color: #ffffff;
-      }
+      .nav-sticky-title { font-family: 'Helvetica Neue'; font-weight: 500; font-size: 14px; color: #ffffff; }
       .nav-sticky-btn {
-        display: inline-block;
-        background: #ffffff;
-        color: var(--red);
-        font-family: 'Helvetica Neue';
-        font-weight: 400;
-        font-size: 11px;
-        padding: 5px 12px;
-        border-radius: 100px;
-        text-decoration: none;
+        display: inline-block; background: #ffffff; color: var(--red);
+        font-family: 'Helvetica Neue'; font-weight: 400; font-size: 11px;
+        padding: 5px 12px; border-radius: 100px; text-decoration: none;
       }
     }
 
     .nav-insta {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 32px;
-      height: 32px;
-      flex-shrink: 0;
-      border-radius: 50%;
-      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+      width: 32px; height: 32px; flex-shrink: 0; border-radius: 50%; overflow: hidden;
     }
-    .nav-insta img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    .nav-insta svg {
-      width: 24px;
-      height: 24px;
-      display: block;
-      color: var(--red);
-    }
+    .nav-insta img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .nav-insta svg { width: 24px; height: 24px; display: block; color: var(--red); }
 
     .nav-right { display: flex; align-items: center; gap: 20px; position: relative; z-index: 2; }
 
-    /* MOBILE NAV */
     @media (max-width: 768px) {
       nav { padding: 0 14px; height: 60px; }
       .hero-video-placeholder { height: calc(100dvh - 60px) !important; }
@@ -348,691 +196,311 @@
       .nav-burger { display: flex; }
     }
 
-    /* ── HERO VIDEO ── */
-    .hero-section {
-      margin-top: 76px;
-      width: 100%;
-      position: relative;
-      background: #111;
-      overflow: hidden;
-    }
+    .hero-section { margin-top: 76px; width: 100%; position: relative; background: #111; overflow: hidden; }
     .hero-video-placeholder {
-      width: 100%;
-      height: calc(100vh - 76px);
-      background: #1a1a1a;
-      display: flex; align-items: center; justify-content: center;
-      position: relative;
+      width: 100%; height: calc(100vh - 76px); background: #1a1a1a;
+      display: flex; align-items: center; justify-content: center; position: relative;
     }
-    .hero-video-placeholder video {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    .hero-overlay {
-      display: none;
-    }
+    .hero-video-placeholder video { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .hero-overlay { display: none; }
     .hero-bottom-bar-mobile { display: none; }
     @media (max-width: 768px) {
       .hero-bottom-bar-mobile {
-        display: flex;
-        align-items: center;
-        position: absolute;
-        left: 0; right: 0; bottom: 0px;
-        height: 50px;
-        padding: 0 16px;
+        display: flex; align-items: center; position: absolute;
+        left: 0; right: 0; bottom: 0px; height: 50px; padding: 0 16px;
         background: rgba(232, 57, 29, 0.85);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
+        backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
         z-index: 5;
       }
       .hero-bottom-bar-btn {
-        display: inline-block;
-        background: #ffffff;
-        color: var(--red);
-        font-family: 'Helvetica Neue';
-        font-weight: 400;
-        font-size: 11px;
-        padding: 5px 12px;
-        border-radius: 100px;
-        text-decoration: none;
+        display: inline-block; background: #ffffff; color: var(--red);
+        font-family: 'Helvetica Neue'; font-weight: 400; font-size: 11px;
+        padding: 5px 12px; border-radius: 100px; text-decoration: none;
       }
     }
     .hero-text {
-      position: absolute;
-      inset: 0;
-      z-index: 2;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
+      position: absolute; inset: 0; z-index: 2;
+      display: flex; flex-direction: column; justify-content: flex-end;
       padding: 48px 56px 96px;
     }
     .hero-tag {
-      font-family: 'Helvetica Neue';
-      font-size: 11px; font-weight: 600; letter-spacing: -1px;
-      text-transform: uppercase; color: rgba(255,255,255,0.6);
+      font-family: 'Helvetica Neue'; font-size: 11px; font-weight: 600;
+      letter-spacing: -1px; text-transform: uppercase; color: rgba(255,255,255,0.6);
       margin-bottom: 14px;
     }
     .hero-title {
-      font-family: 'Helvetica Neue';
-      font-weight: 600;
-      font-size: clamp(32px, 4.2vw, 60px);
-      color: #1a1a1a;
-      letter-spacing: -1px;
-      line-height: 1.0;
-      margin-bottom: 24px;
+      font-family: 'Helvetica Neue'; font-weight: 600; font-size: clamp(32px, 4.2vw, 60px);
+      color: #1a1a1a; letter-spacing: -1px; line-height: 1.0; margin-bottom: 24px;
     }
-    .hero-bullets {
-      position: absolute;
-      right: 48px;
-      bottom: 170px;
-      z-index: 10;
-      display: none;
-    }
-    .hero-sub {
-      font-size: 22px; color: #1a1a1a;
-      margin-top: 8px;
-    }
+    .hero-bullets { position: absolute; right: 48px; bottom: 170px; z-index: 10; display: none; }
+    .hero-sub { font-size: 22px; color: #1a1a1a; margin-top: 8px; }
+    .hero-fade { display: none; }
 
-    /* ── FADE SAÍDA ── */
-    .hero-fade {
-      display: none;
-    }
-
-    /* ── SEÇÃO VÍDEOS ── */
-    .videos-section {
-      padding: 80px 0 100px;
-      background: #ffffff;
-    }
+    .videos-section { padding: 80px 0 100px; background: #ffffff; }
     .videos-title {
-      font-family: 'Helvetica Neue';
-      font-size: clamp(32px, 5vw, 56px);
-      font-weight: 550;
-      color: var(--dark);
-      padding: 0 56px;
-      margin-bottom: 48px;
-      letter-spacing: -1px;
-      line-height: 1.1;
+      font-family: 'Helvetica Neue'; font-size: clamp(32px, 5vw, 56px); font-weight: 550;
+      color: var(--dark); padding: 0 56px; margin-bottom: 48px; letter-spacing: -1px; line-height: 1.1;
     }
     .videos-scroll {
-      display: flex;
-      gap: 20px;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      padding-left: 56px;
-      padding-right: 56px;
-      padding-bottom: 20px;
-      padding-top: 8px;
-      scroll-padding-left: 56px;
-      box-sizing: border-box;
+      display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch; scrollbar-width: none;
+      padding-left: 56px; padding-right: 56px; padding-bottom: 20px; padding-top: 8px;
+      scroll-padding-left: 56px; box-sizing: border-box;
     }
     .videos-scroll::-webkit-scrollbar { display: none; }
     .video-card {
-      flex: 0 0 calc(75% - 28px);
-      scroll-snap-align: start;
-      border-radius: 16px;
-      overflow: hidden;
-      background: #111;
-      aspect-ratio: 16/9;
-      position: relative;
+      flex: 0 0 calc(75% - 28px); scroll-snap-align: start; border-radius: 16px;
+      overflow: hidden; background: #111; aspect-ratio: 16/9; position: relative;
     }
-    .video-card .video-el {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      display: block;
-    }
+    .video-card .video-el { width: 100%; height: 100%; object-fit: cover; display: block; }
     .video-expand-btn {
-      position: absolute;
-      bottom: 14px; right: 14px;
-      width: 32px; height: 32px;
-      background: transparent;
-      color: #ffffff;
-      border: none;
-      cursor: pointer;
+      position: absolute; bottom: 14px; right: 14px; width: 32px; height: 32px;
+      background: transparent; color: #ffffff; border: none; cursor: pointer;
       display: flex; align-items: center; justify-content: center;
-      transition: opacity .2s;
-      z-index: 2;
-      filter: drop-shadow(0 1px 3px rgba(0,0,0,.5));
+      transition: opacity .2s; z-index: 2; filter: drop-shadow(0 1px 3px rgba(0,0,0,.5));
     }
     .video-expand-btn:hover { opacity: .8; }
-    /* Mobile: canto superior esquerdo, ícone com setinhas diagonais */
     @media (max-width: 768px) {
       .video-card-vert .video-expand-btn { top: 14px; left: 14px; bottom: auto; right: auto; }
     }
 
-    /* ── CONTROLES DOS VÍDEOS (play/pause + setas) ── */
     .videos-controls {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      gap: 12px;
-      padding: 20px 56px 0;
-      opacity: 0;
-      transition: opacity .6s ease;
+      position: relative; display: flex; align-items: center; justify-content: flex-end;
+      gap: 12px; padding: 20px 56px 0; opacity: 0; transition: opacity .6s ease;
     }
     .videos-controls.visible { opacity: 1; }
     .video-center-controls {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      align-items: center;
-      gap: 16px;
+      position: absolute; left: 50%; transform: translateX(-50%);
+      display: flex; align-items: center; gap: 16px;
     }
     .video-dots { display: flex; align-items: center; gap: 8px; }
     .video-dot {
-      position: relative;
-      width: 8px; height: 8px;
-      border-radius: 4px;
-      background: #c0c0c0;
-      border: none;
-      padding: 0;
-      cursor: pointer;
-      overflow: hidden;
-      transition: width .3s ease, background .3s ease;
+      position: relative; width: 8px; height: 8px; border-radius: 4px;
+      background: #c0c0c0; border: none; padding: 0; cursor: pointer;
+      overflow: hidden; transition: width .3s ease, background .3s ease;
     }
-    .video-dot.active {
-      width: 44px;
-      background: rgba(192,192,192,0.35);
-    }
-    .video-dot-fill {
-      position: absolute; left: 0; top: 0; bottom: 0;
-      width: 0%;
-      background: #c0c0c0;
-      border-radius: 4px;
-    }
+    .video-dot.active { width: 44px; background: rgba(192,192,192,0.35); }
+    .video-dot-fill { position: absolute; left: 0; top: 0; bottom: 0; width: 0%; background: #c0c0c0; border-radius: 4px; }
     .video-playpause {
-      width: 52px; height: 52px;
-      border-radius: 50%;
-      background: #c0c0c0;
-      color: #ffffff;
-      border: none;
-      cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      transition: opacity .2s, transform .15s;
-      flex-shrink: 0;
+      width: 52px; height: 52px; border-radius: 50%; background: #c0c0c0; color: #ffffff;
+      border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: opacity .2s, transform .15s; flex-shrink: 0;
     }
     .video-playpause:hover { opacity: .88; }
     .video-playpause .icon-play { margin-left: 3px; }
     .videos-controls-mobile { display: none; }
-    .video-card-placeholder {
-      width: 100%; height: 100%;
-      background: #1e1e1e;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .play-btn {
-      width: 52px; height: 52px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.9);
-      display: flex; align-items: center; justify-content: center;
-    }
+    .video-card-placeholder { width: 100%; height: 100%; background: #1e1e1e; display: flex; align-items: center; justify-content: center; }
+    .play-btn { width: 52px; height: 52px; border-radius: 50%; background: rgba(255,255,255,0.9); display: flex; align-items: center; justify-content: center; }
 
-    /* ── CARROSSEL VERTICAL DE VÍDEOS (mobile, estilo stories) ── */
     .videos-scroll-mobile { display: none; }
     @media (max-width: 768px) {
       .videos-scroll { display: none; }
       .videos-scroll-mobile {
-        display: flex;
-        gap: 16px;
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        padding-left: 20px;
-        padding-right: 20px;
-        padding-bottom: 20px;
-        scroll-padding-left: 20px;
-        box-sizing: border-box;
+        display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch; scrollbar-width: none;
+        padding-left: 20px; padding-right: 20px; padding-bottom: 20px;
+        scroll-padding-left: 20px; box-sizing: border-box;
       }
       .videos-scroll-mobile::-webkit-scrollbar { display: none; }
       .video-card-vert {
-        flex: 0 0 86%;
-        scroll-snap-align: start;
-        border-radius: 24px;
-        overflow: hidden;
-        background: #111;
-        aspect-ratio: 9/16;
-        position: relative;
+        flex: 0 0 86%; scroll-snap-align: start; border-radius: 24px;
+        overflow: hidden; background: #111; aspect-ratio: 9/16; position: relative;
       }
-      .video-card-vert .video-el {
-        width: 100%; height: 100%;
-        object-fit: cover;
-        display: block;
-      }
+      .video-card-vert .video-el { width: 100%; height: 100%; object-fit: cover; display: block; }
       .videos-scroll-mobile { gap: 32px !important; }
       .videos-controls { display: none; }
-      .videos-controls-mobile {
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        gap: 12px;
-        padding: 20px 20px 0;
-        position: relative;
-      }
+      .videos-controls-mobile { display: flex; align-items: center; justify-content: flex-end; gap: 12px; padding: 20px 20px 0; position: relative; }
     }
     .play-btn svg { margin-left: 3px; }
 
-    /* ── FOOTER ── */
-    footer {
-      background: var(--red);
-      color: #fff;
-      padding: 40px 48px;
-      text-align: left;
-    }
+    footer { background: var(--red); color: #fff; padding: 40px 48px; text-align: left; }
     footer p { font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 16px; }
     .footer-links { display: flex; gap: 24px; justify-content: flex-start; }
     .footer-links a { font-size: 13px; color: rgba(255,255,255,0.7); text-decoration: none; transition: color .2s; }
     .footer-links a:hover { color: #fff; }
 
-    /* ── BOTÃO VOLTAR ── */
     .back-btn {
-      position: fixed; top: 96px; left: 24px;
-      width: 40px; height: 40px; border-radius: 50%;
-      background: var(--white);
-      box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+      position: fixed; top: 96px; left: 24px; width: 40px; height: 40px; border-radius: 50%;
+      background: var(--white); box-shadow: 0 2px 12px rgba(0,0,0,0.12);
       display: flex; align-items: center; justify-content: center;
-      text-decoration: none;
-      transition: transform .2s, box-shadow .2s;
-      z-index: 99;
+      text-decoration: none; transition: transform .2s, box-shadow .2s; z-index: 99;
     }
     .back-btn:hover { transform: scale(1.08); box-shadow: 0 4px 20px rgba(0,0,0,0.18); }
 
-    /* ── WHATSAPP ── */
     .wa-float {
       position: fixed; bottom: 20px; right: 16px; z-index: 999;
-      width: 56px; height: 56px; border-radius: 50%;
-      background: #25D366;
+      width: 56px; height: 56px; border-radius: 50%; background: #25D366;
       box-shadow: 0 4px 20px rgba(0,0,0,0.15);
       display: flex; align-items: center; justify-content: center;
-      transition: transform .2s, box-shadow .2s;
-      text-decoration: none;
+      transition: transform .2s, box-shadow .2s; text-decoration: none;
     }
     .wa-float:hover { transform: scale(1.1); box-shadow: 0 8px 28px rgba(0,0,0,0.18); }
     .wa-float img { width: 32px; height: 32px; object-fit: contain; display: block; }
 
-    /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
-      .hero-text {
-        padding: 24px 20px 260px;
-        align-items: center;
-        text-align: center;
-        justify-content: flex-end;
-      }
-      .hero-title {
-        font-size: clamp(47px, 13.5vw, 72px);
-        white-space: normal;
-        text-align: center;
-        margin-bottom: 28px;
-        line-height: 1.05;
-      }
-      .hero-sub {
-        font-size: 16px;
-        text-align: center;
-        line-height: 1.7;
-      }
-      .hero-bullets {
-        left: 16px;
-        right: 16px;
-        bottom: 140px;
-        display: none;
-        justify-content: center;
-      }
-      .buy-btn {
-        max-width: 100%;
-      }
-      .wa-float {
-        bottom: 14px;
-        right: 16px;
-        width: 48px;
-        height: 48px;
-      }
+      .hero-text { padding: 24px 20px 260px; align-items: center; text-align: center; justify-content: flex-end; }
+      .hero-title { font-size: clamp(47px, 13.5vw, 72px); white-space: normal; text-align: center; margin-bottom: 28px; line-height: 1.05; }
+      .hero-sub { font-size: 16px; text-align: center; line-height: 1.7; }
+      .hero-bullets { left: 16px; right: 16px; bottom: 140px; display: none; justify-content: center; }
+      .buy-btn { max-width: 100%; }
+      .wa-float { bottom: 14px; right: 16px; width: 48px; height: 48px; }
       .wa-float img { width: 26px; height: 26px; }
       .videos-title { padding: 0 20px; }
       .videos-scroll { padding: 0 20px 20px; gap: 12px; }
       .video-card { flex: 0 0 85%; }
     }
 
-    /* ── SEÇÃO TEXTO CLIPADO COM VÍDEO ── */
-    .clip-section {
-      position: relative;
-      height: 340vh;
-      background: #f5f5f7;
-    }
-    .clip-sticky {
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      overflow: hidden;
-    }
+    .clip-section { position: relative; height: 340vh; background: #f5f5f7; }
+    .clip-sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; }
     .clip-video-bg {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: 90% 75%;
-      z-index: 0;
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; object-position: 90% 75%; z-index: 0;
     }
-    /* Fundo preto com buraco nas letras via SVG mask */
-    .clip-mask-layer {
-      position: absolute;
-      inset: 0;
-      z-index: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .clip-mask-layer svg {
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      inset: 0;
-    }
+    .clip-mask-layer { position: absolute; inset: 0; z-index: 1; display: flex; align-items: center; justify-content: center; }
+    .clip-mask-layer svg { width: 100%; height: 100%; position: absolute; inset: 0; }
     .clip-text-display {
-      position: relative;
-      z-index: 2;
-      font-size: clamp(80px, 16vw, 220px);
-      font-weight: 900;
-      letter-spacing: -4px;
-      line-height: 0.92;
-      text-align: center;
-      color: transparent;
-      pointer-events: none;
+      position: relative; z-index: 2; font-size: clamp(80px, 16vw, 220px);
+      font-weight: 900; letter-spacing: -4px; line-height: 0.92;
+      text-align: center; color: transparent; pointer-events: none;
     }
 
-    /* ── BOTÃO COMPRA ── */
     .buy-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: space-between;
-      background: #3a3a3c;
-      border-radius: 100px;
-      padding: 8px 8px 8px 18px;
-      gap: 14px;
-      text-decoration: none;
-      transition: transform .2s;
-      max-width: 300px;
-      width: 100%;
-      box-shadow: 0 8px 28px rgba(0,0,0,0.45);
-      position: relative;
-      z-index: 10;
+      display: inline-flex; align-items: center; justify-content: space-between;
+      background: #3a3a3c; border-radius: 100px; padding: 8px 8px 8px 18px; gap: 14px;
+      text-decoration: none; transition: transform .2s; max-width: 300px; width: 100%;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.45); position: relative; z-index: 10;
     }
     .buy-btn:hover { transform: scale(1.02); opacity: 0.92; }
-    .buy-btn-text {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-    .buy-btn-price {
-      font-family: 'Helvetica Neue';
-      font-size: 13px;
-      font-weight: 700;
-      color: #ffffff;
-      line-height: 1.2;
-    }
-    .buy-btn-installment {
-      font-family: 'Helvetica Neue';
-      font-size: 10px;
-      font-weight: 400;
-      color: rgba(255,255,255,0.75);
-      line-height: 1.2;
-    }
+    .buy-btn-text { display: flex; flex-direction: column; gap: 2px; }
+    .buy-btn-price { font-family: 'Helvetica Neue'; font-size: 13px; font-weight: 700; color: #ffffff; line-height: 1.2; }
+    .buy-btn-installment { font-family: 'Helvetica Neue'; font-size: 10px; font-weight: 400; color: rgba(255,255,255,0.75); line-height: 1.2; }
     .buy-btn-action {
-      background: #E8391D;
-      border-radius: 100px;
-      padding: 9px 18px;
-      font-family: 'Helvetica Neue';
-      font-size: 13px;
-      font-weight: 600;
-      color: #ffffff;
-      white-space: nowrap;
-      flex-shrink: 0;
+      background: #E8391D; border-radius: 100px; padding: 9px 18px;
+      font-family: 'Helvetica Neue'; font-size: 13px; font-weight: 600; color: #ffffff;
+      white-space: nowrap; flex-shrink: 0;
     }
-    /* Esconder controles nativos de vídeo no iOS (exceto os vídeos de testemunho, .video-el) */
     video:not(.video-el)::-webkit-media-controls { display: none !important; }
     video:not(.video-el)::-webkit-media-controls-enclosure { display: none !important; }
     video:not(.video-el)::-webkit-media-controls-panel { display: none !important; }
     video:not(.video-el)::-webkit-media-controls-play-button { display: none !important; }
     video:not(.video-el)::-webkit-media-controls-start-playback-button { display: none !important; }
 
-    /* .video-el não tem controls por padrão; quando entra em tela cheia via JS, os controles nativos completos aparecem normalmente */
-
-    /* ── CARDS DE VANTAGENS ── */
     .vant-scroll {
-      width: 100%;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      display: flex;
-      gap: 28px;
-      box-sizing: border-box;
-      scroll-padding-left: 62px;
-      scroll-padding-right: 62px;
+      width: 100%; overflow-x: auto; scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch; scrollbar-width: none;
+      display: flex; gap: 28px; box-sizing: border-box;
+      scroll-padding-left: 62px; scroll-padding-right: 62px;
     }
     .vant-scroll::-webkit-scrollbar { display: none; }
     .vant-spacer { flex: 0 0 62px; }
     .vant-card {
-      flex: 0 0 480px;
-      align-self: flex-start;
-      scroll-snap-align: start;
-      display: flex;
-      flex-direction: column;
-      border-radius: 24px;
-      overflow: hidden;
+      flex: 0 0 480px; align-self: flex-start; scroll-snap-align: start;
+      display: flex; flex-direction: column; border-radius: 24px; overflow: hidden;
     }
     .vant-card-img {
-      flex: 0 0 320px;
-      width: 100%;
-      background-size: contain;
-      background-position: left center;
-      background-repeat: no-repeat;
-      background-color: #fff;
-      position: relative;
+      flex: 0 0 320px; width: 100%; background-size: contain;
+      background-position: left center; background-repeat: no-repeat;
+      background-color: #fff; position: relative;
     }
     .vant-plus {
-      position: absolute; bottom: 28px; right: 28px;
-      width: 44px; height: 44px; border-radius: 50%;
-      background: #E8391D;
+      position: absolute; bottom: 28px; right: 28px; width: 44px; height: 44px;
+      border-radius: 50%; background: #E8391D;
       display: flex; align-items: center; justify-content: center;
-      z-index: 2;
-      cursor: pointer;
-      transition: transform 0.4s ease;
+      z-index: 2; cursor: pointer; transition: transform 0.4s ease;
     }
     .vant-plus.active { transform: rotate(180deg); }
-    .vant-text-panel {
-      flex: 0 0 auto;
-      max-height: 0;
-      overflow: hidden;
-      background: #fff;
-      transition: max-height 0.4s ease;
-    }
+    .vant-text-panel { flex: 0 0 auto; max-height: 0; overflow: hidden; background: #fff; transition: max-height 0.4s ease; }
     .vant-text-panel.active { max-height: 260px; }
     .vant-text-panel p {
-      color: #1d1d1f;
-      font-family: 'Helvetica Neue';
-      font-size: 16px;
-      line-height: 1.25;
-      font-weight: 500;
-      margin: 0;
-      padding: 24px 28px;
+      color: #1d1d1f; font-family: 'Helvetica Neue'; font-size: 16px;
+      line-height: 1.25; font-weight: 500; margin: 0; padding: 24px 28px;
     }
 
-    /* Desktop wide: cards maiores para que nem todos caibam na tela (mantém efeito de scroll) */
     @media (min-width: 1400px) {
       .vant-card { flex: 0 0 620px; }
       .vant-card-img { flex: 0 0 380px; }
       .vant-spacer { flex: 0 0 96px; }
     }
 
-    /* Mobile: cards empilhados na vertical */
     @media (max-width: 768px) {
-      .vant-scroll {
-        flex-direction: column;
-        overflow-x: visible;
-        overflow-y: visible;
-        scroll-snap-type: none;
-        padding: 0 20px;
-        gap: 20px;
-      }
+      .vant-scroll { flex-direction: column; overflow-x: visible; overflow-y: visible; scroll-snap-type: none; padding: 0 20px; gap: 20px; }
       .vant-spacer { display: none; }
       .vant-card { flex: 0 0 auto; width: 100%; }
       .vant-card-img { flex: 0 0 260px; }
     }
     #stepsTrack::-webkit-scrollbar { display: none; }
     #buyCarousel::-webkit-scrollbar { display: none; }
-    /* ── SEÇÃO COMPRAR: AJUSTE MOBILE (evita overflow horizontal) ── */
     @media (max-width: 768px) {
       .comprar-section { padding: 140px 20px 60px !important; }
       .mobile-tab-content-wrap { margin-bottom: 60px; }
       .comprar-row { gap: 24px !important; }
       .comprar-col-left { flex: 0 0 100% !important; min-width: 0 !important; width: 100% !important; }
       .comprar-col-right { flex: 0 0 100% !important; min-width: 0 !important; width: 100% !important; }
-
-      /* Caixa do carrossel: sem cara de card branco, vira só o fundo cinza da página */
       .comprar-box-left { height: auto !important; padding: 0 !important; gap: 0; background: transparent !important; border-radius: 0 !important; box-shadow: none !important; }
-
-      /* Esconde TUDO do design antigo (carrossel desktop, carrossel mobile de cards, e o passo a passo/eyebrow antigos) */
       .comprar-carousel-frame { display: none !important; }
       #buyPrev, #buyNext, .comprar-dots-desktop { display: none !important; }
       #buyCarouselMobile { display: none !important; }
       .comprar-eyebrow, .comprar-steps-wrap { display: none !important; }
-
-      /* Mostra o componente novo de abas (estilo Apple) */
       .mobile-tabs-component { display: block !important; }
-
-      /* Reorganização mobile: componente de abas (topo) -> botão */
       .comprar-col-right { display: flex !important; flex-direction: column !important; }
       .comprar-steps-wrap { order: 1; width: 100%; }
       .comprar-eyebrow { order: 2; margin-top: 20px; text-align: left; }
       .comprar-btn-wrap { order: 3; }
-
-      /* Botão da caixa (estava estourando a tela): empilha em vez de lado a lado */
       .buy-card-btn { flex-direction: column !important; align-items: flex-start !important; gap: 12px; padding: 24px 20px !important; }
       .buy-card-btn > div:last-child { text-align: left !important; }
     }
-    /* ── AJUSTES MOBILE ADICIONAIS ── */
     @media (max-width: 768px) {
-      /* Vídeos horizontais maiores */
       .video-card { flex: 0 0 92%; }
-
-      /* Mensagens em fade (zoom) um pouco maiores */
       #clipMsg1 p { font-size: 20px !important; }
       #clipMsg2 p { font-size: 15px !important; }
-
-      /* Comparativo: escondido no mobile (substituído pelo card único de vantagens) */
       .comparativo-section { display: none !important; }
-
-      /* Textos das etapas verticais (seção de compra): entrelinhas mais confortáveis */
       .steps-text { line-height: 1.5 !important; font-size: 15px !important; }
-
-      /* Botão do card de compra: mais comprido */
       .buy-card-btn { padding: 36px 20px !important; }
-
-      /* Título acima do livro: largura maior, frase na mesma linha */
       .comprar-title { max-width: 100%; font-size: clamp(22px,6.2vw,32px) !important; margin-bottom: 20px !important; }
       .comprar-title-line1 { white-space: nowrap; }
     }
-    /* ── COMPONENTE DE ABAS MOBILE (estilo Apple) ── */
     .mobile-tabs-component { display: none; }
     .mobile-tab-image-wrap {
-      position: relative;
-      width: 100%;
-      height: 220px;
-      border-radius: 16px;
-      overflow-x: auto;
-      overflow-y: hidden;
-      scroll-snap-type: x mandatory;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-      -webkit-overflow-scrolling: touch;
-      background: #e5e5e7;
-      margin-bottom: 24px;
-      display: flex;
+      position: relative; width: 100%; height: 220px; border-radius: 16px;
+      overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory;
+      scrollbar-width: none; -ms-overflow-style: none; -webkit-overflow-scrolling: touch;
+      background: #e5e5e7; margin-bottom: 24px; display: flex;
     }
     .mobile-tab-image-wrap::-webkit-scrollbar { display: none; }
-    .mobile-tab-image {
-      flex: 0 0 100%;
-      height: 100%;
-      scroll-snap-align: start;
-      background-size: cover;
-      background-position: center;
-    }
+    .mobile-tab-image { flex: 0 0 100%; height: 100%; scroll-snap-align: start; background-size: cover; background-position: center; }
 
     .mobile-tabs-bar-wrap { position: relative; max-width: 400px; margin: 0 auto; }
     .mobile-tabs-bar {
-      position: relative;
-      overflow: hidden;
-      border-bottom: 1px solid #d2d2d7;
-      margin-bottom: 24px;
+      position: relative; overflow: hidden; border-bottom: 1px solid #d2d2d7; margin-bottom: 24px;
       -webkit-mask-image: linear-gradient(to right, transparent 0, black 100px, black calc(100% - 100px), transparent 100%);
       mask-image: linear-gradient(to right, transparent 0, black 100px, black calc(100% - 100px), transparent 100%);
     }
-    .mobile-tabs-track {
-      display: flex;
-      gap: 14px;
-      width: max-content;
-      transition: transform 0.25s ease;
-    }
+    .mobile-tabs-track { display: flex; gap: 14px; width: max-content; transition: transform 0.25s ease; }
     .mobile-tabs-arrow {
-      position: absolute;
-      top: 0;
-      bottom: 24px;
-      display: flex;
-      align-items: center;
-      width: 40px;
-      border: none;
-      background: none;
-      z-index: 3;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.2s ease;
-      color: #9a9a9e;
+      position: absolute; top: 0; bottom: 24px; display: flex; align-items: center;
+      width: 40px; border: none; background: none; z-index: 3; opacity: 0;
+      pointer-events: none; transition: opacity 0.2s ease; color: #9a9a9e;
     }
     .mobile-tabs-arrow svg { width: 20px; height: 20px; }
     .mobile-tabs-arrow.visible { opacity: 1; pointer-events: auto; }
     .mobile-tabs-arrow-left { left: 20px; justify-content: flex-start; }
     .mobile-tabs-arrow-right { right: 20px; justify-content: flex-end; }
     .mobile-tab-btn {
-      flex: 0 0 auto;
-      white-space: nowrap;
-      background: none;
-      border: none;
-      font-family: 'Helvetica Neue';
-      font-weight: 400;
-      font-size: 17px;
-      color: #9a9a9e;
-      padding: 0 12px 14px;
-      cursor: pointer;
-      text-align: center;
-      transition: color 0.2s ease;
+      flex: 0 0 auto; white-space: nowrap; background: none; border: none;
+      font-family: 'Helvetica Neue'; font-weight: 400; font-size: 17px; color: #9a9a9e;
+      padding: 0 12px 14px; cursor: pointer; text-align: center; transition: color 0.2s ease;
     }
     .mobile-tab-btn.active { color: #1d1d1f; }
     .mobile-tab-underline {
-      position: absolute;
-      bottom: -1px;
-      left: 0;
-      height: 2px;
-      background: var(--red);
+      position: absolute; bottom: -1px; left: 0; height: 2px; background: var(--red);
       transition: transform 0.25s ease, width 0.25s ease;
     }
 
     .mobile-tab-content-wrap { position: relative; overflow: hidden; transition: height 0.25s ease; }
     .mobile-tab-text {
-      position: absolute;
-      top: 0; left: 0; width: 100%;
-      opacity: 0;
-      pointer-events: none;
-      font-family: 'Helvetica Neue';
-      font-weight: 400;
-      font-size: 15px;
-      color: #4a4a4c;
-      line-height: 1.6;
-      text-align: center;
-      margin: 0;
-      transition: opacity 0.25s ease;
+      position: absolute; top: 0; left: 0; width: 100%; opacity: 0; pointer-events: none;
+      font-family: 'Helvetica Neue'; font-weight: 400; font-size: 15px; color: #4a4a4c;
+      line-height: 1.6; text-align: center; margin: 0; transition: opacity 0.25s ease;
     }
     .mobile-tab-text.active { opacity: 1; pointer-events: auto; position: relative; }
 
@@ -1042,82 +510,31 @@
       .comprar-btn-wrap { order: 2; }
       .comprar-steps-wrap { order: 3; }
     }
-    /* ── VANTAGENS EM CARD ÚNICO (mobile) ── */
     .vantagens-mobile-section { display: none; }
     @media (max-width: 768px) {
-      .vantagens-mobile-section {
-        display: block;
-        background: #f5f5f7;
-        padding: 60px 20px;
-      }
+      .vantagens-mobile-section { display: block; background: #f5f5f7; padding: 60px 20px; }
       .vantagens-mobile-title {
-        font-family: 'Helvetica Neue';
-        font-weight: 500;
-        font-size: clamp(24px, 6vw, 32px);
-        color: #1d1d1f;
-        letter-spacing: -0.5px;
-        margin: 0 0 24px;
-        text-align: left;
+        font-family: 'Helvetica Neue'; font-weight: 500; font-size: clamp(24px, 6vw, 32px);
+        color: #1d1d1f; letter-spacing: -0.5px; margin: 0 0 24px; text-align: left;
       }
-      .vantagens-card {
-        display: flex;
-        background: #ffffff;
-        border-radius: 24px;
-        padding: 28px 20px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-      }
+      .vantagens-card { display: flex; background: #ffffff; border-radius: 24px; padding: 28px 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
       .vantagens-col { flex: 1; min-width: 0; }
       .vantagens-divider { width: 1px; background: #d2d2d7; margin: 4px 16px; flex-shrink: 0; }
-      .vantagens-col-label {
-        font-family: 'Helvetica Neue';
-        font-weight: 700;
-        font-size: 16px;
-        color: #86868b;
-        margin: 0 0 10px;
-      }
+      .vantagens-col-label { font-family: 'Helvetica Neue'; font-weight: 700; font-size: 16px; color: #86868b; margin: 0 0 10px; }
       .vantagens-col-label strong { color: var(--red); }
-      .vantagens-col-value {
-        font-family: 'Helvetica Neue';
-        font-weight: 700;
-        font-size: 26px;
-        color: #1d1d1f;
-        line-height: 1.1;
-        margin: 0 0 14px;
-      }
-      .vantagens-col-value span {
-        font-size: 13px;
-        font-weight: 400;
-        color: #86868b;
-      }
-      .vantagens-col-desc {
-        font-family: 'Helvetica Neue';
-        font-weight: 400;
-        font-size: 13px;
-        color: #555;
-        line-height: 1.55;
-        margin: 0 0 10px;
-      }
-      .vantagens-col-note {
-        font-family: 'Helvetica Neue';
-        font-weight: 400;
-        font-size: 11.5px;
-        color: #86868b;
-        line-height: 1.5;
-        margin: 0;
-      }
+      .vantagens-col-value { font-family: 'Helvetica Neue'; font-weight: 700; font-size: 26px; color: #1d1d1f; line-height: 1.1; margin: 0 0 14px; }
+      .vantagens-col-value span { font-size: 13px; font-weight: 400; color: #86868b; }
+      .vantagens-col-desc { font-family: 'Helvetica Neue'; font-weight: 400; font-size: 13px; color: #555; line-height: 1.55; margin: 0 0 10px; }
+      .vantagens-col-note { font-family: 'Helvetica Neue'; font-weight: 400; font-size: 11.5px; color: #86868b; line-height: 1.5; margin: 0; }
     }
 
-    /* ── BLOCO FINAL DE SEGURANÇA MOBILE (prioridade máxima, evita overflow horizontal) ── */
     @media (max-width: 768px) {
       body { max-width: 100vw !important; overflow-x: hidden !important; }
       .comprar-section { max-width: 100vw !important; overflow-x: hidden !important; box-sizing: border-box !important; }
       .comprar-row { display: flex !important; flex-direction: column !important; flex-wrap: nowrap !important; width: 100% !important; max-width: 100% !important; }
       .comprar-col-left, .comprar-col-right {
-        flex: none !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        min-width: 0 !important;
-        box-sizing: border-box !important;
+        flex: none !important; width: 100% !important; max-width: 100% !important;
+        min-width: 0 !important; box-sizing: border-box !important;
       }
       .comprar-box-left { width: 100% !important; max-width: 100% !important; box-sizing: border-box !important; }
       .comprar-col-right { display: flex !important; flex-direction: column !important; }
@@ -1126,52 +543,92 @@
       .comprar-btn-wrap { order: 3 !important; width: 100% !important; max-width: 100% !important; }
       #buyCarousel, #stepsTrack { max-width: 100% !important; box-sizing: border-box !important; }
     }
-    /* ── BOTÃO DE COMPRA MOBILE (novo) ── */
     .buy-card-btn-mobile { display: none; }
     @media (max-width: 768px) {
       .buy-card-btn { display: none !important; }
       .comprar-btn-wrap { display: none !important; }
       .buy-card-btn-mobile {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 16px;
-        width: 100%;
-        margin: 20px 0;
-        text-decoration: none;
-        border: 1px solid #4a4a4c;
-        border-radius: 16px;
-        padding: 18px 20px;
-        cursor: pointer;
-        transition: opacity 0.2s ease;
+        display: flex; align-items: center; justify-content: space-between; gap: 16px;
+        width: 100%; margin: 20px 0; text-decoration: none;
+        border: 1px solid #4a4a4c; border-radius: 16px; padding: 18px 20px;
+        cursor: pointer; transition: opacity 0.2s ease;
       }
       .buy-card-btn-mobile:active { opacity: 0.85; }
       .buy-mobile-left { flex: 1.3; text-align: left; max-width: 150px; }
-      .buy-mobile-title {
-        font-family: 'Helvetica Neue';
-        font-weight: 500;
-        font-size: 18px;
-        color: #1d1d1f;
-        margin: 0 0 4px;
+      .buy-mobile-title { font-family: 'Helvetica Neue'; font-weight: 500; font-size: 18px; color: #1d1d1f; margin: 0 0 4px; }
+      .buy-mobile-subtitle { font-family: 'Helvetica Neue'; font-weight: 400; font-size: 12px; color: #2b2b2b; line-height: 1.4; margin: 0; }
+      .buy-mobile-cta { font-family: 'Helvetica Neue'; font-weight: 300; font-size: 11px; color: #2b2b2b; line-height: 1.4; max-width: 105px; text-align: right; margin: 0; flex: 1; }
+    }
+
+    /* ── FRASE COM SCROLL SOBRE IMAGEM FIXA (seção "Com grandes poderes") ── */
+    .poderes-section {
+      position: relative;
+      height: 250vh;
+      background: #000;
+    }
+    .poderes-sticky {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .poderes-bg-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .poderes-overlay-dark {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.35);
+    }
+    .poderes-text-wrap {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      padding: 0 24px;
+      text-align: center;
+    }
+    .poderes-line {
+      font-family: 'Helvetica Neue';
+      font-weight: 700;
+      color: #ffffff;
+      font-size: clamp(28px, 4.5vw, 60px);
+      line-height: 1.25;
+      margin: 0;
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      text-shadow: 0 2px 16px rgba(0,0,0,.45);
+    }
+    .poderes-line.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    @media (max-width: 768px) {
+      .poderes-section {
+        height: auto;
+        background: none;
       }
-      .buy-mobile-subtitle {
-        font-family: 'Helvetica Neue';
-        font-weight: 400;
-        font-size: 12px;
-        color: #2b2b2b;
-        line-height: 1.4;
-        margin: 0;
+      .poderes-sticky {
+        position: relative;
+        top: auto;
+        height: 70vh;
+        min-height: 420px;
       }
-      .buy-mobile-cta {
-        font-family: 'Helvetica Neue';
-        font-weight: 300;
-        font-size: 11px;
-        color: #2b2b2b;
-        line-height: 1.4;
-        max-width: 105px;
-        text-align: right;
-        margin: 0;
-        flex: 1;
+      .poderes-line {
+        opacity: 1 !important;
+        transform: translateY(0) !important;
+        transition: none;
+        font-size: clamp(24px, 6vw, 34px);
       }
     }
   </style>
@@ -1365,7 +822,6 @@
       <source src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/FUNDO%20PARA%20ZOOM%20OUT.mp4" type="video/mp4">
     </video>
     <canvas id="clipCanvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:1;"></canvas>
-    <!-- Mensagens em fade -->
     <div style="position:absolute;bottom:80px;left:0;right:0;z-index:2;display:flex;flex-direction:column;align-items:center;gap:20px;padding:0 48px;pointer-events:none;">
       <div id="clipMsg1" style="opacity:0;transition:opacity 0.6s ease;text-align:center;">
         <p style="font-family:'Helvetica Neue';color:#0a1128;font-size:clamp(16px,2vw,28px);font-weight:500;text-align:center;line-height:1.4;max-width:800px;">O <span style="color:#E8391D;">Facilitta</span> High School oferece todo o serviço de entrada para universidades nos Estados Unidos com descontos exclusivos.</p>
@@ -1389,11 +845,9 @@
     canvas.height = H * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-    // Fundo cinza claro (teste)
     ctx.fillStyle = '#f5f5f7';
     ctx.fillRect(0, 0, W, H);
 
-    // Recorta as letras com zoom
     ctx.globalCompositeOperation = 'destination-out';
 
     const baseFontSize = Math.min(W * 0.06, 130);
@@ -1422,7 +876,6 @@
   }
 
   draw(5000);
-  // Redesenha após fontes e layout estarem 100% prontos, evitando canvas com largura desatualizada
   if (document.fonts && document.fonts.ready) {
     document.fonts.ready.then(redrawInitial);
   }
@@ -1448,14 +901,11 @@
     const boost = progress < 0.4 ? progress * 4 : 0.4 * 4 + (progress - 0.4) * (0.6 / 0.6); const boosted = Math.min(boost, 1); const late = boosted > 0.7 ? 0.7 + (boosted - 0.7) * 20 : boosted; const clamped = Math.min(late, 1); const scale = 5000 * Math.pow(1 - clamped, 10) + endBoost;
     draw(scale);
 
-    // Canvas permanece visível sempre
     canvas.style.opacity = 1;
 
-    // Mensagem 1: aparece em 28% e fica permanente
     const msg1In = Math.max(0, Math.min(1, (progress - 0.28) / 0.03));
     if (msg1) msg1.style.opacity = msg1In;
 
-    // Mensagem 2: aparece após 38%
     const msg2In = Math.max(0, Math.min(1, (progress - 0.38) / 0.03));
     if (msg2) msg2.style.opacity = msg2In;
 
@@ -1488,7 +938,6 @@
 <section id="comparativo" class="comparativo-section" style="background:#f5f5f7; padding: 100px 64px; font-family:'Helvetica Neue';">
   <div class="comparativo-row" style="display:flex; gap:56px; max-width:1140px; margin:0 auto; align-items:flex-start;">
 
-    <!-- Coluna Intercâmbio Tradicional -->
     <div class="comp-col" style="flex:1; opacity:0; transform:translateY(40px); transition: opacity 0.7s ease, transform 0.7s ease;">
       <p class="comp-label" style="font-family:'Helvetica Neue'; font-size:clamp(20px,2.5vw,28px); font-weight:700; color:#86868b; margin-bottom:12px;">Intercâmbio Tradicional</p>
       <p class="comp-value" style="font-family:'Helvetica Neue'; font-size:clamp(40px,5vw,64px); font-weight:700; color:#1d1d1f; line-height:1; margin-bottom:24px;">U$<span id="counter1">0</span> mil <span class="comp-suffix" style="font-size:clamp(16px,2vw,22px); font-weight:400; color:#86868b;">Ano</span></p>
@@ -1496,10 +945,8 @@
       <p class="comp-note" style="font-family:'Helvetica Neue'; font-size:13px; color:#86868b; line-height:1.6;">*Esses serviços não garantem o diploma de High School Americano.</p>
     </div>
 
-    <!-- Divisor -->
     <div class="comparativo-divider" style="width:1px; background:#d2d2d7; align-self:stretch; margin-top:40px;"></div>
 
-    <!-- Coluna Facilitta -->
     <div class="comp-col" style="flex:1; text-align:right; opacity:0; transform:translateY(40px); transition: opacity 0.7s ease 0.2s, transform 0.7s ease 0.2s;">
       <p class="comp-label" style="font-family:'Helvetica Neue'; font-size:clamp(20px,2.5vw,28px); font-weight:700; color:#86868b; margin-bottom:12px;"><strong style="color:#E8391D;">Facilitta</strong> High School</p>
       <p class="comp-value" style="font-family:'Helvetica Neue'; font-size:clamp(40px,5vw,64px); font-weight:700; color:#1d1d1f; line-height:1; margin-bottom:24px;">U$<span id="counter2">0</span> mil <span class="comp-suffix" style="font-size:clamp(16px,2vw,22px); font-weight:400; color:#86868b;">Completo</span></p>
@@ -1548,10 +995,8 @@ counterObserver.observe(document.getElementById('comparativo'));
 <section style="background:#f5f5f7; padding: 0 0 80px;">
   <div class="vant-scroll">
     
-    <!-- Spacer inicial -->
     <div class="vant-spacer"></div>
     
-    <!-- Card 1 -->
     <div class="vant-card">
       <div class="vant-card-img" style="background-image: url('https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/card-facilitta-vantagens-1.jpeg');">
         <div class="vant-plus" data-target="vantText1">
@@ -1565,7 +1010,6 @@ counterObserver.observe(document.getElementById('comparativo'));
       </div>
     </div>
     
-    <!-- Card 2 -->
     <div class="vant-card">
       <div class="vant-card-img" style="background-image: url('https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/card-facilitta-vantagens-2.jpeg');">
         <div class="vant-plus" data-target="vantText2">
@@ -1579,7 +1023,6 @@ counterObserver.observe(document.getElementById('comparativo'));
       </div>
     </div>
     
-    <!-- Card 3 -->
     <div class="vant-card">
       <div class="vant-card-img" style="background-image: url('https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/card-facilitta-vantagens-3.jpeg');">
         <div class="vant-plus" data-target="vantText3">
@@ -1593,7 +1036,6 @@ counterObserver.observe(document.getElementById('comparativo'));
       </div>
     </div>
     
-    <!-- Spacer final: mesmo tamanho do inicial -->
     <div class="vant-spacer"></div>
     
   </div>
@@ -1610,62 +1052,40 @@ document.querySelectorAll('.vant-plus').forEach(btn => {
 });
 </script>
 
-<!-- LIVRO + TEXTO -->
-<section class="poderes-section" style="background:#ffffff; padding:100px 24px; width:100%; max-width:100%; text-align:center;">
-  <div class="poderes-image-wrap" id="poderesImageWrap">
-    <img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/IMAGEM_COMGRANDESPODERES.jpeg" alt="Com grandes poderes, vêm grandes responsabilidades" class="poderes-image" id="poderesImage" />
-    <p class="poderes-overlay-text">Com grandes <span style="color:#ffffff;">poderes</span>,<br/>vêm grandes <span style="color:#ffffff;">responsabilidades</span>.</p>
+<!-- FRASE COM SCROLL SOBRE IMAGEM FIXA -->
+<section class="poderes-section" id="poderesSection">
+  <div class="poderes-sticky">
+    <img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/IMAGEM_COMGRANDESPODERES.jpeg" alt="" class="poderes-bg-img" />
+    <div class="poderes-overlay-dark"></div>
+    <div class="poderes-text-wrap">
+      <p class="poderes-line" id="poderesLine1">Com grandes poderes,</p>
+      <p class="poderes-line" id="poderesLine2">vêm grandes responsabilidades.</p>
+    </div>
   </div>
 </section>
 
-<style>
-  .poderes-image-wrap {
-    position: relative;
-    max-width: 960px;
-    margin: 0 auto;
-    overflow: hidden;
-    border-radius: 24px;
-    aspect-ratio: 16/9;
-  }
-  .poderes-image {
-    position: absolute;
-    top: -12%; left: 0;
-    width: 100%; height: 124%;
-    display: block; object-fit: cover;
-    will-change: transform;
-  }
-  .poderes-overlay-text {
-    position:absolute; inset:0; z-index:2;
-    display:flex; align-items:center; justify-content:center;
-    color:#ffffff; font-family:'Helvetica Neue'; font-weight:700;
-    font-size:clamp(28px,3.4vw,44px); line-height:1.3; text-align:center;
-    text-shadow: 0 2px 16px rgba(0,0,0,.45);
-    padding: 0 24px; margin:0;
-  }
-  @media (max-width:768px) {
-    .poderes-image-wrap { border-radius: 20px; }
-  }
-</style>
-
 <script>
-  (function(){
-    const poderesSection = document.querySelector('.poderes-section');
-    const poderesImage = document.getElementById('poderesImage');
-    if (!poderesSection || !poderesImage) return;
+(function() {
+  const section = document.getElementById('poderesSection');
+  const line1 = document.getElementById('poderesLine1');
+  const line2 = document.getElementById('poderesLine2');
+  if (!section || !line1 || !line2) return;
 
-    function updatePoderesParallax(){
-      const rect = poderesSection.getBoundingClientRect();
-      const vh = window.innerHeight;
-      // progresso de -1 (seção ainda embaixo da tela) a 1 (seção já passou), 0 = centralizada
-      const progress = (rect.top + rect.height/2 - vh/2) / (vh/2 + rect.height/2);
-      const clamped = Math.max(-1, Math.min(1, progress));
-      const offset = clamped * 30; // move a imagem até 30px pra cima/baixo, mais devagar que o scroll
-      poderesImage.style.transform = `translateY(${offset}px)`;
-    }
-    window.addEventListener('scroll', updatePoderesParallax, { passive: true });
-    window.addEventListener('resize', updatePoderesParallax);
-    updatePoderesParallax();
-  })();
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+  if (isMobile) return;
+
+  function update() {
+    const rect = section.getBoundingClientRect();
+    const progress = Math.max(0, Math.min(1, -rect.top / (section.offsetHeight - window.innerHeight)));
+
+    line1.classList.toggle('visible', progress > 0.15);
+    line2.classList.toggle('visible', progress > 0.4);
+  }
+
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+})();
 </script>
 
 <!-- SEÇÃO COMPRAR — ESTILO APPLE -->
@@ -1674,7 +1094,6 @@ document.querySelectorAll('.vant-plus').forEach(btn => {
 
     <h2 class="txt-titulo comprar-title" style="font-family:'Helvetica Neue'; font-size:clamp(28px,3.8vw,48px); color:#1d1d1f; line-height:1.3; margin-bottom:48px;"><span class="comprar-title-line1">Tire seu sonho do papel.</span><br class="comprar-title-break"/><span style="color:#E8391D;">Comece hoje.</span></h2>
 
-    <!-- Botão de compra mobile (logo abaixo do título geral, acima dos slides) -->
     <a href="compra.html" class="buy-card-btn-mobile">
       <div class="buy-mobile-left">
         <p class="buy-mobile-title">American High School</p>
@@ -1685,27 +1104,23 @@ document.querySelectorAll('.vant-plus').forEach(btn => {
 
     <div class="comprar-row" style="display:flex; gap:32px; align-items:stretch; flex-wrap:wrap;">
 
-      <!-- Coluna esquerda: carrossel horizontal (maior) -->
       <div class="comprar-col-left comprar-box-left" style="flex:1.6; min-width:360px; height:460px; background:#fff; border-radius:24px; padding:28px 40px; position:relative; display:flex; flex-direction:column; justify-content:space-between; overflow:hidden;">
 
         <div class="comprar-carousel-frame" style="height:368px; overflow:hidden;">
         <div id="buyCarousel" style="display:flex; height:388px; overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; scrollbar-width:none; gap:0;">
 
-          <!-- Slide 1: Manual do Aluno (título em cima, imagem grande embaixo) -->
           <div style="flex:0 0 100%; height:100%; scroll-snap-align:start; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:11px; padding:0 8px;">
             <p class="txt-subtitulo" style="font-size:clamp(17px,1.9vw,21px); color:#1d1d1f; margin:0; text-align:center; font-weight:400; letter-spacing:0px; position:relative; z-index:2;">Suporte ao usuário</p>
             <div class="comprar-slide-img" style="height:316px; aspect-ratio:16/9; background:#e5e5e7 url('https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/IMAGEM_SUPORTE.jpeg') center/cover no-repeat; border-radius:14px; margin-top:0; position:relative; z-index:1;">
             </div>
           </div>
 
-          <!-- Slide 2: Curso de inglês (título em cima, imagem grande embaixo) -->
           <div style="flex:0 0 100%; height:100%; scroll-snap-align:start; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; padding:0 8px;">
             <p class="txt-subtitulo" style="font-size:clamp(17px,1.9vw,21px); color:#1d1d1f; margin:0; text-align:center; font-weight:400; letter-spacing:0px; margin-top:-14px;">Curso de Inglês</p>
             <div class="comprar-slide-img" style="height:300px; aspect-ratio:16/9; background:#e5e5e7 url('https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/cardcursodeingles.jpg') center/107% 107% no-repeat; border-radius:14px;">
             </div>
           </div>
 
-          <!-- Slide 3: Plataforma (título em cima, imagem grande embaixo) -->
           <div style="flex:0 0 100%; height:100%; scroll-snap-align:start; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; padding:0 8px;">
             <p class="txt-subtitulo" style="font-size:clamp(17px,1.9vw,21px); color:#1d1d1f; margin:0; text-align:center; font-weight:400; letter-spacing:0px; margin-top:-14px;">Plataforma de estudos</p>
             <div class="comprar-slide-img" style="height:300px; aspect-ratio:16/9; background:#e5e5e7 url('https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/card-facilitta-grades.jpeg') center/cover no-repeat; border-radius:14px;">
@@ -1715,7 +1130,6 @@ document.querySelectorAll('.vant-plus').forEach(btn => {
         </div>
         </div>
 
-        <!-- Setas -->
         <button id="buyPrev" aria-label="Anterior" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); width:36px; height:36px; border-radius:50%; background:#fff; border:1px solid #e0e0e0; box-shadow:0 2px 8px rgba(0,0,0,0.08); display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:2;">
           <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M11 3L5 9l6 6" stroke="#1d1d1f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
@@ -1723,7 +1137,6 @@ document.querySelectorAll('.vant-plus').forEach(btn => {
           <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M7 3l6 6-6 6" stroke="#1d1d1f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
 
-        <!-- Bolinhas -->
         <div class="comprar-dots-desktop" style="display:flex; justify-content:center;">
           <div style="display:flex; gap:8px;">
             <span class="buyDot" data-index="0" style="width:8px; height:8px; border-radius:50%; background:#1d1d1f; cursor:pointer; transition:background .2s;"></span>
@@ -1732,7 +1145,6 @@ document.querySelectorAll('.vant-plus').forEach(btn => {
           </div>
         </div>
 
-        <!-- Componente de abas mobile (estilo Apple: imagem + abas + texto) -->
         <div id="mobileTabsComponent" class="mobile-tabs-component">
           <div class="mobile-tab-image-wrap" id="mobileImageWrap">
             <div class="mobile-tab-image active" data-tab="0" style="background-image:url('https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/IMAGEM_SUPORTE.jpeg');"></div>
@@ -1766,27 +1178,22 @@ document.querySelectorAll('.vant-plus').forEach(btn => {
 
       </div>
 
-      <!-- Coluna direita: modelo estilo Apple (mais estreita) -->
       <div class="comprar-col-right" style="flex:1; min-width:280px; display:flex; flex-direction:column; justify-content:center; gap:16px;">
 
         <p class="comprar-eyebrow" style="font-size:15px; color:#86868b; margin:0 0 4px;"><span style="font-weight:500; color:#1d1d1f;">Apply</span> now!</p>
 
-        <!-- Passo a passo vertical com scroll + bolinhas -->
         <div class="comprar-steps-wrap" style="display:flex; gap:12px; align-items:center;">
           <div class="comprar-steps-frame" style="flex:1; overflow:hidden; border-radius:16px;">
           <div id="stepsTrack" style="width:calc(100% + 20px); margin-left:-10px; height:220px; overflow-y:scroll; scrollbar-width:none; -ms-overflow-style:none; scroll-snap-type:y mandatory; -webkit-overflow-scrolling:touch; background:#fff;">
 
-            <!-- Etapa 1 -->
             <div class="comprar-step-item" style="height:220px; scroll-snap-align:start; display:flex; align-items:center; justify-content:center; text-align:center; padding:0 20px;">
               <p class="txt-corpo steps-text" style="font-family:'Helvetica Neue'; font-size:16px; color:#4a4a4c; line-height:1.6; margin:0 10px; text-align:center;">Você recebe todo o suporte necessário, do início ao fim, com assessoria durante o High School e durante a sua entrada e fim em uma universidade americana.</p>
             </div>
 
-            <!-- Etapa 2 -->
             <div class="comprar-step-item" style="height:220px; scroll-snap-align:start; display:flex; align-items:center; justify-content:center; text-align:center; padding:0 20px;">
               <p class="txt-corpo steps-text" style="font-family:'Helvetica Neue'; font-size:16px; color:#4a4a4c; line-height:1.6; margin:0 10px; text-align:center;">Ao matricular-se, você receberá, totalmente grátis, nosso curso de inglês online, tendo aulas com uma professora americana nativa, especialista no método Fonix, a mesma técnica usada nos Estados Unidos para o aprendizado de inglês. Um curso completo e muito didático, pensado pra já preparar o aluno pra sua jornada americana.</p>
             </div>
 
-            <!-- Etapa 3 (final) -->
             <div id="stepFinal" class="comprar-step-item" style="min-height:220px; scroll-snap-align:start; display:flex; align-items:center; justify-content:center; text-align:center; padding:0 20px;">
               <p class="txt-corpo steps-text" style="font-family:'Helvetica Neue'; font-size:16px; color:#4a4a4c; line-height:1.6; margin:0 10px; text-align:center;">Trabalhamos com uma plataforma de ensino americana, 100% em inglês e totalmente interativa. É nela que o aluno cursa as matérias, faz os exercícios, aprende e tira dúvidas, acompanhando de perto toda a sua evolução no programa.</p>
             </div>
@@ -1795,7 +1202,6 @@ document.querySelectorAll('.vant-plus').forEach(btn => {
           </div>
         </div>
 
-        <!-- Card destaque (mesmo formato/config do botão mobile) -->
         <div class="comprar-btn-wrap" style="display:flex; gap:12px; align-items:stretch;">
           <a href="compra.html" class="buy-card-btn" style="flex:1; text-decoration:none; display:flex; align-items:center; justify-content:space-between; gap:16px; border:1px solid #4a4a4c; border-radius:16px; padding:18px 20px; cursor:pointer; transition:opacity .2s;">
             <div style="flex:1.3; text-align:left; max-width:220px;">
@@ -1828,7 +1234,6 @@ document.querySelectorAll('.vant-plus').forEach(btn => {
   let isSyncing = false;
 
   function activeTrack() {
-    // Usa o que estiver visível de verdade (mobile ou desktop)
     if (trackMobile && trackMobile.offsetParent !== null) return trackMobile;
     return trackDesktop;
   }
@@ -1925,11 +1330,9 @@ document.querySelectorAll('.vant-plus').forEach(btn => {
 
       tryPlay();
 
-      // Tenta de novo no primeiro toque/clique
       document.addEventListener('touchstart', tryPlay, { once: true });
       document.addEventListener('click', tryPlay, { once: true });
 
-      // Tenta de novo quando a página ficar visível
       document.addEventListener('visibilitychange', function() {
         if (!document.hidden) tryPlay();
       });
@@ -2002,7 +1405,6 @@ document.querySelectorAll('.vant-plus').forEach(btn => {
       updateDots();
     }
 
-    // Detecta qual vídeo está mais visível na tela (snap scroll)
     const observer = new IntersectionObserver((entries) => {
       if (autoAdvancing) return;
       let best = null;
@@ -2059,9 +1461,6 @@ document.querySelectorAll('.vant-plus').forEach(btn => {
   setupVideoCarousel('videosScrollWide', 'videoDotsWide', 'videoPlayPauseWide');
   setupVideoCarousel('videosScrollMobile', 'videoDotsMobile', 'videoPlayPauseMobile');
 
-  // Botão de expandir/desexpandir dentro de cada vídeo:
-  // fora da tela cheia, sem controles nativos (usamos nosso play/pause + bolinhas);
-  // ao entrar em tela cheia, os controles nativos (play/pause + barra) aparecem normalmente.
   document.querySelectorAll('.video-card, .video-card-vert').forEach(card => {
     const video = card.querySelector('.video-el');
     const btn = card.querySelector('.video-expand-btn');
@@ -2090,7 +1489,6 @@ document.querySelectorAll('.vant-plus').forEach(btn => {
       iconCollapse.style.display = isFs ? 'block' : 'none';
     });
 
-    // Safari iOS (fullscreen nativo de vídeo, sem Fullscreen API padrão)
     video.addEventListener('webkitendfullscreen', () => {
       video.controls = false;
       iconExpand.style.display = 'block';
@@ -2098,8 +1496,6 @@ document.querySelectorAll('.vant-plus').forEach(btn => {
     });
   });
 
-  // Revela os controles suavemente quando a seção de vídeos entra na tela,
-  // e dá play automático no primeiro vídeo assim que a seção aparece
   document.querySelectorAll('.videos-controls').forEach(controls => {
     const scrollEl = controls.previousElementSibling;
     if (!scrollEl) return;
@@ -2119,8 +1515,6 @@ document.querySelectorAll('.vant-plus').forEach(btn => {
     revealObserver.observe(scrollEl);
   });
 
-  // Pausa os vídeos de depoimento (não os de scroll/parallax) assim que saem da tela,
-  // pra não continuar tocando som com a seção fora da vista.
   document.querySelectorAll('#videosScrollWide .video-el, #videosScrollMobile .video-el').forEach(video => {
     const pauseObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -2132,7 +1526,6 @@ document.querySelectorAll('.vant-plus').forEach(btn => {
     pauseObserver.observe(video);
   });
 
-  // Mostra um frame parado do vídeo (em vez de tela preta) assim que os metadados carregam
   document.querySelectorAll('.video-el').forEach(video => {
     video.addEventListener('loadedmetadata', () => {
       if (video.currentTime === 0) video.currentTime = 0.1;
@@ -2237,7 +1630,6 @@ document.querySelectorAll('.vant-plus').forEach(btn => {
     if (activeIndex < total - 1) selectTab(activeIndex + 1);
   });
 
-  // Swipe na imagem também troca a aba
   if (imageWrap) {
     imageWrap.addEventListener('scroll', () => {
       if (isSyncingImage) return;

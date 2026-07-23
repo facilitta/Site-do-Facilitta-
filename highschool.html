@@ -644,7 +644,7 @@
       .poderes-line {
         font-size: clamp(22px, 5.8vw, 28px);
         white-space: nowrap;
-        transition: opacity 0.15s ease;
+        transition: opacity 0.08s ease;
       }
     }
   </style>
@@ -1104,8 +1104,9 @@ document.querySelectorAll('.vant-plus').forEach(btn => {
 
     /* Expansion: starts when image first enters viewport from below,
        finishes exactly when image is 100% on screen (rect.top = 0). */
-    const enteredBy = vh - rect.top;          /* 0 → vh as section scrolls into view */
-    const expandT   = easeOut(enteredBy / vh);
+    const enteredBy    = vh - rect.top;          /* 0 → vh as section scrolls into view */
+    const enterProgress = clamp(enteredBy / vh, 0, 1); /* linear 0→1 */
+    const expandT      = easeOut(enterProgress);
     frame.style.transform    = `scale(${lerp(startScale, 1.0, expandT)})`;
     frame.style.borderRadius = `${lerp(startRadius, 0, expandT)}px`;
 
@@ -1113,7 +1114,7 @@ document.querySelectorAll('.vant-plus').forEach(btn => {
     const scrollable     = section.offsetHeight - vh;
     const stickyProgress = scrollable > 0 ? clamp(-rect.top / scrollable, 0, 1) : 1;
     if (isMobile) {
-      const show = expandT >= 0.5;
+      const show = enterProgress >= 0.5; /* show when image is halfway on screen */
       line1.classList.toggle('visible', show);
       line2.classList.toggle('visible', show);
     } else {

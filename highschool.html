@@ -644,7 +644,7 @@
       .poderes-line {
         font-size: clamp(22px, 5.8vw, 28px);
         white-space: nowrap;
-        transition: opacity 0.2s ease, transform 0.2s ease;
+        transition: opacity 0.15s ease;
       }
     }
   </style>
@@ -1113,7 +1113,7 @@ document.querySelectorAll('.vant-plus').forEach(btn => {
     const scrollable     = section.offsetHeight - vh;
     const stickyProgress = scrollable > 0 ? clamp(-rect.top / scrollable, 0, 1) : 1;
     if (isMobile) {
-      const show = stickyProgress > 0.05;
+      const show = expandT >= 0.5;
       line1.classList.toggle('visible', show);
       line2.classList.toggle('visible', show);
     } else {

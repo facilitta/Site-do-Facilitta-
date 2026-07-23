@@ -161,6 +161,24 @@
     }
 
     .nav-sticky-mobile { display: none; }
+    @media (max-width: 768px) {
+      nav { position: static; }
+      .hero-section { margin-top: 0; }
+      .nav-sticky-mobile {
+        display: flex; align-items: center; justify-content: space-between;
+        position: fixed; top: 0; left: 0; right: 0; height: 50px; padding: 0 16px;
+        background: rgba(232, 57, 29, 0.85);
+        backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+        z-index: 250; transform: translateY(-100%); transition: transform 0.35s ease;
+      }
+      .nav-sticky-mobile.visible { transform: translateY(0); }
+      .nav-sticky-title { font-family: 'Helvetica Neue'; font-weight: 500; font-size: 14px; color: #ffffff; }
+      .nav-sticky-btn {
+        display: inline-block; background: #ffffff; color: var(--red);
+        font-family: 'Helvetica Neue'; font-weight: 400; font-size: 11px;
+        padding: 5px 12px; border-radius: 100px; text-decoration: none;
+      }
+    }
 
     .nav-insta {
       display: flex; align-items: center; justify-content: center;
@@ -172,9 +190,9 @@
     .nav-right { display: flex; align-items: center; gap: 20px; position: relative; z-index: 2; }
 
     @media (max-width: 768px) {
-      nav { padding: 0 14px; height: 60px; position: fixed; }
+      nav { padding: 0 14px; height: 60px; }
       .hero-video-placeholder { height: calc(100dvh - 60px) !important; }
-      .hero-section { margin-top: 60px !important; }
+      .hero-section { margin-top: 0 !important; }
       .nav-links { display: none; }
       .nav-right { gap: 6px; }
       .nav-cta { display: none; }
@@ -1675,6 +1693,23 @@ document.querySelectorAll('.vant-plus').forEach(btn => {
 })();
 </script>
 
+<!-- NAVBAR DE SCROLL (mobile) SCRIPT -->
+<script>
+  const navStickyMobile = document.getElementById('navStickyMobile');
+  const heroSectionEl = document.querySelector('.hero-section');
+  if (navStickyMobile && heroSectionEl) {
+    const scrollThreshold = heroSectionEl.offsetHeight / 2;
+    function checkStickyNav() {
+      if (window.scrollY > scrollThreshold) {
+        navStickyMobile.classList.add('visible');
+      } else {
+        navStickyMobile.classList.remove('visible');
+      }
+    }
+    checkStickyNav();
+    window.addEventListener('scroll', checkStickyNav, { passive: true });
+  }
+</script>
 
 </body>
 </html>

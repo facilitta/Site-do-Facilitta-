@@ -563,7 +563,7 @@
     /* ── FRASE COM SCROLL SOBRE IMAGEM FIXA (seção "Com grandes poderes") ── */
     .poderes-section {
       position: relative;
-      height: 250vh;
+      height: 280vh;
       background: #000;
     }
     .poderes-sticky {
@@ -571,6 +571,20 @@
       top: 0;
       height: 100vh;
       overflow: hidden;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .poderes-frame {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      border-radius: 24px;
+      transform: scale(0.88);
+      transform-origin: center;
+      will-change: transform, border-radius;
     }
     .poderes-bg-img {
       position: absolute;
@@ -615,27 +629,17 @@
     }
     @media (max-width: 768px) {
       .poderes-section {
-        height: auto;
-        background: none;
+        height: 220vh;
       }
-      .poderes-sticky {
-        position: relative;
-        top: auto;
-        height: auto;
-        min-height: 0;
-        padding: 80px 20px;
+      .poderes-frame {
+        border-radius: 20px;
+        transform: scale(0.86);
       }
       .poderes-text-wrap {
-        gap: 4px;
-        padding: 0;
+        gap: 10px;
       }
       .poderes-line {
-        opacity: 1 !important;
-        transform: translateY(0) !important;
-        transition: none;
-        font-size: 18px;
-        line-height: 1.3;
-        white-space: nowrap;
+        font-size: clamp(18px, 4.8vw, 24px);
       }
     }
   </style>
@@ -1062,11 +1066,13 @@ document.querySelectorAll('.vant-plus').forEach(btn => {
 <!-- FRASE COM SCROLL SOBRE IMAGEM FIXA -->
 <section class="poderes-section" id="poderesSection">
   <div class="poderes-sticky">
-    <img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/IMAGEM_COMGRANDESPODERES.jpeg" alt="" class="poderes-bg-img" />
-    <div class="poderes-overlay-dark"></div>
-    <div class="poderes-text-wrap">
-      <p class="poderes-line" id="poderesLine1">Com grandes poderes,</p>
-      <p class="poderes-line" id="poderesLine2">vêm grandes responsabilidades.</p>
+    <div class="poderes-frame" id="poderesFrame">
+      <img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/IMAGEM_COMGRANDESPODERES.jpeg" alt="" class="poderes-bg-img" />
+      <div class="poderes-overlay-dark"></div>
+      <div class="poderes-text-wrap">
+        <p class="poderes-line" id="poderesLine1">Com grandes poderes,</p>
+        <p class="poderes-line" id="poderesLine2">vêm grandes responsabilidades.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -1074,19 +1080,31 @@ document.querySelectorAll('.vant-plus').forEach(btn => {
 <script>
 (function() {
   const section = document.getElementById('poderesSection');
-  const line1 = document.getElementById('poderesLine1');
-  const line2 = document.getElementById('poderesLine2');
-  if (!section || !line1 || !line2) return;
+  const frame   = document.getElementById('poderesFrame');
+  const line1   = document.getElementById('poderesLine1');
+  const line2   = document.getElementById('poderesLine2');
+  if (!section || !frame || !line1 || !line2) return;
 
   const isMobile = window.matchMedia('(max-width: 768px)').matches;
-  if (isMobile) return;
+  const startScale  = isMobile ? 0.86 : 0.88;
+  const startRadius = isMobile ? 20   : 24;
+
+  function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+  function lerp(a, b, t)    { return a + (b - a) * clamp(t, 0, 1); }
 
   function update() {
-    const rect = section.getBoundingClientRect();
-    const progress = Math.max(0, Math.min(1, -rect.top / (section.offsetHeight - window.innerHeight)));
+    const rect      = section.getBoundingClientRect();
+    const scrollable = section.offsetHeight - window.innerHeight;
+    const progress  = scrollable > 0 ? clamp(-rect.top / scrollable, 0, 1) : 1;
 
-    line1.classList.toggle('visible', progress > 0.15);
-    line2.classList.toggle('visible', progress > 0.4);
+    /* Frame: expand in first half of scroll */
+    const expandT  = clamp(progress * 2, 0, 1);
+    frame.style.transform    = `scale(${lerp(startScale, 1.0, expandT)})`;
+    frame.style.borderRadius = `${lerp(startRadius, 0, expandT)}px`;
+
+    /* Text: fade in after frame is mostly open */
+    line1.classList.toggle('visible', progress > 0.45);
+    line2.classList.toggle('visible', progress > 0.65);
   }
 
   window.addEventListener('scroll', update, { passive: true });

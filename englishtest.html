@@ -41,9 +41,23 @@
     .nav-links a:hover { opacity: 1; }
     .nav-cta { background: var(--red); color: #fff; border: none; padding: 10px 24px; border-radius: 100px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; transition: opacity 0.2s; }
     .nav-cta:hover { opacity: 0.82; }
+
+    /* mobile: nav branca some com o scroll, barra laranja desliza */
+    .nav-sticky-mobile { display: none; }
     @media (max-width: 768px) {
-      nav { padding: 0 20px; height: 60px; }
+      nav { position: static; padding: 0 16px; height: 60px; }
       .nav-links { display: none; }
+      .nav-cta { display: none; }
+      .nav-sticky-mobile {
+        display: flex; align-items: center; justify-content: space-between;
+        position: fixed; top: 0; left: 0; right: 0; height: 50px; padding: 0 16px;
+        background: rgba(232,57,29,0.85);
+        backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+        z-index: 250; transform: translateY(-100%); transition: transform 0.35s ease;
+      }
+      .nav-sticky-mobile.visible { transform: translateY(0); }
+      .nsm-title { font-weight: 500; font-size: 14px; color: #fff; }
+      .nsm-btn { display: inline-block; background: #fff; color: var(--red); font-weight: 400; font-size: 11px; padding: 5px 12px; border-radius: 100px; text-decoration: none; }
     }
 
     /* ── HERO ── */
@@ -73,7 +87,7 @@
     @keyframes scrollbounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
     .hero-bottom-bar { position: absolute; bottom: 0; left: 0; right: 0; height: 5px; background: var(--red); z-index: 3; }
     @media (max-width: 768px) {
-      .hero { margin-top: 60px; min-height: calc(100dvh - 60px); padding: 0 0 64px; }
+      .hero { margin-top: 0; min-height: 100dvh; padding: 0 0 64px; }
       .hero-content { padding: 0 24px; }
       .hero-scroll-hint { right: 24px; bottom: 24px; }
     }
@@ -254,6 +268,12 @@
   </ul>
   <button class="nav-cta">Começar agora</button>
 </nav>
+
+<!-- BARRA LARANJA MOBILE (aparece ao rolar) -->
+<div class="nav-sticky-mobile" id="navStickyMobile">
+  <span class="nsm-title">English Classes</span>
+  <a href="#" class="nsm-btn">Começar agora</a>
+</div>
 
 <!-- HERO -->
 <section class="hero">
@@ -572,6 +592,18 @@
     });
   },{threshold:0.5});
   document.querySelectorAll('.cnt').forEach(el=>cntIO.observe(el));
+
+  /* ── BARRA LARANJA MOBILE ── */
+  const navStickyMobile = document.getElementById('navStickyMobile');
+  const heroEl = document.querySelector('.hero');
+  if (navStickyMobile && heroEl) {
+    const threshold = heroEl.offsetHeight / 2;
+    function checkStickyNav() {
+      navStickyMobile.classList.toggle('visible', window.scrollY > threshold);
+    }
+    checkStickyNav();
+    window.addEventListener('scroll', checkStickyNav, { passive: true });
+  }
 
   /* ── CEFR: light up cards sequentially when section enters view ── */
   const cefrCards=Array.from(document.querySelectorAll('.cefr-card'));

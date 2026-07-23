@@ -563,15 +563,15 @@
     /* ── FRASE COM SCROLL SOBRE IMAGEM FIXA (seção "Com grandes poderes") ── */
     .poderes-section {
       position: relative;
-      height: 280vh;
-      background: #000;
+      height: 230vh;
+      background: #f5f5f7;
     }
     .poderes-sticky {
       position: sticky;
       top: 0;
       height: 100vh;
       overflow: hidden;
-      background: #000;
+      background: #f5f5f7;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -629,7 +629,7 @@
     }
     @media (max-width: 768px) {
       .poderes-section {
-        height: 220vh;
+        height: 190vh;
       }
       .poderes-frame {
         border-radius: 20px;
@@ -1085,26 +1085,31 @@ document.querySelectorAll('.vant-plus').forEach(btn => {
   const line2   = document.getElementById('poderesLine2');
   if (!section || !frame || !line1 || !line2) return;
 
-  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+  const isMobile    = window.matchMedia('(max-width: 768px)').matches;
   const startScale  = isMobile ? 0.86 : 0.88;
   const startRadius = isMobile ? 20   : 24;
+  const EXPAND_PX   = isMobile ? 180  : 220; /* expansion completes in this many px of scroll */
 
   function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
   function lerp(a, b, t)    { return a + (b - a) * clamp(t, 0, 1); }
+  function easeOut(t)        { return 1 - Math.pow(1 - clamp(t, 0, 1), 3); }
 
   function update() {
-    const rect      = section.getBoundingClientRect();
-    const scrollable = section.offsetHeight - window.innerHeight;
-    const progress  = scrollable > 0 ? clamp(-rect.top / scrollable, 0, 1) : 1;
+    const rect = section.getBoundingClientRect();
+    const vh   = window.innerHeight;
 
-    /* Frame: expand in first half of scroll */
-    const expandT  = clamp(progress * 2, 0, 1);
+    /* Expansion: starts the moment any part of section enters viewport from below.
+       enteredBy = how many px of section are already above the viewport bottom. */
+    const enteredBy = vh - rect.top;
+    const expandT   = easeOut(enteredBy / EXPAND_PX);
     frame.style.transform    = `scale(${lerp(startScale, 1.0, expandT)})`;
     frame.style.borderRadius = `${lerp(startRadius, 0, expandT)}px`;
 
-    /* Text: fade in after frame is mostly open */
-    line1.classList.toggle('visible', progress > 0.45);
-    line2.classList.toggle('visible', progress > 0.65);
+    /* Text: fades in while section is sticky (rect.top <= 0) */
+    const scrollable    = section.offsetHeight - vh;
+    const stickyProgress = scrollable > 0 ? clamp(-rect.top / scrollable, 0, 1) : 1;
+    line1.classList.toggle('visible', stickyProgress > 0.15);
+    line2.classList.toggle('visible', stickyProgress > 0.45);
   }
 
   window.addEventListener('scroll', update, { passive: true });

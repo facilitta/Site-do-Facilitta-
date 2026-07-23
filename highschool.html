@@ -632,21 +632,11 @@
     }
     @media (max-width: 768px) {
       .poderes-section {
-        height: auto;
-        padding: 40px 20px 60px;
-      }
-      .poderes-sticky {
-        position: relative;
-        top: auto;
-        height: 65vh;
-        min-height: 380px;
-        overflow: visible;
-        display: block;
-        background: transparent;
+        height: 190vh;
       }
       .poderes-frame {
         border-radius: 20px;
-        transform: none;
+        transform: scale(0.86);
       }
       .poderes-text-wrap {
         gap: 10px;
@@ -654,8 +644,8 @@
       .poderes-line {
         font-size: clamp(22px, 5.8vw, 28px);
         white-space: nowrap;
-        opacity: 1;
-        transform: none;
+        opacity: 1 !important;
+        transform: none !important;
         transition: none;
       }
     }
@@ -1102,11 +1092,9 @@ document.querySelectorAll('.vant-plus').forEach(btn => {
   const line2   = document.getElementById('poderesLine2');
   if (!section || !frame || !line1 || !line2) return;
 
-  const isMobile = window.matchMedia('(max-width: 768px)').matches;
-  if (isMobile) return;
-
-  const startScale  = 0.88;
-  const startRadius = 24;
+  const isMobile    = window.matchMedia('(max-width: 768px)').matches;
+  const startScale  = isMobile ? 0.86 : 0.88;
+  const startRadius = isMobile ? 20   : 24;
 
   function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
   function lerp(a, b, t)    { return a + (b - a) * clamp(t, 0, 1); }

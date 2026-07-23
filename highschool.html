@@ -615,13 +615,13 @@
       font-family: 'Helvetica Neue';
       font-weight: 700;
       color: #ffffff;
-      font-size: clamp(28px, 4.5vw, 60px);
-      line-height: 1.25;
+      font-size: clamp(36px, 5.5vw, 72px);
+      line-height: 1.2;
       margin: 0;
       opacity: 0;
       transform: translateY(24px);
       transition: opacity 0.5s ease, transform 0.5s ease;
-      text-shadow: 0 2px 16px rgba(0,0,0,.45);
+      text-shadow: 0 2px 20px rgba(0,0,0,.5);
     }
     .poderes-line.visible {
       opacity: 1;
@@ -639,7 +639,8 @@
         gap: 10px;
       }
       .poderes-line {
-        font-size: clamp(18px, 4.8vw, 24px);
+        font-size: clamp(19px, 5vw, 22px);
+        white-space: nowrap;
       }
     }
   </style>
@@ -1088,25 +1089,24 @@ document.querySelectorAll('.vant-plus').forEach(btn => {
   const isMobile    = window.matchMedia('(max-width: 768px)').matches;
   const startScale  = isMobile ? 0.86 : 0.88;
   const startRadius = isMobile ? 20   : 24;
-  const EXPAND_PX   = isMobile ? 180  : 220; /* expansion completes in this many px of scroll */
 
   function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
   function lerp(a, b, t)    { return a + (b - a) * clamp(t, 0, 1); }
-  function easeOut(t)        { return 1 - Math.pow(1 - clamp(t, 0, 1), 3); }
+  function easeOut(t)        { return 1 - Math.pow(1 - clamp(t, 0, 1), 2.5); }
 
   function update() {
     const rect = section.getBoundingClientRect();
     const vh   = window.innerHeight;
 
-    /* Expansion: starts the moment any part of section enters viewport from below.
-       enteredBy = how many px of section are already above the viewport bottom. */
-    const enteredBy = vh - rect.top;
-    const expandT   = easeOut(enteredBy / EXPAND_PX);
+    /* Expansion: starts when image first enters viewport from below,
+       finishes exactly when image is 100% on screen (rect.top = 0). */
+    const enteredBy = vh - rect.top;          /* 0 → vh as section scrolls into view */
+    const expandT   = easeOut(enteredBy / vh);
     frame.style.transform    = `scale(${lerp(startScale, 1.0, expandT)})`;
     frame.style.borderRadius = `${lerp(startRadius, 0, expandT)}px`;
 
     /* Text: fades in while section is sticky (rect.top <= 0) */
-    const scrollable    = section.offsetHeight - vh;
+    const scrollable     = section.offsetHeight - vh;
     const stickyProgress = scrollable > 0 ? clamp(-rect.top / scrollable, 0, 1) : 1;
     line1.classList.toggle('visible', stickyProgress > 0.15);
     line2.classList.toggle('visible', stickyProgress > 0.45);

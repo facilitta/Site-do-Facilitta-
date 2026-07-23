@@ -621,14 +621,17 @@
       .poderes-sticky {
         position: relative;
         top: auto;
-        height: 70vh;
-        min-height: 420px;
+        height: 60vh;
+        min-height: 320px;
+      }
+      .poderes-text-wrap {
+        gap: 8px;
       }
       .poderes-line {
         opacity: 1 !important;
         transform: translateY(0) !important;
         transition: none;
-        font-size: clamp(24px, 6vw, 34px);
+        font-size: clamp(22px, 5.5vw, 30px);
       }
     }
   </style>
@@ -821,7 +824,7 @@
     <video class="clip-video-bg" id="clipVideoBg" autoplay muted loop playsinline webkit-playsinline preload="auto" style="transition: opacity 0.3s ease;">
       <source src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/FUNDO%20PARA%20ZOOM%20OUT.mp4" type="video/mp4">
     </video>
-    <canvas id="clipCanvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:1;"></canvas>
+    <canvas id="clipCanvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:1;transform:translateZ(0);-webkit-transform:translateZ(0);will-change:transform;"></canvas>
     <div style="position:absolute;bottom:80px;left:0;right:0;z-index:2;display:flex;flex-direction:column;align-items:center;gap:20px;padding:0 48px;pointer-events:none;">
       <div id="clipMsg1" style="opacity:0;transition:opacity 0.6s ease;text-align:center;">
         <p style="font-family:'Helvetica Neue';color:#0a1128;font-size:clamp(16px,2vw,28px);font-weight:500;text-align:center;line-height:1.4;max-width:800px;">O <span style="color:#E8391D;">Facilitta</span> High School oferece todo o serviço de entrada para universidades nos Estados Unidos com descontos exclusivos.</p>

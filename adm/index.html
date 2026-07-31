@@ -129,6 +129,11 @@
     tr:last-child td { border-bottom: none; }
     tr.pivot-total td { font-weight: 700; background: #fafafa; }
     .table-empty { padding: 40px 20px; text-align: center; color: #a0a0a5; font-size: 13px; }
+    .pago-chip { border: none; border-radius: 100px; padding: 6px 14px; font-size: 11.5px; font-weight: 700; cursor: pointer; font-family: 'Helvetica Neue'; transition: opacity .15s; }
+    .pago-chip:hover { opacity: 0.75; }
+    .pago-chip.pago { background: #e5f6ec; color: var(--green); }
+    .pago-chip.pendente { background: #fdecea; color: var(--red-2); }
+    .pago-chip.parcial { background: #fdf3e0; color: var(--amber); }
 
     /* ============ ALUNOS: TOOLBAR / FILTROS ============ */
     .toolbar { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; }
@@ -354,6 +359,7 @@
             <th data-sort="valor">Valor total <span class="sort-arrow">▲</span></th>
             <th data-sort="pct">% aplicada</th>
             <th data-sort="repasse">A repassar <span class="sort-arrow">▲</span></th>
+            <th>Repasse</th>
           </tr>
         </thead>
         <tbody id="pivotBody"></tbody>
@@ -436,8 +442,8 @@
 <!-- MODAL NOVO ALUNO (cadastro completo) -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal-box">
-    <p class="modal-title">Novo aluno</p>
-    <p class="modal-subtitle">Cadastro completo — tudo que existe sobre o aluno começa aqui.</p>
+    <p class="modal-title" id="modalTitle">Novo aluno</p>
+    <p class="modal-subtitle" id="modalSubtitle">Cadastro completo — tudo que existe sobre o aluno começa aqui.</p>
     <form id="alunoForm">
       <div class="modal-field"><label>Nome</label><input type="text" id="fNome" required /></div>
       <div class="modal-row-2">
@@ -520,7 +526,8 @@
       valor: Number(r.valor) || 0, formaPagamento: r.forma_pagamento || 'a_vista',
       numParcelas: r.num_parcelas || 1, percAssessor: Number(r.perc_assessor) || 0,
       percEscola: Number(r.perc_escola) || 0, dataEntrada: r.data_entrada || '',
-      status: r.status || 'lead', progresso: r.progresso
+      status: r.status || 'lead', progresso: r.progresso,
+      repasseAssessorPago: !!r.repasse_assessor_pago, repasseEscolaPago: !!r.repasse_escola_pago
     };
   }
 
@@ -577,8 +584,8 @@
 
   function aplicarPermissoes() {
     const veFinanceiro = papelAtual === 'admin' || papelAtual === 'financeiro';
-    const veAlunos = papelAtual === 'admin' || papelAtual === 'suporte';
-    const podeEditar = papelAtual === 'admin' || papelAtual === 'suporte';
+    const veAlunos = papelAtual === 'admin' || papelAtual === 'financeiro' || papelAtual === 'suporte';
+    const podeEditar = papelAtual === 'admin' || papelAtual === 'financeiro' || papelAtual === 'suporte';
     document.querySelectorAll('[data-panel="financeiro"]').forEach(el => { el.style.display = veFinanceiro ? '' : 'none'; });
     document.querySelectorAll('[data-panel="alunos"]').forEach(el => { el.style.display = veAlunos ? '' : 'none'; });
     document.getElementById('btnNovoAluno').style.display = podeEditar ? '' : 'none';
@@ -653,13 +660,41 @@
     link.addEventListener('click', (e) => { e.preventDefault(); goToPanel(link.dataset.panel); mobileMenuOverlay.classList.remove('active'); });
   });
 
-  // ===================== MODAL NOVO ALUNO =====================
+  // ===================== MODAL NOVO / EDITAR ALUNO =====================
   const modalOverlay = document.getElementById('modalOverlay');
+  let editandoId = null;
+
   document.getElementById('btnNovoAluno').addEventListener('click', () => {
+    editandoId = null;
+    document.getElementById('alunoForm').reset();
+    document.getElementById('modalTitle').textContent = 'Novo aluno';
+    document.getElementById('modalSubtitle').textContent = 'Cadastro completo — tudo que existe sobre o aluno começa aqui.';
     document.getElementById('fDataEntrada').value = new Date().toISOString().slice(0, 10);
     modalOverlay.classList.add('active');
   });
-  document.getElementById('btnCancelar').addEventListener('click', () => modalOverlay.classList.remove('active'));
+
+  function abrirEdicao(id) {
+    const a = alunos.find(x => x.id === id);
+    if (!a) return;
+    editandoId = id;
+    document.getElementById('modalTitle').textContent = 'Editar aluno';
+    document.getElementById('modalSubtitle').textContent = 'Alterando os dados de ' + a.nome + '.';
+    document.getElementById('fNome').value = a.nome;
+    document.getElementById('fEscola').value = a.escola;
+    document.getElementById('fAssessor').value = a.assessor;
+    document.getElementById('fValor').value = a.valor || '';
+    document.getElementById('fFormaPagamento').value = a.formaPagamento;
+    document.getElementById('fNumParcelas').value = a.numParcelas;
+    document.getElementById('fPercAssessor').value = a.percAssessor;
+    document.getElementById('fPercEscola').value = a.percEscola;
+    document.getElementById('fDataEntrada').value = a.dataEntrada || '';
+    document.getElementById('fStatus').value = a.status;
+    fichaOverlay.classList.remove('active');
+    modalOverlay.classList.add('active');
+  }
+
+  document.getElementById('btnCancelar').addEventListener('click', () => { editandoId = null; modalOverlay.classList.remove('active'); });
+
   document.getElementById('alunoForm').addEventListener('submit', async function (e) {
     e.preventDefault();
     if (!sb) { alert('Banco de dados ainda não configurado.'); return; }
@@ -667,17 +702,28 @@
       nome: document.getElementById('fNome').value.trim(),
       escola: document.getElementById('fEscola').value.trim(),
       assessor: document.getElementById('fAssessor').value.trim(),
-      valor: Number(document.getElementById('fValor').value) || 0,
-      forma_pagamento: document.getElementById('fFormaPagamento').value,
-      num_parcelas: Number(document.getElementById('fNumParcelas').value) || 1,
-      perc_assessor: Number(document.getElementById('fPercAssessor').value) || 0,
-      perc_escola: Number(document.getElementById('fPercEscola').value) || 0,
-      data_entrada: document.getElementById('fDataEntrada').value || new Date().toISOString().slice(0, 10),
-      status: document.getElementById('fStatus').value,
-      progresso: null
+      status: document.getElementById('fStatus').value
     };
-    const { error } = await sb.from('alunos').insert(row);
+    // suporte não vê nem altera os campos financeiros
+    if (papelAtual !== 'suporte') {
+      row.valor = Number(document.getElementById('fValor').value) || 0;
+      row.forma_pagamento = document.getElementById('fFormaPagamento').value;
+      row.num_parcelas = Number(document.getElementById('fNumParcelas').value) || 1;
+      row.perc_assessor = Number(document.getElementById('fPercAssessor').value) || 0;
+      row.perc_escola = Number(document.getElementById('fPercEscola').value) || 0;
+      row.data_entrada = document.getElementById('fDataEntrada').value || new Date().toISOString().slice(0, 10);
+    } else if (!editandoId) {
+      row.data_entrada = new Date().toISOString().slice(0, 10);
+    }
+    let error;
+    if (editandoId) {
+      ({ error } = await sb.from('alunos').update(row).eq('id', editandoId));
+    } else {
+      row.progresso = null;
+      ({ error } = await sb.from('alunos').insert(row));
+    }
     if (error) { alert('Erro ao salvar aluno: ' + error.message); return; }
+    editandoId = null;
     this.reset();
     modalOverlay.classList.remove('active');
     await carregarAlunos();
@@ -766,9 +812,11 @@
         <input type="range" min="0" max="100" id="fichaProgresso" value="${a.progresso != null ? a.progresso : 0}" />
         <span id="fichaProgressoVal" style="font-size:13px;font-weight:700;width:36px;">${a.progresso != null ? a.progresso : 0}%</span>
       </div>
+      <button class="btn-secondary" id="fichaEditarBtn" style="width:100%;margin-top:8px;">Editar dados do aluno</button>
     `;
     fichaOverlay.classList.add('active');
     document.getElementById('fichaCloseBtn').addEventListener('click', () => fichaOverlay.classList.remove('active'));
+    document.getElementById('fichaEditarBtn').addEventListener('click', () => abrirEdicao(id));
     document.getElementById('fichaStatus').addEventListener('change', async (e) => { a.status = e.target.value; await atualizarAluno(id, { status: a.status }); renderAll(); openFicha(id); });
     const progInput = document.getElementById('fichaProgresso');
     progInput.addEventListener('input', (e) => { document.getElementById('fichaProgressoVal').textContent = e.target.value + '%'; });
@@ -881,13 +929,17 @@
   function renderFinanceiro() {
     const matriculados = alunos.filter(a => a.status === 'matriculado');
     const total = matriculados.reduce((s, a) => s + a.valor, 0);
-    const aRepassar = matriculados.reduce((s, a) => s + a.valor * (a.percAssessor + a.percEscola) / 100, 0);
+    // "A repassar" considera só o que ainda não foi pago
+    const aRepassar = matriculados.reduce((s, a) =>
+      s + (a.repasseAssessorPago ? 0 : a.valor * a.percAssessor / 100)
+        + (a.repasseEscolaPago ? 0 : a.valor * a.percEscola / 100), 0);
     document.getElementById('statMatriculados').textContent = matriculados.length;
     document.getElementById('statValorTotal').textContent = brl(total);
     document.getElementById('statARepassar').textContent = brl(aRepassar);
 
     const groupKeyFn = pivotView === 'assessor' ? (a => a.assessor || '— (venda direta pelo site)') : (a => a.escola || '(sem escola)');
     const percFn = pivotView === 'assessor' ? (a => a.percAssessor) : (a => a.percEscola);
+    const pagoFn = pivotView === 'assessor' ? (a => a.repasseAssessorPago) : (a => a.repasseEscolaPago);
     const groups = {};
     matriculados.forEach(a => { const k = groupKeyFn(a); (groups[k] = groups[k] || []).push(a); });
 
@@ -896,7 +948,9 @@
       const valor = list.reduce((s, a) => s + a.valor, 0);
       const percs = [...new Set(list.map(percFn))];
       const repasse = list.reduce((s, a) => s + a.valor * percFn(a) / 100, 0);
-      return { nome, qtd: list.length, valor, pct: percs.length === 1 ? percs[0] + '%' : 'variável', repasse };
+      const pagos = list.filter(pagoFn).length;
+      const statusPago = pagos === list.length ? 'pago' : (pagos === 0 ? 'pendente' : 'parcial');
+      return { nome, qtd: list.length, valor, pct: percs.length === 1 ? percs[0] + '%' : 'variável', repasse, ids: list.map(a => a.id), statusPago };
     });
 
     rows.sort((x, y) => {
@@ -919,11 +973,29 @@
       return;
     }
     document.getElementById('pivotEmpty').style.display = 'none';
-    body.innerHTML = rows.map(r => `
-      <tr><td>${r.nome}</td><td>${r.qtd}</td><td>${brl(r.valor)}</td><td>${r.pct}</td><td>${brl(r.repasse)}</td></tr>
+    const rotuloPago = { pago: 'Pago', pendente: 'Pendente', parcial: 'Parcial' };
+    body.innerHTML = rows.map((r, i) => `
+      <tr><td>${r.nome}</td><td>${r.qtd}</td><td>${brl(r.valor)}</td><td>${r.pct}</td><td>${brl(r.repasse)}</td>
+      <td><button class="pago-chip ${r.statusPago}" data-row="${i}" title="Clique para alternar">${rotuloPago[r.statusPago]}</button></td></tr>
     `).join('') + `
-      <tr class="pivot-total"><td>Total</td><td>${totalQtdGeral}</td><td>${brl(totalValorGeral)}</td><td>—</td><td>${brl(totalRepasseGeral)}</td></tr>
+      <tr class="pivot-total"><td>Total</td><td>${totalQtdGeral}</td><td>${brl(totalValorGeral)}</td><td>—</td><td>${brl(totalRepasseGeral)}</td><td>—</td></tr>
     `;
+
+    body.querySelectorAll('.pago-chip').forEach(chip => {
+      chip.addEventListener('click', async () => {
+        const r = rows[Number(chip.dataset.row)];
+        const novoValor = r.statusPago !== 'pago';
+        const campo = pivotView === 'assessor' ? 'repasse_assessor_pago' : 'repasse_escola_pago';
+        const { error } = await sb.from('alunos').update({ [campo]: novoValor }).in('id', r.ids);
+        if (error) { alert('Erro ao atualizar repasse: ' + error.message); return; }
+        alunos.forEach(a => {
+          if (r.ids.includes(a.id)) {
+            if (pivotView === 'assessor') a.repasseAssessorPago = novoValor; else a.repasseEscolaPago = novoValor;
+          }
+        });
+        renderFinanceiro();
+      });
+    });
   }
 
   // ===================== RENDER: ALUNOS (Quadro + Lista) =====================

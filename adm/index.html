@@ -445,20 +445,22 @@
         <div class="modal-field"><label>Assessor (vazio = veio pelo site)</label><input type="text" id="fAssessor" /></div>
       </div>
 
-      <p class="modal-section-label">Financeiro</p>
-      <div class="modal-row-2">
-        <div class="modal-field"><label>Valor da venda (R$)</label><input type="number" id="fValor" required /></div>
-        <div class="modal-field"><label>Forma de pagamento</label>
-          <select id="fFormaPagamento"><option value="a_vista">À vista</option><option value="parcelado">Parcelado</option></select>
+      <div id="modalFinanceiro">
+        <p class="modal-section-label">Financeiro</p>
+        <div class="modal-row-2">
+          <div class="modal-field"><label>Valor da venda (R$)</label><input type="number" id="fValor" required /></div>
+          <div class="modal-field"><label>Forma de pagamento</label>
+            <select id="fFormaPagamento"><option value="a_vista">À vista</option><option value="parcelado">Parcelado</option></select>
+          </div>
         </div>
-      </div>
-      <div class="modal-row-2">
-        <div class="modal-field"><label>Nº de parcelas</label><input type="number" id="fNumParcelas" value="1" min="1" /></div>
-        <div class="modal-field"><label>Data de entrada</label><input type="date" id="fDataEntrada" /></div>
-      </div>
-      <div class="modal-row-2">
-        <div class="modal-field"><label>% Assessor</label><input type="number" id="fPercAssessor" value="5" /></div>
-        <div class="modal-field"><label>% Escola</label><input type="number" id="fPercEscola" value="10" /></div>
+        <div class="modal-row-2">
+          <div class="modal-field"><label>Nº de parcelas</label><input type="number" id="fNumParcelas" value="1" min="1" /></div>
+          <div class="modal-field"><label>Data de entrada</label><input type="date" id="fDataEntrada" /></div>
+        </div>
+        <div class="modal-row-2">
+          <div class="modal-field"><label>% Assessor</label><input type="number" id="fPercAssessor" value="5" /></div>
+          <div class="modal-field"><label>% Escola</label><input type="number" id="fPercEscola" value="10" /></div>
+        </div>
       </div>
 
       <p class="modal-section-label">Status no funil</p>
@@ -569,13 +571,38 @@
     document.getElementById('eyeClosed').style.display = showing ? 'none' : 'block';
   });
 
-  function entrarNoPainel(nome) {
+  // ===================== PAPÉIS / NÍVEIS DE ACESSO =====================
+  let papelAtual = null;
+  const NOMES_PAPEL = { admin: 'Facilitta Admin', financeiro: 'Facilitta Financeiro', suporte: 'Facilitta Suporter' };
+
+  function aplicarPermissoes() {
+    const veFinanceiro = papelAtual === 'admin' || papelAtual === 'financeiro';
+    const veAlunos = papelAtual === 'admin' || papelAtual === 'suporte';
+    const podeEditar = papelAtual === 'admin' || papelAtual === 'suporte';
+    document.querySelectorAll('[data-panel="financeiro"]').forEach(el => { el.style.display = veFinanceiro ? '' : 'none'; });
+    document.querySelectorAll('[data-panel="alunos"]').forEach(el => { el.style.display = veAlunos ? '' : 'none'; });
+    document.getElementById('btnNovoAluno').style.display = podeEditar ? '' : 'none';
+    document.getElementById('panelTabs').style.display = (veFinanceiro && veAlunos) ? '' : 'none';
+    document.getElementById('modalFinanceiro').style.display = veFinanceiro ? '' : 'none';
+    document.getElementById('fValor').required = veFinanceiro;
+    goToPanel(veFinanceiro ? 'financeiro' : 'alunos');
+  }
+
+  async function entrarNoPainel(user) {
+    const { data: perfil, error } = await sb.from('perfis').select('papel').eq('user_id', user.id).single();
+    if (error || !perfil) {
+      alert('Sua conta ainda não tem acesso liberado. Fale com o administrador.');
+      await sb.auth.signOut();
+      return;
+    }
+    papelAtual = perfil.papel;
     loginWrap.style.display = 'none';
     topNav.classList.remove('login-hidden');
     dashboard.classList.add('logged-in');
     navLinks.classList.add('logged-in'); navUser.classList.add('logged-in');
     navLogout.classList.add('logged-in'); navBurgerBtn.classList.add('logged-in');
-    navUser.textContent = 'Olá, ' + nome;
+    navUser.textContent = 'Olá, ' + user.email.split('@')[0] + ' · ' + (NOMES_PAPEL[papelAtual] || papelAtual);
+    aplicarPermissoes();
     carregarAlunos();
   }
 
@@ -586,14 +613,15 @@
     const senha = document.getElementById('loginPass').value;
     const btn = loginForm.querySelector('.login-btn');
     btn.disabled = true; btn.textContent = 'Entrando...';
-    const { error } = await sb.auth.signInWithPassword({ email: email, password: senha });
+    const { data, error } = await sb.auth.signInWithPassword({ email: email, password: senha });
     btn.disabled = false; btn.textContent = 'Entrar';
     if (error) { alert('E-mail ou senha incorretos.'); return; }
-    entrarNoPainel(email.split('@')[0]);
+    entrarNoPainel(data.user);
   });
 
   async function doLogout() {
     if (sb) await sb.auth.signOut();
+    papelAtual = null;
     dashboard.classList.remove('logged-in');
     navLinks.classList.remove('logged-in'); navUser.classList.remove('logged-in');
     navLogout.classList.remove('logged-in'); navBurgerBtn.classList.remove('logged-in');
@@ -604,7 +632,7 @@
   // se já existe sessão salva, entra direto sem pedir login de novo
   if (sb) {
     sb.auth.getSession().then(({ data }) => {
-      if (data && data.session) entrarNoPainel(data.session.user.email.split('@')[0]);
+      if (data && data.session) entrarNoPainel(data.session.user);
     });
   }
   navLogout.addEventListener('click', doLogout);
@@ -716,9 +744,10 @@
       <div class="ficha-grid">
         <div><p class="ficha-field-label">Escola</p><p class="ficha-field-value">${a.escola || '—'}</p></div>
         <div><p class="ficha-field-label">Assessor</p><p class="ficha-field-value">${a.assessor || '— (site direto)'}</p></div>
+        ${papelAtual !== 'suporte' ? `
         <div><p class="ficha-field-label">Valor da venda</p><p class="ficha-field-value">${brl(a.valor)}</p></div>
         <div><p class="ficha-field-label">Forma de pagamento</p><p class="ficha-field-value">${a.formaPagamento === 'parcelado' ? a.numParcelas + 'x' : 'À vista'}</p></div>
-        <div><p class="ficha-field-label">% Assessor / Escola</p><p class="ficha-field-value">${a.percAssessor}% / ${a.percEscola}%</p></div>
+        <div><p class="ficha-field-label">% Assessor / Escola</p><p class="ficha-field-value">${a.percAssessor}% / ${a.percEscola}%</p></div>` : ''}
         <div><p class="ficha-field-label">Tempo de curso</p><p class="ficha-field-value">${formatTempo(dias)}</p></div>
       </div>
 

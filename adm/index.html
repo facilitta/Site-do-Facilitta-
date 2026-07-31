@@ -103,9 +103,11 @@
     .btn-primary:hover { opacity: 0.9; }
     .btn-secondary { background: #f0f0f0; color: var(--dark); border: none; border-radius: 10px; padding: 10px 16px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: 'Helvetica Neue'; }
 
-    .panel-tabs { display: flex; gap: 4px; background: #fff; border-radius: 12px; padding: 4px; margin-bottom: 24px; max-width: 340px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); }
-    .panel-tab { flex: 1; text-align: center; padding: 10px 8px; border-radius: 9px; cursor: pointer; font-size: 13px; font-weight: 600; color: #86868b; transition: background .2s, color .2s; user-select: none; }
-    .panel-tab.active { background: var(--red); color: #fff; }
+    .panel-tabs { display: flex; gap: 4px; background: #fff; border-radius: 12px; padding: 4px; margin-bottom: 24px; max-width: 340px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); position: relative; }
+    .panel-tab { flex: 1; text-align: center; padding: 10px 8px; border-radius: 9px; cursor: pointer; font-size: 13px; font-weight: 600; color: #86868b; transition: color .25s; user-select: none; position: relative; z-index: 1; }
+    .panel-tab.active { background: transparent; color: #fff; }
+    .switch-slider { position: absolute; top: 3px; bottom: 3px; left: 0; width: 0; border-radius: 8px; background: var(--dark); transition: left .28s cubic-bezier(.4,0,.2,1), width .28s cubic-bezier(.4,0,.2,1), opacity .2s; opacity: 0; z-index: 0; }
+    .panel-tabs .switch-slider { top: 4px; bottom: 4px; border-radius: 9px; background: var(--red); }
     .panel-section { display: none; }
     .panel-section.active { display: block; }
 
@@ -117,9 +119,17 @@
 
     /* ============ FINANCEIRO: PIVOT ============ */
     .pivot-toolbar { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; flex-wrap: wrap; }
-    .view-switch { display: flex; gap: 4px; background: #fff; border-radius: 10px; padding: 3px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); }
-    .view-btn { padding: 8px 14px; border-radius: 8px; font-size: 12.5px; font-weight: 600; color: #86868b; cursor: pointer; user-select: none; }
-    .view-btn.active { background: var(--dark); color: #fff; }
+    .view-switch { display: flex; gap: 4px; background: #fff; border-radius: 10px; padding: 3px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); position: relative; }
+    .view-btn { padding: 8px 14px; border-radius: 8px; font-size: 12.5px; font-weight: 600; color: #86868b; cursor: pointer; user-select: none; transition: color .25s; position: relative; z-index: 1; }
+    .view-btn.active { background: transparent; color: #fff; }
+    .chart-card { background: #fff; border-radius: 16px; padding: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.05); }
+    .chart-title { font-size: 13px; font-weight: 700; color: #6a6a6e; margin-bottom: 20px; }
+    .chart-bars { display: flex; align-items: flex-end; gap: 16px; height: 220px; }
+    .chart-col { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; gap: 7px; }
+    .chart-val { font-size: 11px; font-weight: 700; color: var(--dark); white-space: nowrap; }
+    .chart-bar { width: 100%; max-width: 54px; background: linear-gradient(to top, var(--red-2), var(--red)); border-radius: 8px; min-height: 4px; transition: height .4s ease; }
+    .chart-mes { font-size: 11.5px; color: #86868b; font-weight: 600; text-transform: capitalize; }
+    .chart-qtd { font-size: 10.5px; color: #a0a0a5; }
     .data-table-wrap { background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.05); overflow-x: auto; margin-bottom: 16px; }
     table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
     th { text-align: left; padding: 14px 18px; font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.4px; color: #86868b; background: #fafafa; border-bottom: 1px solid var(--gray-line); white-space: nowrap; cursor: pointer; user-select: none; }
@@ -337,34 +347,72 @@
     <div class="panel-tab" data-panel="alunos">Alunos</div>
   </div>
 
-  <!-- ================= FINANCEIRO (pivot) ================= -->
+  <!-- ================= FINANCEIRO ================= -->
   <section class="panel-section active" id="panel-financeiro">
-    <div class="card-grid">
-      <div class="stat-card"><p class="stat-label">Matriculados</p><p class="stat-value" id="statMatriculados">0</p></div>
-      <div class="stat-card"><p class="stat-label">Valor total em carteira</p><p class="stat-value red" id="statValorTotal">R$ 0</p></div>
-      <div class="stat-card"><p class="stat-label">A repassar (assessores + escolas)</p><p class="stat-value" id="statARepassar">R$ 0</p></div>
+    <div class="view-switch" id="finViewSwitch" style="margin-bottom:18px;max-width:360px;">
+      <div class="view-btn active" data-fin="geral">Visão geral</div>
+      <div class="view-btn" data-fin="resumido">Resumido</div>
+      <div class="view-btn" data-fin="detalhado">Detalhado</div>
     </div>
-    <div class="pivot-toolbar">
-      <div class="view-switch" id="pivotSwitch">
-        <div class="view-btn active" data-view="assessor">Por assessor</div>
-        <div class="view-btn" data-view="escola">Por escola</div>
+
+    <!-- VISÃO GERAL (pivot) -->
+    <div id="finGeral">
+      <div class="card-grid">
+        <div class="stat-card"><p class="stat-label">Matriculados</p><p class="stat-value" id="statMatriculados">0</p></div>
+      </div>
+      <div class="pivot-toolbar">
+        <div class="view-switch" id="pivotSwitch">
+          <div class="view-btn active" data-view="assessor">Por assessor</div>
+          <div class="view-btn" data-view="escola">Por escola</div>
+          <div class="view-btn" data-view="todos">Todos</div>
+        </div>
+      </div>
+      <div class="data-table-wrap">
+        <table>
+          <thead>
+            <tr id="pivotHeadRow">
+              <th data-sort="nome">Nome <span class="sort-arrow">▲</span></th>
+              <th data-sort="qtd">Alunos <span class="sort-arrow">▲</span></th>
+              <th data-sort="valor">Valor total <span class="sort-arrow">▲</span></th>
+              <th data-sort="pct">% aplicada</th>
+              <th data-sort="repasse">A repassar <span class="sort-arrow">▲</span></th>
+              <th data-sort="entrada">Entrada <span class="sort-arrow">▲</span></th>
+              <th>Repasse</th>
+            </tr>
+          </thead>
+          <tbody id="pivotBody"></tbody>
+        </table>
+        <div class="table-empty" id="pivotEmpty" style="display:none;">Nenhum aluno matriculado ainda.</div>
       </div>
     </div>
-    <div class="data-table-wrap">
-      <table>
-        <thead>
-          <tr id="pivotHeadRow">
-            <th data-sort="nome">Nome <span class="sort-arrow">▲</span></th>
-            <th data-sort="qtd">Alunos <span class="sort-arrow">▲</span></th>
-            <th data-sort="valor">Valor total <span class="sort-arrow">▲</span></th>
-            <th data-sort="pct">% aplicada</th>
-            <th data-sort="repasse">A repassar <span class="sort-arrow">▲</span></th>
-            <th>Repasse</th>
-          </tr>
-        </thead>
-        <tbody id="pivotBody"></tbody>
-      </table>
-      <div class="table-empty" id="pivotEmpty" style="display:none;">Nenhum aluno matriculado ainda.</div>
+
+    <!-- RESUMIDO (cards + gráfico) -->
+    <div id="finResumido" style="display:none;">
+      <div class="card-grid">
+        <div class="stat-card"><p class="stat-label">Matriculados</p><p class="stat-value" id="resMatriculados">0</p></div>
+        <div class="stat-card"><p class="stat-label">Valor total em carteira</p><p class="stat-value red" id="resValorTotal">R$ 0</p></div>
+        <div class="stat-card"><p class="stat-label">A repassar (assessores + escolas)</p><p class="stat-value" id="resARepassar">R$ 0</p></div>
+      </div>
+      <div class="chart-card">
+        <p class="chart-title">Novas matrículas por mês — valor vendido</p>
+        <div class="chart-bars" id="chartBars"></div>
+      </div>
+    </div>
+
+    <!-- DETALHADO (todos os alunos, dados financeiros completos) -->
+    <div id="finDetalhado" style="display:none;">
+      <div class="data-table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Aluno</th><th>Escola</th><th>Assessor</th><th>Entrada</th><th>Status</th>
+              <th>Valor</th><th>Pagamento</th><th>Rep. assessor</th><th>Rep. escola</th>
+            </tr>
+          </thead>
+          <tbody id="detalhadoBody"></tbody>
+        </table>
+        <div class="table-empty" id="detalhadoEmpty" style="display:none;">Nenhum aluno cadastrado.</div>
+      </div>
     </div>
   </section>
 
@@ -553,6 +601,7 @@
     if (dias < 365) return Math.floor(dias / 30) + ' mês(es)';
     return (dias / 365).toFixed(1) + ' ano(s)';
   }
+  function fmtData(d) { if (!d) return '—'; const p = d.split('-'); return p[2] + '/' + p[1] + '/' + p[0]; }
   function progressColor(p) { if (p == null) return '#d2d2d7'; if (p < 34) return '#E8391D'; if (p < 67) return '#d99a1f'; return '#1a9550'; }
   function progressBar(p) {
     const pct = p == null ? 0 : p;
@@ -593,6 +642,7 @@
     document.getElementById('modalFinanceiro').style.display = veFinanceiro ? '' : 'none';
     document.getElementById('fValor').required = veFinanceiro;
     goToPanel(veFinanceiro ? 'financeiro' : 'alunos');
+    requestAnimationFrame(atualizarSliders);
   }
 
   async function entrarNoPainel(user) {
@@ -654,6 +704,7 @@
     document.querySelectorAll('#navLinks a').forEach(a => a.classList.toggle('active', a.dataset.panel === name));
     if (name === 'financeiro') { dashTitle.textContent = 'Financeiro'; dashSub.textContent = 'Quanto repassar, por escola ou por assessor'; }
     else { dashTitle.textContent = 'Alunos'; dashSub.textContent = 'Do lead à matrícula, com progresso acompanhado'; }
+    requestAnimationFrame(atualizarSliders);
   }
   document.querySelectorAll('.panel-tab').forEach(tab => tab.addEventListener('click', () => goToPanel(tab.dataset.panel)));
   document.querySelectorAll('#navLinks a, .mobile-menu-content a').forEach(link => {
@@ -729,13 +780,44 @@
     await carregarAlunos();
   });
 
+  // ===================== BOTÕES DESLIZANTES =====================
+  function atualizarSliders() {
+    document.querySelectorAll('.view-switch, .panel-tabs').forEach(cont => {
+      let s = cont.querySelector('.switch-slider');
+      if (!s) { s = document.createElement('div'); s.className = 'switch-slider'; cont.prepend(s); }
+      const ativo = cont.querySelector('.view-btn.active, .panel-tab.active');
+      if (ativo && cont.offsetWidth > 0 && ativo.offsetWidth > 0) {
+        s.style.left = ativo.offsetLeft + 'px';
+        s.style.width = ativo.offsetWidth + 'px';
+        s.style.opacity = '1';
+      } else {
+        s.style.opacity = '0';
+      }
+    });
+  }
+  window.addEventListener('resize', atualizarSliders);
+
   // ===================== VIEW SWITCHES =====================
+  let finView = 'geral';
+  document.querySelectorAll('#finViewSwitch .view-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      finView = btn.dataset.fin;
+      document.querySelectorAll('#finViewSwitch .view-btn').forEach(b => b.classList.toggle('active', b === btn));
+      document.getElementById('finGeral').style.display = finView === 'geral' ? '' : 'none';
+      document.getElementById('finResumido').style.display = finView === 'resumido' ? '' : 'none';
+      document.getElementById('finDetalhado').style.display = finView === 'detalhado' ? '' : 'none';
+      renderFinanceiro();
+      atualizarSliders();
+    });
+  });
+
   let pivotView = 'assessor';
   document.querySelectorAll('#pivotSwitch .view-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       pivotView = btn.dataset.view;
       document.querySelectorAll('#pivotSwitch .view-btn').forEach(b => b.classList.toggle('active', b === btn));
       renderFinanceiro();
+      atualizarSliders();
     });
   });
 
@@ -747,6 +829,7 @@
       document.getElementById('kanbanWrap').style.display = alunosView === 'quadro' ? 'grid' : 'none';
       document.getElementById('listaWrap').style.display = alunosView === 'lista' ? 'block' : 'none';
       renderAlunos();
+      atualizarSliders();
     });
   });
 
@@ -926,6 +1009,8 @@
   }
 
   // ===================== RENDER: FINANCEIRO (pivot) =====================
+  const rotuloPago = { pago: 'Pago', pendente: 'Pendente', parcial: 'Parcial' };
+
   function renderFinanceiro() {
     const matriculados = alunos.filter(a => a.status === 'matriculado');
     const total = matriculados.reduce((s, a) => s + a.valor, 0);
@@ -934,24 +1019,44 @@
       s + (a.repasseAssessorPago ? 0 : a.valor * a.percAssessor / 100)
         + (a.repasseEscolaPago ? 0 : a.valor * a.percEscola / 100), 0);
     document.getElementById('statMatriculados').textContent = matriculados.length;
-    document.getElementById('statValorTotal').textContent = brl(total);
-    document.getElementById('statARepassar').textContent = brl(aRepassar);
+    document.getElementById('resMatriculados').textContent = matriculados.length;
+    document.getElementById('resValorTotal').textContent = brl(total);
+    document.getElementById('resARepassar').textContent = brl(aRepassar);
 
-    const groupKeyFn = pivotView === 'assessor' ? (a => a.assessor || '— (venda direta pelo site)') : (a => a.escola || '(sem escola)');
-    const percFn = pivotView === 'assessor' ? (a => a.percAssessor) : (a => a.percEscola);
-    const pagoFn = pivotView === 'assessor' ? (a => a.repasseAssessorPago) : (a => a.repasseEscolaPago);
-    const groups = {};
-    matriculados.forEach(a => { const k = groupKeyFn(a); (groups[k] = groups[k] || []).push(a); });
+    renderPivot(matriculados);
+    renderChart(matriculados);
+    renderDetalhado();
+  }
 
-    let rows = Object.keys(groups).map(nome => {
-      const list = groups[nome];
-      const valor = list.reduce((s, a) => s + a.valor, 0);
-      const percs = [...new Set(list.map(percFn))];
-      const repasse = list.reduce((s, a) => s + a.valor * percFn(a) / 100, 0);
-      const pagos = list.filter(pagoFn).length;
-      const statusPago = pagos === list.length ? 'pago' : (pagos === 0 ? 'pendente' : 'parcial');
-      return { nome, qtd: list.length, valor, pct: percs.length === 1 ? percs[0] + '%' : 'variável', repasse, ids: list.map(a => a.id), statusPago };
-    });
+  // ---------- Visão geral (pivot por assessor / escola / todos) ----------
+  function renderPivot(matriculados) {
+    let rows;
+    if (pivotView === 'todos') {
+      rows = matriculados.map(a => ({
+        nome: a.nome, qtd: 1, valor: a.valor,
+        pct: a.percAssessor + '% + ' + a.percEscola + '%',
+        repasse: a.valor * (a.percAssessor + a.percEscola) / 100,
+        entrada: a.dataEntrada || '',
+        ids: [a.id],
+        statusPago: (a.repasseAssessorPago && a.repasseEscolaPago) ? 'pago' : ((!a.repasseAssessorPago && !a.repasseEscolaPago) ? 'pendente' : 'parcial')
+      }));
+    } else {
+      const groupKeyFn = pivotView === 'assessor' ? (a => a.assessor || '— (venda direta pelo site)') : (a => a.escola || '(sem escola)');
+      const percFn = pivotView === 'assessor' ? (a => a.percAssessor) : (a => a.percEscola);
+      const pagoFn = pivotView === 'assessor' ? (a => a.repasseAssessorPago) : (a => a.repasseEscolaPago);
+      const groups = {};
+      matriculados.forEach(a => { const k = groupKeyFn(a); (groups[k] = groups[k] || []).push(a); });
+      rows = Object.keys(groups).map(nome => {
+        const list = groups[nome];
+        const valor = list.reduce((s, a) => s + a.valor, 0);
+        const percs = [...new Set(list.map(percFn))];
+        const repasse = list.reduce((s, a) => s + a.valor * percFn(a) / 100, 0);
+        const pagos = list.filter(pagoFn).length;
+        const statusPago = pagos === list.length ? 'pago' : (pagos === 0 ? 'pendente' : 'parcial');
+        const entrada = list.map(a => a.dataEntrada || '').sort().slice(-1)[0] || '';
+        return { nome, qtd: list.length, valor, pct: percs.length === 1 ? percs[0] + '%' : 'variável', repasse, entrada, ids: list.map(a => a.id), statusPago };
+      });
+    }
 
     rows.sort((x, y) => {
       let vx = x[pivotSort.key], vy = y[pivotSort.key];
@@ -973,29 +1078,98 @@
       return;
     }
     document.getElementById('pivotEmpty').style.display = 'none';
-    const rotuloPago = { pago: 'Pago', pendente: 'Pendente', parcial: 'Parcial' };
     body.innerHTML = rows.map((r, i) => `
       <tr><td>${r.nome}</td><td>${r.qtd}</td><td>${brl(r.valor)}</td><td>${r.pct}</td><td>${brl(r.repasse)}</td>
+      <td>${fmtData(r.entrada)}</td>
       <td><button class="pago-chip ${r.statusPago}" data-row="${i}" title="Clique para alternar">${rotuloPago[r.statusPago]}</button></td></tr>
     `).join('') + `
-      <tr class="pivot-total"><td>Total</td><td>${totalQtdGeral}</td><td>${brl(totalValorGeral)}</td><td>—</td><td>${brl(totalRepasseGeral)}</td><td>—</td></tr>
+      <tr class="pivot-total"><td>Total</td><td>${totalQtdGeral}</td><td>${brl(totalValorGeral)}</td><td>—</td><td>${brl(totalRepasseGeral)}</td><td>—</td><td>—</td></tr>
     `;
 
     body.querySelectorAll('.pago-chip').forEach(chip => {
       chip.addEventListener('click', async () => {
         const r = rows[Number(chip.dataset.row)];
         const novoValor = r.statusPago !== 'pago';
-        const campo = pivotView === 'assessor' ? 'repasse_assessor_pago' : 'repasse_escola_pago';
-        const { error } = await sb.from('alunos').update({ [campo]: novoValor }).in('id', r.ids);
+        let update;
+        if (pivotView === 'todos') update = { repasse_assessor_pago: novoValor, repasse_escola_pago: novoValor };
+        else if (pivotView === 'assessor') update = { repasse_assessor_pago: novoValor };
+        else update = { repasse_escola_pago: novoValor };
+        const { error } = await sb.from('alunos').update(update).in('id', r.ids);
         if (error) { alert('Erro ao atualizar repasse: ' + error.message); return; }
         alunos.forEach(a => {
           if (r.ids.includes(a.id)) {
-            if (pivotView === 'assessor') a.repasseAssessorPago = novoValor; else a.repasseEscolaPago = novoValor;
+            if ('repasse_assessor_pago' in update) a.repasseAssessorPago = novoValor;
+            if ('repasse_escola_pago' in update) a.repasseEscolaPago = novoValor;
           }
         });
         renderFinanceiro();
       });
     });
+  }
+
+  // ---------- Resumido (gráfico de escala mensal) ----------
+  function renderChart(matriculados) {
+    const cont = document.getElementById('chartBars');
+    const agora = new Date();
+    const meses = [];
+    for (let i = 5; i >= 0; i--) {
+      const d = new Date(agora.getFullYear(), agora.getMonth() - i, 1);
+      meses.push({
+        chave: d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0'),
+        rotulo: d.toLocaleDateString('pt-BR', { month: 'short' }).replace('.', ''),
+        valor: 0, qtd: 0
+      });
+    }
+    matriculados.forEach(a => {
+      if (!a.dataEntrada) return;
+      const m = meses.find(x => x.chave === a.dataEntrada.slice(0, 7));
+      if (m) { m.valor += a.valor; m.qtd += 1; }
+    });
+    const max = Math.max(...meses.map(m => m.valor), 1);
+    cont.innerHTML = meses.map(m => `
+      <div class="chart-col">
+        <span class="chart-val">${m.valor ? brl(m.valor) : ''}</span>
+        <div class="chart-bar" style="height:${Math.max(Math.round(m.valor / max * 100), 2)}%;"></div>
+        <span class="chart-mes">${m.rotulo}</span>
+        <span class="chart-qtd">${m.qtd} matr.</span>
+      </div>
+    `).join('');
+  }
+
+  // ---------- Detalhado (todos os alunos, financeiro completo) ----------
+  function renderDetalhado() {
+    const body = document.getElementById('detalhadoBody');
+    const lista = [...alunos].sort((a, b) => (b.dataEntrada || '').localeCompare(a.dataEntrada || ''));
+    document.getElementById('detalhadoEmpty').style.display = lista.length ? 'none' : 'block';
+    const nomesStatus = { lead: 'Lead', negociacao: 'Negociação', matriculado: 'Matriculado', inativo: 'Inativo' };
+    body.innerHTML = lista.map(a => {
+      const chipA = a.status === 'matriculado'
+        ? `<button class="pago-chip ${a.repasseAssessorPago ? 'pago' : 'pendente'}" data-id="${a.id}" data-campo="repasse_assessor_pago">${a.repasseAssessorPago ? 'Pago' : 'Pendente'} · ${a.percAssessor}%</button>` : '—';
+      const chipE = a.status === 'matriculado'
+        ? `<button class="pago-chip ${a.repasseEscolaPago ? 'pago' : 'pendente'}" data-id="${a.id}" data-campo="repasse_escola_pago">${a.repasseEscolaPago ? 'Pago' : 'Pendente'} · ${a.percEscola}%</button>` : '—';
+      return `<tr class="clickable-row" data-id="${a.id}" style="cursor:pointer;">
+        <td>${a.nome}</td><td>${a.escola || '—'}</td><td>${a.assessor || '—'}</td>
+        <td>${fmtData(a.dataEntrada)}</td><td>${nomesStatus[a.status]}</td>
+        <td>${brl(a.valor)}</td>
+        <td>${a.formaPagamento === 'parcelado' ? a.numParcelas + 'x' : 'À vista'}</td>
+        <td>${chipA}</td><td>${chipE}</td>
+      </tr>`;
+    }).join('');
+
+    body.querySelectorAll('.pago-chip').forEach(chip => {
+      chip.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        const a = alunos.find(x => x.id === chip.dataset.id);
+        if (!a) return;
+        const campo = chip.dataset.campo;
+        const novoValor = campo === 'repasse_assessor_pago' ? !a.repasseAssessorPago : !a.repasseEscolaPago;
+        const { error } = await sb.from('alunos').update({ [campo]: novoValor }).eq('id', a.id);
+        if (error) { alert('Erro ao atualizar repasse: ' + error.message); return; }
+        if (campo === 'repasse_assessor_pago') a.repasseAssessorPago = novoValor; else a.repasseEscolaPago = novoValor;
+        renderFinanceiro();
+      });
+    });
+    body.querySelectorAll('tr').forEach(row => row.addEventListener('click', () => openFicha(row.dataset.id)));
   }
 
   // ===================== RENDER: ALUNOS (Quadro + Lista) =====================
@@ -1075,6 +1249,7 @@
 
   function renderAll() { renderFinanceiro(); renderAlunos(); }
   renderAll();
+  requestAnimationFrame(atualizarSliders);
 
   // ===================== MENU MOBILE =====================
   const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');

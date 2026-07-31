@@ -260,6 +260,7 @@
     .footer-links a { font-size: 12.5px; color: rgba(255,255,255,0.7); text-decoration: none; }
     @media (max-width: 700px) { footer { padding: 28px 20px; } }
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
@@ -292,8 +293,8 @@
       <p class="login-title animate-element animate-d1">Bem-vindo</p>
       <form id="loginForm" style="display:flex;flex-direction:column;gap:18px;">
         <div class="login-field animate-element animate-d3">
-          <label for="loginUser">Usuário</label>
-          <div class="glass-input"><input type="text" id="loginUser" placeholder="Digite seu usuário" autocomplete="username" required /></div>
+          <label for="loginUser">E-mail</label>
+          <div class="glass-input"><input type="email" id="loginUser" placeholder="seu@email.com" autocomplete="email" required /></div>
         </div>
         <div class="login-field animate-element animate-d4">
           <label for="loginPass">Senha</label>
@@ -499,10 +500,41 @@
 </footer>
 
 <script>
-  const STORE_KEY = 'facilitta_alunos_v2';
-  function loadAlunos() { try { return JSON.parse(localStorage.getItem(STORE_KEY)) || []; } catch (e) { return []; } }
-  function saveAlunos(list) { localStorage.setItem(STORE_KEY, JSON.stringify(list)); }
-  let alunos = loadAlunos();
+  // ===================== SUPABASE (login + banco de dados) =====================
+  const SUPABASE_URL = 'COLE_AQUI_A_PROJECT_URL';
+  const SUPABASE_ANON_KEY = 'COLE_AQUI_A_ANON_KEY';
+  let sb = null;
+  try {
+    if (window.supabase && SUPABASE_URL.startsWith('https://')) {
+      sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    }
+  } catch (e) { console.warn('Supabase não configurado:', e); }
+
+  let alunos = [];
+
+  function rowToAluno(r) {
+    return {
+      id: r.id, nome: r.nome || '', escola: r.escola || '', assessor: r.assessor || '',
+      valor: Number(r.valor) || 0, formaPagamento: r.forma_pagamento || 'a_vista',
+      numParcelas: r.num_parcelas || 1, percAssessor: Number(r.perc_assessor) || 0,
+      percEscola: Number(r.perc_escola) || 0, dataEntrada: r.data_entrada || '',
+      status: r.status || 'lead', progresso: r.progresso
+    };
+  }
+
+  async function carregarAlunos() {
+    if (!sb) return;
+    const { data, error } = await sb.from('alunos').select('*').order('created_at', { ascending: true });
+    if (error) { alert('Erro ao carregar alunos: ' + error.message); return; }
+    alunos = (data || []).map(rowToAluno);
+    renderAll();
+  }
+
+  async function atualizarAluno(id, campos) {
+    if (!sb) return;
+    const { error } = await sb.from('alunos').update(campos).eq('id', id);
+    if (error) alert('Erro ao salvar: ' + error.message);
+  }
 
   function brl(v) { return (Number(v) || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); }
   function diasDesde(dataStr) { if (!dataStr) return null; return Math.floor((Date.now() - new Date(dataStr + 'T00:00:00').getTime()) / 86400000); }
@@ -537,24 +569,43 @@
     document.getElementById('eyeClosed').style.display = showing ? 'none' : 'block';
   });
 
-  loginForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-    const user = document.getElementById('loginUser').value.trim();
-    if (!user) return;
+  function entrarNoPainel(nome) {
     loginWrap.style.display = 'none';
     topNav.classList.remove('login-hidden');
     dashboard.classList.add('logged-in');
     navLinks.classList.add('logged-in'); navUser.classList.add('logged-in');
     navLogout.classList.add('logged-in'); navBurgerBtn.classList.add('logged-in');
-    navUser.textContent = 'Olá, ' + user;
-    renderAll();
+    navUser.textContent = 'Olá, ' + nome;
+    carregarAlunos();
+  }
+
+  loginForm.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    if (!sb) { alert('Login ainda não configurado — falta conectar o Supabase.'); return; }
+    const email = document.getElementById('loginUser').value.trim();
+    const senha = document.getElementById('loginPass').value;
+    const btn = loginForm.querySelector('.login-btn');
+    btn.disabled = true; btn.textContent = 'Entrando...';
+    const { error } = await sb.auth.signInWithPassword({ email: email, password: senha });
+    btn.disabled = false; btn.textContent = 'Entrar';
+    if (error) { alert('E-mail ou senha incorretos.'); return; }
+    entrarNoPainel(email.split('@')[0]);
   });
-  function doLogout() {
+
+  async function doLogout() {
+    if (sb) await sb.auth.signOut();
     dashboard.classList.remove('logged-in');
     navLinks.classList.remove('logged-in'); navUser.classList.remove('logged-in');
     navLogout.classList.remove('logged-in'); navBurgerBtn.classList.remove('logged-in');
     topNav.classList.add('login-hidden');
     loginWrap.style.display = 'flex'; loginForm.reset();
+  }
+
+  // se já existe sessão salva, entra direto sem pedir login de novo
+  if (sb) {
+    sb.auth.getSession().then(({ data }) => {
+      if (data && data.session) entrarNoPainel(data.session.user.email.split('@')[0]);
+    });
   }
   navLogout.addEventListener('click', doLogout);
   document.getElementById('mobileLogout').addEventListener('click', doLogout);
@@ -581,26 +632,27 @@
     modalOverlay.classList.add('active');
   });
   document.getElementById('btnCancelar').addEventListener('click', () => modalOverlay.classList.remove('active'));
-  document.getElementById('alunoForm').addEventListener('submit', function (e) {
+  document.getElementById('alunoForm').addEventListener('submit', async function (e) {
     e.preventDefault();
-    alunos.push({
-      id: Date.now().toString(36),
+    if (!sb) { alert('Banco de dados ainda não configurado.'); return; }
+    const row = {
       nome: document.getElementById('fNome').value.trim(),
       escola: document.getElementById('fEscola').value.trim(),
       assessor: document.getElementById('fAssessor').value.trim(),
       valor: Number(document.getElementById('fValor').value) || 0,
-      formaPagamento: document.getElementById('fFormaPagamento').value,
-      numParcelas: Number(document.getElementById('fNumParcelas').value) || 1,
-      percAssessor: Number(document.getElementById('fPercAssessor').value) || 0,
-      percEscola: Number(document.getElementById('fPercEscola').value) || 0,
-      dataEntrada: document.getElementById('fDataEntrada').value || new Date().toISOString().slice(0, 10),
+      forma_pagamento: document.getElementById('fFormaPagamento').value,
+      num_parcelas: Number(document.getElementById('fNumParcelas').value) || 1,
+      perc_assessor: Number(document.getElementById('fPercAssessor').value) || 0,
+      perc_escola: Number(document.getElementById('fPercEscola').value) || 0,
+      data_entrada: document.getElementById('fDataEntrada').value || new Date().toISOString().slice(0, 10),
       status: document.getElementById('fStatus').value,
       progresso: null
-    });
-    saveAlunos(alunos);
+    };
+    const { error } = await sb.from('alunos').insert(row);
+    if (error) { alert('Erro ao salvar aluno: ' + error.message); return; }
     this.reset();
     modalOverlay.classList.remove('active');
-    renderAll();
+    await carregarAlunos();
   });
 
   // ===================== VIEW SWITCHES =====================
@@ -688,10 +740,10 @@
     `;
     fichaOverlay.classList.add('active');
     document.getElementById('fichaCloseBtn').addEventListener('click', () => fichaOverlay.classList.remove('active'));
-    document.getElementById('fichaStatus').addEventListener('change', (e) => { a.status = e.target.value; saveAlunos(alunos); renderAll(); openFicha(id); });
+    document.getElementById('fichaStatus').addEventListener('change', async (e) => { a.status = e.target.value; await atualizarAluno(id, { status: a.status }); renderAll(); openFicha(id); });
     const progInput = document.getElementById('fichaProgresso');
     progInput.addEventListener('input', (e) => { document.getElementById('fichaProgressoVal').textContent = e.target.value + '%'; });
-    progInput.addEventListener('change', (e) => { a.progresso = Number(e.target.value); saveAlunos(alunos); renderAll(); });
+    progInput.addEventListener('change', async (e) => { a.progresso = Number(e.target.value); await atualizarAluno(id, { progresso: a.progresso }); renderAll(); });
   }
 
   // =========================================================================
@@ -885,12 +937,12 @@
     document.querySelectorAll('.kanban-col').forEach(col => {
       col.addEventListener('dragover', (e) => { e.preventDefault(); col.classList.add('drag-over'); });
       col.addEventListener('dragleave', () => col.classList.remove('drag-over'));
-      col.addEventListener('drop', (e) => {
+      col.addEventListener('drop', async (e) => {
         e.preventDefault();
         col.classList.remove('drag-over');
         const id = e.dataTransfer.getData('text/plain');
         const aluno = alunos.find(a => a.id === id);
-        if (aluno) { aluno.status = col.dataset.status; saveAlunos(alunos); renderAll(); }
+        if (aluno) { aluno.status = col.dataset.status; renderAll(); await atualizarAluno(id, { status: aluno.status }); }
       });
     });
   }

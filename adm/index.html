@@ -59,6 +59,8 @@
     @keyframes fadeSlideIn { to { opacity: 1; filter: blur(0); transform: translateY(0); } }
     @keyframes slideRightIn { to { opacity: 1; filter: blur(0); transform: translateX(0); } }
     .animate-element { opacity: 0; filter: blur(6px); transform: translateY(16px); animation: fadeSlideIn .65s ease forwards; }
+    @keyframes fadeSlideInSoft { to { opacity: 1; transform: translateY(0); } }
+    .animate-logo { opacity: 0; transform: translateY(16px); animation: fadeSlideInSoft .65s ease forwards; }
     .animate-d1 { animation-delay: .08s; } .animate-d2 { animation-delay: .16s; }
     .animate-d3 { animation-delay: .24s; } .animate-d4 { animation-delay: .32s; }
     .animate-d5 { animation-delay: .40s; } .animate-d6 { animation-delay: .48s; }
@@ -286,9 +288,8 @@
 <div class="login-wrap" id="loginWrap">
   <div class="login-left">
     <div class="login-panel">
-      <div class="login-logo animate-element"><img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/logo_f_rasterizada.png" alt="Facilitta" /></div>
+      <div class="login-logo animate-logo"><img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/logo_f_rasterizada.png" alt="Facilitta" /></div>
       <p class="login-title animate-element animate-d1">Bem-vindo</p>
-      <p class="login-sub animate-element animate-d2">Painel administrativo Facilitta. Acesso restrito à equipe.</p>
       <form id="loginForm" style="display:flex;flex-direction:column;gap:18px;">
         <div class="login-field animate-element animate-d3">
           <label for="loginUser">Usuário</label>
@@ -310,7 +311,6 @@
         </div>
         <button type="submit" class="login-btn animate-element animate-d6">Entrar</button>
       </form>
-      <p class="login-note animate-element animate-d7">Interface de login ainda sem verificação real — depende do backend.</p>
     </div>
   </div>
   <div class="login-right">

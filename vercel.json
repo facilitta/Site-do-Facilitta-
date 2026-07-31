@@ -1,0 +1,9 @@
+{
+  "rewrites": [
+    {
+      "source": "/((?!api/).*)",
+      "has": [{ "type": "host", "value": "adm.facilitta.org" }],
+      "destination": "/adm/index.html"
+    }
+  ]
+}

@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <link rel="icon" type="image/png" sizes="32x32" href="/logo_f_rasterizada.png">
+  <link rel="apple-touch-icon" href="/logo_f_rasterizada.png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Painel Administrativo | Facilitta</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --red: #E8391D; --red-2: #C42E15; --dark: #2B2B2B; --white: #FFFFFF;
+      --gray-bg: #f5f5f7; --gray-line: #d2d2d7;
+      --green: #1a9550; --amber: #a1720f;
+    }
+    @font-face { font-family: 'Helvetica Neue'; src: url('https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/fonts/HelveticaNeueBold.otf') format('opentype'); font-weight: 700; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Helvetica Neue'; src: url('https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/fonts/HelveticaNeueMedium.otf') format('opentype'); font-weight: 500; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Helvetica Neue'; src: url('https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/fonts/HelveticaNeueRoman.otf') format('opentype'); font-weight: 400; font-style: normal; font-display: swap; }
+
+    html, body { height: 100%; }
+    body { font-family: 'Helvetica Neue'; background: var(--gray-bg); color: var(--dark); overflow-x: hidden; min-height: 100vh; }
+    * { font-style: normal !important; }
+
+    /* ============ NAV ============ */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 48px; height: 76px; background: rgba(255,255,255,0.96); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(0,0,0,0.07); }
+    .nav-logo { display: flex; align-items: center; text-decoration: none; }
+    .nav-logo img { height: 36px; width: auto; display: block; object-fit: contain; }
+    .nav-links { display: none; align-items: center; gap: 36px; }
+    .nav-links.logged-in { display: flex; }
+    .nav-links a { font-size: 14px; font-weight: 500; color: var(--dark); text-decoration: none; opacity: 0.55; transition: opacity .2s; padding: 8px 2px; border-bottom: 2px solid transparent; }
+    .nav-links a:hover { opacity: 1; }
+    .nav-links a.active { opacity: 1; border-bottom: 2px solid var(--red); }
+    .nav-right { display: flex; align-items: center; gap: 16px; }
+    .nav-user { font-size: 13px; color: var(--dark); opacity: 0.6; display: none; }
+    .nav-user.logged-in { display: inline-block; }
+    .nav-logout { font-size: 13px; font-weight: 600; color: var(--red); background: none; border: none; cursor: pointer; display: none; padding: 8px 0; font-family: 'Helvetica Neue'; }
+    .nav-logout.logged-in { display: inline-block; }
+    .nav-burger { display: none; flex-direction: column; justify-content: center; align-items: flex-end; gap: 4px; width: 22px; height: 16px; background: none; border: none; cursor: pointer; padding: 0; }
+    .nav-burger span { display: block; height: 2px; border-radius: 2px; background: var(--red); }
+    .nav-burger span:nth-child(1) { width: 100%; } .nav-burger span:nth-child(2) { width: 68%; } .nav-burger span:nth-child(3) { width: 100%; }
+    @media (max-width: 900px) {
+      nav { padding: 0 18px; height: 60px; }
+      .nav-links.logged-in { display: none; }
+      .nav-user, .nav-logout { display: none !important; }
+      .nav-burger.logged-in { display: flex; }
+    }
+
+    /* ============ MOBILE MENU ============ */
+    .mobile-menu-overlay { position: fixed; inset: 0; background: #fff; z-index: 300; display: flex; flex-direction: column; padding: 24px 28px; transform: translateY(-8px); opacity: 0; visibility: hidden; transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s; }
+    .mobile-menu-overlay.active { transform: translateY(0); opacity: 1; visibility: visible; }
+    .mobile-menu-close { align-self: flex-end; width: 32px; height: 32px; position: relative; background: none; border: none; cursor: pointer; margin-top: 8px; }
+    .mobile-menu-close::before, .mobile-menu-close::after { content: ''; position: absolute; top: 50%; left: 50%; width: 22px; height: 2px; background: var(--dark); }
+    .mobile-menu-close::before { transform: translate(-50%,-50%) rotate(45deg); }
+    .mobile-menu-close::after { transform: translate(-50%,-50%) rotate(-45deg); }
+    .mobile-menu-content { margin-top: 48px; display: flex; flex-direction: column; }
+    .mobile-menu-content a { font-family: 'Helvetica Neue'; font-weight: 500; font-size: 21px; color: var(--dark); text-decoration: none; padding: 18px 0; border-bottom: 1px solid rgba(0,0,0,0.06); }
+    .mobile-menu-content button { margin-top: 24px; font-family: 'Helvetica Neue'; font-weight: 600; font-size: 16px; color: var(--red); background: none; border: none; text-align: left; cursor: pointer; padding: 0; }
+
+    /* ============ LOGIN — DOIS PAINÉIS ============ */
+    @keyframes fadeSlideIn {
+      from { opacity: 0; filter: blur(4px); transform: translateY(14px); }
+      to   { opacity: 1; filter: blur(0);  transform: translateY(0); }
+    }
+    @keyframes slideRightIn {
+      from { opacity: 0; filter: blur(4px); transform: translateX(28px); }
+      to   { opacity: 1; filter: blur(0);  transform: translateX(0); }
+    }
+    @keyframes testimonialIn {
+      from { opacity: 0; filter: blur(4px); transform: translateY(18px) scale(0.96); }
+      to   { opacity: 1; filter: blur(0);  transform: translateY(0) scale(1); }
+    }
+
+    .el { opacity: 0; animation: fadeSlideIn .55s cubic-bezier(.22,.68,0,1.02) forwards; }
+    .d1 { animation-delay: .08s; } .d2 { animation-delay: .16s; } .d3 { animation-delay: .24s; }
+    .d4 { animation-delay: .32s; } .d5 { animation-delay: .40s; } .d6 { animation-delay: .48s; }
+    .d7 { animation-delay: .56s; } .d8 { animation-delay: .64s; } .d9 { animation-delay: .72s; }
+
+    .login-wrap {
+      display: flex; min-height: 100dvh; padding-top: 76px;
+    }
+    @media (max-width: 900px) { .login-wrap { padding-top: 60px; } }
+
+    /* Coluna esquerda — formulário */
+    .login-form-col {
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      padding: 48px 32px; background: var(--gray-bg);
+    }
+    .login-form-inner { width: 100%; max-width: 400px; }
+    .login-brand { display: flex; align-items: center; gap: 10px; margin-bottom: 36px; }
+    .login-brand img { height: 32px; }
+    .login-heading { font-size: clamp(28px, 4vw, 40px); font-weight: 300; letter-spacing: -1.5px; color: var(--dark); line-height: 1.1; margin-bottom: 10px; }
+    .login-heading strong { font-weight: 700; }
+    .login-sub { font-size: 14px; color: #86868b; margin-bottom: 32px; line-height: 1.5; }
+
+    .login-label { display: block; font-size: 12px; font-weight: 600; color: #6a6a6e; margin-bottom: 7px; }
+    .glass-input-wrap {
+      border-radius: 14px; border: 1.5px solid var(--gray-line);
+      background: rgba(255,255,255,0.7); backdrop-filter: blur(8px);
+      transition: border-color .2s, background .2s; margin-bottom: 16px; overflow: hidden;
+    }
+    .glass-input-wrap:focus-within { border-color: var(--red); background: rgba(232,57,29,0.04); }
+    .glass-input-wrap input {
+      width: 100%; background: transparent; border: none; outline: none;
+      padding: 14px 16px; font-size: 14px; font-family: 'Helvetica Neue'; color: var(--dark);
+    }
+    .glass-input-wrap .pw-wrap { position: relative; }
+    .glass-input-wrap .pw-wrap input { padding-right: 48px; }
+    .pw-toggle {
+      position: absolute; top: 50%; right: 14px; transform: translateY(-50%);
+      background: none; border: none; cursor: pointer; color: #86868b; display: flex; align-items: center;
+      transition: color .2s;
+    }
+    .pw-toggle:hover { color: var(--dark); }
+
+    .login-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+    .remember-label { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--dark); cursor: pointer; }
+    .remember-label input { width: 16px; height: 16px; accent-color: var(--red); }
+    .forgot-link { font-size: 13px; color: var(--red); text-decoration: none; }
+    .forgot-link:hover { text-decoration: underline; }
+
+    .login-btn-primary {
+      width: 100%; background: var(--red); color: #fff; font-weight: 700; font-size: 14px;
+      border: none; border-radius: 14px; padding: 14px; cursor: pointer;
+      font-family: 'Helvetica Neue'; transition: opacity .2s, transform .15s;
+      margin-bottom: 20px;
+    }
+    .login-btn-primary:hover { opacity: 0.9; }
+    .login-btn-primary:active { transform: scale(0.98); }
+
+    .divider { position: relative; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
+    .divider::before { content: ''; position: absolute; left: 0; right: 0; height: 1px; background: var(--gray-line); }
+    .divider span { background: var(--gray-bg); padding: 0 14px; font-size: 12px; color: #86868b; position: relative; }
+
+    .login-btn-google {
+      width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px;
+      background: #fff; border: 1.5px solid var(--gray-line); border-radius: 14px;
+      padding: 13px; font-size: 14px; font-weight: 500; font-family: 'Helvetica Neue';
+      color: var(--dark); cursor: pointer; transition: background .2s, border-color .2s; margin-bottom: 24px;
+    }
+    .login-btn-google:hover { background: #f0f0f2; border-color: #b8b8bd; }
+
+    .login-footer-text { text-align: center; font-size: 13px; color: #86868b; }
+    .login-footer-text a { color: var(--red); text-decoration: none; }
+    .login-footer-text a:hover { text-decoration: underline; }
+
+    /* Coluna direita — hero + depoimentos */
+    .login-hero-col {
+      display: none; flex: 1; position: relative; padding: 16px 16px 16px 0;
+    }
+    @media (min-width: 900px) { .login-hero-col { display: block; } }
+
+    .login-hero-img {
+      position: absolute; inset: 16px 16px 16px 0;
+      border-radius: 24px;
+      background: url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1400&q=80') center/cover no-repeat;
+      opacity: 0; animation: slideRightIn .7s cubic-bezier(.22,.68,0,1.02) .3s forwards;
+    }
+    .login-hero-img::after {
+      content: ''; position: absolute; inset: 0; border-radius: 24px;
+      background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.1) 50%, transparent 100%);
+    }
+
+    .testimonials-row {
+      position: absolute; bottom: 36px; left: 0; right: 24px;
+      display: flex; gap: 14px; padding: 0 24px;
+      justify-content: flex-start; z-index: 2;
+    }
+    .test-card {
+      background: rgba(255,255,255,0.14); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(255,255,255,0.22); border-radius: 20px;
+      padding: 16px; width: 210px; flex-shrink: 0;
+      opacity: 0;
+    }
+    .test-card:nth-child(1) { animation: testimonialIn .55s cubic-bezier(.22,.68,0,1.02) .9s forwards; }
+    .test-card:nth-child(2) { animation: testimonialIn .55s cubic-bezier(.22,.68,0,1.02) 1.1s forwards; display: none; }
+    @media (min-width: 1200px) { .test-card:nth-child(2) { display: block; } }
+    .test-avatar { width: 38px; height: 38px; border-radius: 10px; object-fit: cover; margin-bottom: 10px; }
+    .test-name { font-size: 13px; font-weight: 700; color: #fff; }
+    .test-handle { font-size: 11px; color: rgba(255,255,255,0.6); margin-bottom: 6px; }
+    .test-text { font-size: 12px; color: rgba(255,255,255,0.85); line-height: 1.5; }
+
+    /* ============ DASHBOARD ============ */
+    .dashboard { display: none; padding: 96px 40px 60px; max-width: 1320px; margin: 0 auto; }
+    .dashboard.logged-in { display: block; }
+    .dash-header { margin-bottom: 20px; display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    .dash-title { font-size: 26px; font-weight: 700; letter-spacing: -0.5px; }
+    .dash-sub { font-size: 13px; color: #86868b; margin-top: 4px; }
+    .btn-primary { background: var(--red); color: #fff; border: none; border-radius: 10px; padding: 10px 18px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: 'Helvetica Neue'; transition: opacity .2s; }
+    .btn-primary:hover { opacity: 0.9; }
+    .btn-secondary { background: #f0f0f0; color: var(--dark); border: none; border-radius: 10px; padding: 10px 16px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: 'Helvetica Neue'; }
+
+    .panel-tabs { display: flex; gap: 4px; background: #fff; border-radius: 12px; padding: 4px; margin-bottom: 24px; max-width: 340px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); }
+    .panel-tab { flex: 1; text-align: center; padding: 10px 8px; border-radius: 9px; cursor: pointer; font-size: 13px; font-weight: 600; color: #86868b; transition: background .2s, color .2s; user-select: none; }
+    .panel-tab.active { background: var(--red); color: #fff; }
+    .panel-section { display: none; }
+    .panel-section.active { display: block; }
+
+    .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px; }
+    .stat-card { background: #fff; border-radius: 16px; padding: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.05); }
+    .stat-label { font-size: 12px; color: #86868b; font-weight: 600; margin-bottom: 8px; }
+    .stat-value { font-size: 24px; font-weight: 700; color: var(--dark); }
+    .stat-value.red { color: var(--red); }
+
+    /* FINANCEIRO: PIVOT */
+    .pivot-toolbar { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; flex-wrap: wrap; }
+    .view-switch { display: flex; gap: 4px; background: #fff; border-radius: 10px; padding: 3px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); }
+    .view-btn { padding: 8px 14px; border-radius: 8px; font-size: 12.5px; font-weight: 600; color: #86868b; cursor: pointer; user-select: none; }
+    .view-btn.active { background: var(--dark); color: #fff; }
+    .data-table-wrap { background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.05); overflow-x: auto; margin-bottom: 16px; }
+    table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+    th { text-align: left; padding: 14px 18px; font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.4px; color: #86868b; background: #fafafa; border-bottom: 1px solid var(--gray-line); white-space: nowrap; cursor: pointer; user-select: none; }
+    th .sort-arrow { display: inline-block; margin-left: 4px; opacity: 0.3; font-size: 10px; }
+    th.sorted .sort-arrow { opacity: 1; color: var(--red); }
+    td { padding: 14px 18px; border-bottom: 1px solid #f0f0f2; color: var(--dark); white-space: nowrap; }
+    tr:last-child td { border-bottom: none; }
+    tr.pivot-total td { font-weight: 700; background: #fafafa; }
+    .table-empty { padding: 40px 20px; text-align: center; color: #a0a0a5; font-size: 13px; }
+
+    /* ALUNOS */
+    .toolbar { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; }
+    .search-bar { display: flex; align-items: center; gap: 10px; background: #fff; border: 1px solid var(--gray-line); border-radius: 12px; padding: 10px 16px; max-width: 360px; flex: 1; min-width: 180px; }
+    .search-bar svg { flex-shrink: 0; color: #9a9a9e; }
+    .search-bar input { border: none; outline: none; font-size: 14px; font-family: 'Helvetica Neue'; color: var(--dark); width: 100%; background: transparent; }
+    .btn-filtros { display: flex; align-items: center; gap: 8px; background: #fff; border: 1px solid var(--gray-line); border-radius: 12px; padding: 10px 16px; font-size: 13.5px; font-weight: 600; color: var(--dark); cursor: pointer; white-space: nowrap; font-family: 'Helvetica Neue'; }
+    .btn-filtros:hover { border-color: #b8b8bd; }
+    .filtros-badge { background: var(--red); color: #fff; font-size: 10.5px; font-weight: 700; border-radius: 100px; padding: 1px 6px; min-width: 16px; text-align: center; }
+
+    .funil-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 20px; }
+    .funil-card { background: #fff; border-radius: 14px; padding: 14px 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.05); border-top: 3px solid var(--gray-line); }
+    .funil-card[data-status="lead"] { border-top-color: #9a9a9e; }
+    .funil-card[data-status="negociacao"] { border-top-color: #d99a1f; }
+    .funil-card[data-status="matriculado"] { border-top-color: var(--green); }
+    .funil-card[data-status="inativo"] { border-top-color: #b3b3b8; }
+    .funil-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; color: #86868b; margin-bottom: 6px; }
+    .funil-value { font-size: 22px; font-weight: 700; color: var(--dark); }
+
+    /* KANBAN */
+    .kanban-wrap { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; align-items: start; }
+    .kanban-col { background: #ececee; border-radius: 16px; padding: 12px; min-height: 200px; }
+    .kanban-col-head { display: flex; align-items: center; justify-content: space-between; padding: 4px 6px 12px; }
+    .kanban-col-title { font-size: 12.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; color: #6a6a6e; }
+    .kanban-col-count { font-size: 11.5px; font-weight: 700; color: #fff; background: #b3b3b8; border-radius: 100px; padding: 2px 8px; }
+    .kanban-col[data-status="lead"] .kanban-col-count { background: #9a9a9e; }
+    .kanban-col[data-status="negociacao"] .kanban-col-count { background: #d99a1f; }
+    .kanban-col[data-status="matriculado"] .kanban-col-count { background: var(--green); }
+    .kanban-col.drag-over { background: #dfe4ea; }
+    .kanban-card { background: #fff; border-radius: 12px; padding: 12px 14px; margin-bottom: 10px; box-shadow: 0 1px 6px rgba(0,0,0,0.06); cursor: grab; transition: transform .12s; }
+    .kanban-card:active { cursor: grabbing; }
+    .kanban-card.dragging { opacity: 0.4; }
+    .kanban-card-name { font-size: 13.5px; font-weight: 700; margin-bottom: 4px; }
+    .kanban-card-meta { font-size: 11.5px; color: #86868b; margin-bottom: 8px; line-height: 1.4; }
+    .kanban-empty { font-size: 12px; color: #a0a0a5; text-align: center; padding: 16px 8px; }
+    @media (max-width: 900px) { .kanban-wrap { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 560px) { .kanban-wrap { grid-template-columns: 1fr; } }
+
+    .progress-track { background: #ececee; border-radius: 100px; height: 8px; width: 100px; overflow: hidden; }
+    .progress-fill { height: 100%; border-radius: 100px; transition: width .3s ease; }
+    .progress-wrap { display: flex; align-items: center; gap: 8px; }
+    .progress-pct { font-size: 12px; color: #86868b; font-weight: 600; width: 30px; }
+
+    /* FICHA */
+    .ficha-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 450; align-items: center; justify-content: center; padding: 20px; }
+    .ficha-overlay.active { display: flex; }
+    .ficha-box { background: #fff; border-radius: 20px; width: 100%; max-width: 480px; max-height: 88vh; overflow-y: auto; padding: 30px; }
+    .ficha-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+    .ficha-name { font-size: 20px; font-weight: 700; }
+    .ficha-status-tag { display: inline-block; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 100px; margin-top: 6px; }
+    .ficha-status-tag.lead { background: #eee; color: #6a6a6e; }
+    .ficha-status-tag.negociacao { background: #fdf3e0; color: var(--amber); }
+    .ficha-status-tag.matriculado { background: #e5f6ec; color: var(--green); }
+    .ficha-status-tag.inativo { background: #f0f0f0; color: #9a9a9e; }
+    .ficha-close { background: none; border: none; font-size: 20px; cursor: pointer; color: #9a9a9e; line-height: 1; }
+    .ficha-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px; }
+    .ficha-field-label { font-size: 11px; color: #86868b; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; margin-bottom: 4px; }
+    .ficha-field-value { font-size: 14.5px; color: var(--dark); }
+    .ficha-section-title { font-size: 12.5px; font-weight: 700; color: #6a6a6e; text-transform: uppercase; letter-spacing: 0.3px; margin: 18px 0 10px; }
+    .ficha-edit-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+    .ficha-edit-row label { font-size: 12.5px; color: #6a6a6e; width: 90px; flex-shrink: 0; }
+    .ficha-edit-row select { border: 1px solid var(--gray-line); border-radius: 8px; padding: 7px 10px; font-size: 13px; font-family: 'Helvetica Neue'; flex: 1; }
+    .ficha-edit-row input[type="range"] { flex: 1; accent-color: var(--red); }
+
+    /* MODAL */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 400; align-items: center; justify-content: center; padding: 20px; }
+    .modal-overlay.active { display: flex; }
+    .modal-box { background: #fff; border-radius: 18px; width: 100%; max-width: 460px; padding: 28px; max-height: 90vh; overflow-y: auto; }
+    .modal-title { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+    .modal-subtitle { font-size: 12.5px; color: #86868b; margin-bottom: 18px; }
+    .modal-section-label { font-size: 11.5px; font-weight: 700; color: #86868b; text-transform: uppercase; letter-spacing: 0.3px; margin: 16px 0 8px; }
+    .modal-field { margin-bottom: 12px; }
+    .modal-field label { display: block; font-size: 12px; font-weight: 600; color: #6a6a6e; margin-bottom: 5px; }
+    .modal-field input, .modal-field select { width: 100%; border: 1px solid var(--gray-line); border-radius: 9px; padding: 10px 12px; font-size: 13.5px; font-family: 'Helvetica Neue'; color: var(--dark); outline: none; transition: border-color .2s; }
+    .modal-field input:focus, .modal-field select:focus { border-color: var(--red); }
+    .modal-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
+    .modal-actions button { flex: 1; }
+
+    /* FILTROS */
+    .filter-sheet-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 500; justify-content: flex-end; }
+    .filter-sheet-overlay.active { display: flex; }
+    .filter-sheet { background: #fff; width: 100%; max-width: 420px; height: 100%; display: flex; flex-direction: column; margin-left: auto; box-shadow: -8px 0 40px rgba(0,0,0,0.15); animation: slideIn 0.25s ease; }
+    @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+    @media (max-width: 700px) {
+      .filter-sheet-overlay { align-items: flex-end; }
+      .filter-sheet { max-width: 100%; height: 88vh; margin-left: 0; border-radius: 20px 20px 0 0; animation: slideUp 0.25s ease; }
+      @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+    }
+    .filter-sheet-header { display: flex; align-items: center; gap: 14px; padding: 20px; border-bottom: 1px solid #f0f0f2; flex-shrink: 0; }
+    .filter-sheet-back { background: none; border: none; font-size: 20px; cursor: pointer; color: var(--dark); line-height: 1; }
+    .filter-sheet-header p { font-size: 17px; font-weight: 700; }
+    .filter-sheet-body { flex: 1; overflow-y: auto; padding: 4px 0; }
+    .filter-group { border-bottom: 1px solid #f0f0f2; }
+    .filter-group-head { display: flex; align-items: center; justify-content: space-between; padding: 18px 20px; cursor: pointer; user-select: none; }
+    .filter-group-head p { font-size: 15.5px; font-weight: 700; }
+    .filter-group-arrow { transition: transform .2s; color: var(--dark); }
+    .filter-group.open .filter-group-arrow { transform: rotate(180deg); }
+    .filter-group-body { display: none; padding: 0 20px 18px; }
+    .filter-group.open .filter-group-body { display: block; }
+    .filter-option { display: flex; align-items: center; justify-content: space-between; padding: 9px 0; cursor: pointer; }
+    .filter-option-left { display: flex; align-items: center; gap: 12px; }
+    .filter-option input[type="checkbox"] { width: 19px; height: 19px; accent-color: var(--red); cursor: pointer; }
+    .filter-option-label { font-size: 14px; color: var(--dark); }
+    .filter-option-count { font-size: 13px; color: #86868b; }
+    .range-row { padding: 6px 0 10px; }
+    .range-row-label { font-size: 13px; color: var(--dark); margin-bottom: 8px; display: flex; justify-content: space-between; }
+    .range-row input[type="range"] { width: 100%; accent-color: var(--red); }
+    .filter-sheet-footer { padding: 16px 20px; border-top: 1px solid #f0f0f2; display: flex; gap: 10px; flex-shrink: 0; }
+    .filter-sheet-footer button { flex: 1; }
+
+    @media (max-width: 700px) {
+      .dashboard { padding: 88px 16px 48px; }
+      .dash-title { font-size: 21px; }
+      th, td { padding: 12px 12px; font-size: 12.5px; }
+      .funil-row { grid-template-columns: repeat(2, 1fr); }
+      .ficha-grid { grid-template-columns: 1fr; }
+      .modal-row-2 { grid-template-columns: 1fr; }
+      .login-form-col { padding: 32px 20px; }
+    }
+
+    footer { background: var(--red); color: #fff; padding: 32px 40px; text-align: left; }
+    footer p { font-size: 12.5px; color: rgba(255,255,255,0.65); margin-bottom: 12px; }
+    .footer-links { display: flex; gap: 20px; }
+    .footer-links a { font-size: 12.5px; color: rgba(255,255,255,0.7); text-decoration: none; }
+    @media (max-width: 700px) { footer { padding: 28px 20px; } }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo"><img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/logo_f_rasterizada.png" alt="Facilitta" /></a>
+  <div class="nav-links" id="navLinks">
+    <a href="#" data-panel="financeiro" class="active">Financeiro</a>
+    <a href="#" data-panel="alunos">Alunos</a>
+  </div>
+  <div class="nav-right">
+    <span class="nav-user" id="navUser">Olá</span>
+    <button class="nav-logout" id="navLogout">Sair</button>
+    <button class="nav-burger" id="navBurgerBtn" aria-label="Abrir menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="mobile-menu-overlay" id="mobileMenuOverlay">
+  <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Fechar menu"></button>
+  <div class="mobile-menu-content">
+    <a href="#" data-panel="financeiro">Financeiro</a>
+    <a href="#" data-panel="alunos">Alunos</a>
+    <button id="mobileLogout">Sair</button>
+  </div>
+</div>
+
+<!-- ============ LOGIN ============ -->
+<div class="login-wrap" id="loginWrap">
+
+  <!-- Coluna esquerda: formulário -->
+  <div class="login-form-col">
+    <div class="login-form-inner">
+      <div class="login-brand el d1">
+        <img src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/logo_f_rasterizada.png" alt="Facilitta" />
+      </div>
+
+      <h1 class="login-heading el d2">Bem-vindo<br/><strong>de volta</strong></h1>
+      <p class="login-sub el d3">Acesso restrito à equipe Facilitta Academy</p>
+
+      <form id="loginForm">
+        <div class="el d4">
+          <label class="login-label" for="loginUser">Usuário</label>
+          <div class="glass-input-wrap">
+            <input type="text" id="loginUser" autocomplete="username" placeholder="Seu usuário" required />
+          </div>
+        </div>
+
+        <div class="el d5">
+          <label class="login-label" for="loginPass">Senha</label>
+          <div class="glass-input-wrap">
+            <div class="pw-wrap">
+              <input type="password" id="loginPass" autocomplete="current-password" placeholder="Sua senha" required />
+              <button type="button" class="pw-toggle" id="pwToggle" aria-label="Mostrar senha">
+                <!-- eye icon -->
+                <svg id="eyeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                <svg id="eyeOffIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="login-row el d6">
+          <label class="remember-label">
+            <input type="checkbox" name="rememberMe" /> Manter conectado
+          </label>
+          <a href="#" class="forgot-link">Esqueci a senha</a>
+        </div>
+
+        <button type="submit" class="login-btn-primary el d7">Entrar</button>
+      </form>
+
+      <div class="divider el d8"><span>ou continue com</span></div>
+
+      <button class="login-btn-google el d8" id="btnGoogle">
+        <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12S17.4 12 24 12c3.1 0 5.8 1.2 8 3l5.7-5.7C34 6.1 29.3 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-2.6-.2-5.2-.6-7.7z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 8 3l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-7.9L6.2 33.1C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C38 35.5 44 30.5 44 24c0-2.6-.2-5.2-.6-7.7z"/></svg>
+        Continuar com Google
+      </button>
+
+      <p class="login-footer-text el d9">Plataforma de uso interno. <a href="/">Voltar ao site</a></p>
+    </div>
+  </div>
+
+  <!-- Coluna direita: hero + depoimentos -->
+  <div class="login-hero-col">
+    <div class="login-hero-img"></div>
+    <div class="testimonials-row">
+      <div class="test-card">
+        <img class="test-avatar" src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=80&q=80" alt="Ana Lima" />
+        <p class="test-name">Ana Lima</p>
+        <p class="test-handle">Assessora Facilitta</p>
+        <p class="test-text">"A plataforma facilitou muito o acompanhamento dos meus alunos. Tudo organizado e intuitivo."</p>
+      </div>
+      <div class="test-card">
+        <img class="test-avatar" src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=80&q=80" alt="Carlos Menezes" />
+        <p class="test-name">Carlos Menezes</p>
+        <p class="test-handle">Coordenador</p>
+        <p class="test-text">"Visibilidade total do funil de matrículas. Tomada de decisão ficou muito mais ágil."</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ============ DASHBOARD ============ -->
+<div class="dashboard" id="dashboard">
+  <div class="dash-header">
+    <div><p class="dash-title" id="dashTitle">Financeiro</p><p class="dash-sub" id="dashSub">Quanto repassar, por escola ou por assessor</p></div>
+    <button class="btn-primary" id="btnNovoAluno">+ Novo aluno</button>
+  </div>
+
+  <div class="panel-tabs">
+    <div class="panel-tab active" data-panel="financeiro">Financeiro</div>
+    <div class="panel-tab" data-panel="alunos">Alunos</div>
+  </div>
+
+  <!-- FINANCEIRO -->
+  <section class="panel-section active" id="panel-financeiro">
+    <div class="card-grid">
+      <div class="stat-card"><p class="stat-label">Matriculados</p><p class="stat-value" id="statMatriculados">0</p></div>
+      <div class="stat-card"><p class="stat-label">Valor total em carteira</p><p class="stat-value red" id="statValorTotal">R$ 0</p></div>
+      <div class="stat-card"><p class="stat-label">A repassar (assessores + escolas)</p><p class="stat-value" id="statARepassar">R$ 0</p></div>
+    </div>
+    <div class="pivot-toolbar">
+      <div class="view-switch" id="pivotSwitch">
+        <div class="view-btn active" data-view="assessor">Por assessor</div>
+        <div class="view-btn" data-view="escola">Por escola</div>
+      </div>
+    </div>
+    <div class="data-table-wrap">
+      <table>
+        <thead>
+          <tr id="pivotHeadRow">
+            <th data-sort="nome">Nome <span class="sort-arrow">▲</span></th>
+            <th data-sort="qtd">Alunos <span class="sort-arrow">▲</span></th>
+            <th data-sort="valor">Valor total <span class="sort-arrow">▲</span></th>
+            <th data-sort="pct">% aplicada</th>
+            <th data-sort="repasse">A repassar <span class="sort-arrow">▲</span></th>
+          </tr>
+        </thead>
+        <tbody id="pivotBody"></tbody>
+      </table>
+      <div class="table-empty" id="pivotEmpty" style="display:none;">Nenhum aluno matriculado ainda.</div>
+    </div>
+  </section>
+
+  <!-- ALUNOS -->
+  <section class="panel-section" id="panel-alunos">
+    <div class="funil-row">
+      <div class="funil-card" data-status="lead"><p class="funil-label">Leads</p><p class="funil-value" id="funilLead">0</p></div>
+      <div class="funil-card" data-status="negociacao"><p class="funil-label">Em negociação</p><p class="funil-value" id="funilNegociacao">0</p></div>
+      <div class="funil-card" data-status="matriculado"><p class="funil-label">Matriculados</p><p class="funil-value" id="funilMatriculado">0</p></div>
+      <div class="funil-card" data-status="inativo"><p class="funil-label">Inativos</p><p class="funil-value" id="funilInativo">0</p></div>
+    </div>
+    <div class="toolbar">
+      <div class="view-switch" id="alunosViewSwitch">
+        <div class="view-btn active" data-view="quadro">Quadro</div>
+        <div class="view-btn" data-view="lista">Lista detalhada</div>
+      </div>
+      <div class="search-bar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input type="text" id="alunoSearch" placeholder="Buscar aluno, escola ou assessor..." />
+      </div>
+      <button class="btn-filtros" id="btnFiltrosAlunos">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
+        Filtros
+        <span class="filtros-badge" id="badgeAlunos" style="display:none;">0</span>
+      </button>
+    </div>
+    <div class="kanban-wrap" id="kanbanWrap">
+      <div class="kanban-col" data-status="lead"><div class="kanban-col-head"><span class="kanban-col-title">Lead</span><span class="kanban-col-count" id="kanbanCountLead">0</span></div><div class="kanban-col-body" id="kanbanBodyLead"></div></div>
+      <div class="kanban-col" data-status="negociacao"><div class="kanban-col-head"><span class="kanban-col-title">Negociação</span><span class="kanban-col-count" id="kanbanCountNegociacao">0</span></div><div class="kanban-col-body" id="kanbanBodyNegociacao"></div></div>
+      <div class="kanban-col" data-status="matriculado"><div class="kanban-col-head"><span class="kanban-col-title">Matriculado</span><span class="kanban-col-count" id="kanbanCountMatriculado">0</span></div><div class="kanban-col-body" id="kanbanBodyMatriculado"></div></div>
+      <div class="kanban-col" data-status="inativo"><div class="kanban-col-head"><span class="kanban-col-title">Inativo</span><span class="kanban-col-count" id="kanbanCountInativo">0</span></div><div class="kanban-col-body" id="kanbanBodyInativo"></div></div>
+    </div>
+    <div class="data-table-wrap" id="listaWrap" style="display:none;">
+      <table>
+        <thead>
+          <tr>
+            <th data-sort="nome">Aluno <span class="sort-arrow">▲</span></th>
+            <th data-sort="escola">Escola <span class="sort-arrow">▲</span></th>
+            <th data-sort="assessor">Assessor <span class="sort-arrow">▲</span></th>
+            <th data-sort="origem">Origem <span class="sort-arrow">▲</span></th>
+            <th data-sort="status">Status <span class="sort-arrow">▲</span></th>
+            <th data-sort="tempo">Tempo de curso <span class="sort-arrow">▲</span></th>
+            <th data-sort="progresso">Progresso <span class="sort-arrow">▲</span></th>
+          </tr>
+        </thead>
+        <tbody id="listaBody"></tbody>
+      </table>
+      <div class="table-empty" id="listaEmpty" style="display:none;">Nenhum aluno encontrado.</div>
+    </div>
+  </section>
+</div>
+
+<!-- FICHA DO ALUNO -->
+<div class="ficha-overlay" id="fichaOverlay"><div class="ficha-box" id="fichaBox"></div></div>
+
+<!-- MODAL NOVO ALUNO -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box">
+    <p class="modal-title">Novo aluno</p>
+    <p class="modal-subtitle">Cadastro completo — tudo que existe sobre o aluno começa aqui.</p>
+    <form id="alunoForm">
+      <div class="modal-field"><label>Nome</label><input type="text" id="fNome" required /></div>
+      <div class="modal-row-2">
+        <div class="modal-field"><label>Escola</label><input type="text" id="fEscola" required /></div>
+        <div class="modal-field"><label>Assessor (vazio = veio pelo site)</label><input type="text" id="fAssessor" /></div>
+      </div>
+      <p class="modal-section-label">Financeiro</p>
+      <div class="modal-row-2">
+        <div class="modal-field"><label>Valor da venda (R$)</label><input type="number" id="fValor" required /></div>
+        <div class="modal-field"><label>Forma de pagamento</label><select id="fFormaPagamento"><option value="a_vista">À vista</option><option value="parcelado">Parcelado</option></select></div>
+      </div>
+      <div class="modal-row-2">
+        <div class="modal-field"><label>Nº de parcelas</label><input type="number" id="fNumParcelas" value="1" min="1" /></div>
+        <div class="modal-field"><label>Data de entrada</label><input type="date" id="fDataEntrada" /></div>
+      </div>
+      <div class="modal-row-2">
+        <div class="modal-field"><label>% Assessor</label><input type="number" id="fPercAssessor" value="5" /></div>
+        <div class="modal-field"><label>% Escola</label><input type="number" id="fPercEscola" value="10" /></div>
+      </div>
+      <p class="modal-section-label">Status no funil</p>
+      <div class="modal-field">
+        <select id="fStatus"><option value="lead">Lead</option><option value="negociacao">Em negociação</option><option value="matriculado">Matriculado</option><option value="inativo">Inativo</option></select>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn-secondary" id="btnCancelar">Cancelar</button>
+        <button type="submit" class="btn-primary">Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- FILTROS -->
+<div class="filter-sheet-overlay" id="filterSheetOverlay">
+  <div class="filter-sheet">
+    <div class="filter-sheet-header"><button class="filter-sheet-back" id="filterSheetClose">←</button><p>Filtros</p></div>
+    <div class="filter-sheet-body" id="filterSheetBody"></div>
+    <div class="filter-sheet-footer"><button class="btn-secondary" id="filterSheetClear">Limpar</button><button class="btn-primary" id="filterSheetApply">Aplicar</button></div>
+  </div>
+</div>
+
+<footer style="display:none;" id="mainFooter">
+  <p>© 2026 Facilitta. Painel de uso interno.</p>
+  <div class="footer-links"><a href="/">Voltar ao site</a></div>
+</footer>
+
+<script>
+  // ============ SHOW/HIDE PASSWORD ============
+  const pwToggle = document.getElementById('pwToggle');
+  const loginPass = document.getElementById('loginPass');
+  const eyeIcon = document.getElementById('eyeIcon');
+  const eyeOffIcon = document.getElementById('eyeOffIcon');
+  pwToggle.addEventListener('click', () => {
+    const shown = loginPass.type === 'text';
+    loginPass.type = shown ? 'password' : 'text';
+    eyeIcon.style.display = shown ? 'block' : 'none';
+    eyeOffIcon.style.display = shown ? 'none' : 'block';
+  });
+
+  // ============ DADOS ============
+  const STORE_KEY = 'facilitta_alunos_v2';
+  function loadAlunos() { try { return JSON.parse(localStorage.getItem(STORE_KEY)) || []; } catch (e) { return []; } }
+  function saveAlunos(list) { localStorage.setItem(STORE_KEY, JSON.stringify(list)); }
+  let alunos = loadAlunos();
+
+  function brl(v) { return (Number(v) || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); }
+  function diasDesde(dataStr) { if (!dataStr) return null; return Math.floor((Date.now() - new Date(dataStr + 'T00:00:00').getTime()) / 86400000); }
+  function formatTempo(dias) {
+    if (dias === null || isNaN(dias)) return '—';
+    if (dias < 30) return dias + ' dia(s)';
+    if (dias < 365) return Math.floor(dias / 30) + ' mês(es)';
+    return (dias / 365).toFixed(1) + ' ano(s)';
+  }
+  function progressColor(p) { if (p == null) return '#d2d2d7'; if (p < 34) return '#E8391D'; if (p < 67) return '#d99a1f'; return '#1a9550'; }
+  function progressBar(p) {
+    const pct = p == null ? 0 : p;
+    return `<div class="progress-wrap"><div class="progress-track"><div class="progress-fill" style="width:${pct}%;background:${progressColor(p)};"></div></div><span class="progress-pct">${p != null ? p + '%' : '—'}</span></div>`;
+  }
+
+  // ============ LOGIN ============
+  const loginForm = document.getElementById('loginForm');
+  const loginWrap = document.getElementById('loginWrap');
+  const dashboard = document.getElementById('dashboard');
+  const navLinks = document.getElementById('navLinks');
+  const navUser = document.getElementById('navUser');
+  const navLogout = document.getElementById('navLogout');
+  const navBurgerBtn = document.getElementById('navBurgerBtn');
+  const mainFooter = document.getElementById('mainFooter');
+
+  loginForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const user = document.getElementById('loginUser').value.trim();
+    if (!user) return;
+    loginWrap.style.display = 'none';
+    dashboard.classList.add('logged-in');
+    mainFooter.style.display = 'block';
+    navLinks.classList.add('logged-in'); navUser.classList.add('logged-in');
+    navLogout.classList.add('logged-in'); navBurgerBtn.classList.add('logged-in');
+    navUser.textContent = 'Olá, ' + user;
+    renderAll();
+  });
+
+  document.getElementById('btnGoogle').addEventListener('click', () => {
+    alert('Login com Google — depende do backend.');
+  });
+
+  function doLogout() {
+    dashboard.classList.remove('logged-in');
+    mainFooter.style.display = 'none';
+    navLinks.classList.remove('logged-in'); navUser.classList.remove('logged-in');
+    navLogout.classList.remove('logged-in'); navBurgerBtn.classList.remove('logged-in');
+    loginWrap.style.display = 'flex'; loginForm.reset();
+  }
+  navLogout.addEventListener('click', doLogout);
+  document.getElementById('mobileLogout').addEventListener('click', doLogout);
+
+  // ============ NAVEGAÇÃO ============
+  const dashTitle = document.getElementById('dashTitle'), dashSub = document.getElementById('dashSub');
+  function goToPanel(name) {
+    document.querySelectorAll('.panel-section').forEach(s => s.classList.remove('active'));
+    document.getElementById('panel-' + name).classList.add('active');
+    document.querySelectorAll('.panel-tab').forEach(t => t.classList.toggle('active', t.dataset.panel === name));
+    document.querySelectorAll('#navLinks a').forEach(a => a.classList.toggle('active', a.dataset.panel === name));
+    if (name === 'financeiro') { dashTitle.textContent = 'Financeiro'; dashSub.textContent = 'Quanto repassar, por escola ou por assessor'; }
+    else { dashTitle.textContent = 'Alunos'; dashSub.textContent = 'Do lead à matrícula, com progresso acompanhado'; }
+  }
+  document.querySelectorAll('.panel-tab').forEach(tab => tab.addEventListener('click', () => goToPanel(tab.dataset.panel)));
+  document.querySelectorAll('#navLinks a, .mobile-menu-content a').forEach(link => {
+    link.addEventListener('click', (e) => { e.preventDefault(); goToPanel(link.dataset.panel); mobileMenuOverlay.classList.remove('active'); });
+  });
+
+  // ============ MODAL NOVO ALUNO ============
+  const modalOverlay = document.getElementById('modalOverlay');
+  document.getElementById('btnNovoAluno').addEventListener('click', () => {
+    document.getElementById('fDataEntrada').value = new Date().toISOString().slice(0, 10);
+    modalOverlay.classList.add('active');
+  });
+  document.getElementById('btnCancelar').addEventListener('click', () => modalOverlay.classList.remove('active'));
+  document.getElementById('alunoForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    alunos.push({
+      id: Date.now().toString(36),
+      nome: document.getElementById('fNome').value.trim(),
+      escola: document.getElementById('fEscola').value.trim(),
+      assessor: document.getElementById('fAssessor').value.trim(),
+      valor: Number(document.getElementById('fValor').value) || 0,
+      formaPagamento: document.getElementById('fFormaPagamento').value,
+      numParcelas: Number(document.getElementById('fNumParcelas').value) || 1,
+      percAssessor: Number(document.getElementById('fPercAssessor').value) || 0,
+      percEscola: Number(document.getElementById('fPercEscola').value) || 0,
+      dataEntrada: document.getElementById('fDataEntrada').value || new Date().toISOString().slice(0, 10),
+      status: document.getElementById('fStatus').value,
+      progresso: null
+    });
+    saveAlunos(alunos);
+    this.reset();
+    modalOverlay.classList.remove('active');
+    renderAll();
+  });
+
+  // ============ VIEW SWITCHES ============
+  let pivotView = 'assessor';
+  document.querySelectorAll('#pivotSwitch .view-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      pivotView = btn.dataset.view;
+      document.querySelectorAll('#pivotSwitch .view-btn').forEach(b => b.classList.toggle('active', b === btn));
+      renderFinanceiro();
+    });
+  });
+
+  let alunosView = 'quadro';
+  document.querySelectorAll('#alunosViewSwitch .view-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      alunosView = btn.dataset.view;
+      document.querySelectorAll('#alunosViewSwitch .view-btn').forEach(b => b.classList.toggle('active', b === btn));
+      document.getElementById('kanbanWrap').style.display = alunosView === 'quadro' ? 'grid' : 'none';
+      document.getElementById('listaWrap').style.display = alunosView === 'lista' ? 'block' : 'none';
+      renderAlunos();
+    });
+  });
+
+  document.getElementById('alunoSearch').addEventListener('input', renderAlunos);
+
+  // ============ ORDENAÇÃO ============
+  let pivotSort = { key: 'valor', dir: 'desc' };
+  let listaSort = { key: 'nome', dir: 'asc' };
+  document.querySelectorAll('#pivotHeadRow th[data-sort]').forEach(th => {
+    th.addEventListener('click', () => {
+      const key = th.dataset.sort;
+      pivotSort.dir = (pivotSort.key === key && pivotSort.dir === 'asc') ? 'desc' : 'asc';
+      pivotSort.key = key;
+      document.querySelectorAll('#pivotHeadRow th').forEach(h => { h.classList.toggle('sorted', h === th); if (h.querySelector('.sort-arrow')) h.querySelector('.sort-arrow').textContent = (h === th && pivotSort.dir === 'desc') ? '▼' : '▲'; });
+      renderFinanceiro();
+    });
+  });
+  document.querySelectorAll('#listaWrap th[data-sort]').forEach(th => {
+    th.addEventListener('click', () => {
+      const key = th.dataset.sort;
+      listaSort.dir = (listaSort.key === key && listaSort.dir === 'asc') ? 'desc' : 'asc';
+      listaSort.key = key;
+      document.querySelectorAll('#listaWrap th').forEach(h => { h.classList.toggle('sorted', h === th); h.querySelector('.sort-arrow').textContent = (h === th && listaSort.dir === 'desc') ? '▼' : '▲'; });
+      renderAlunos();
+    });
+  });
+
+  // ============ FICHA DO ALUNO ============
+  const fichaOverlay = document.getElementById('fichaOverlay');
+  function openFicha(id) {
+    const a = alunos.find(x => x.id === id);
+    if (!a) return;
+    const dias = diasDesde(a.dataEntrada);
+    document.getElementById('fichaBox').innerHTML = `
+      <div class="ficha-header">
+        <div><p class="ficha-name">${a.nome}</p><span class="ficha-status-tag ${a.status}">${({lead:'Lead',negociacao:'Em negociação',matriculado:'Matriculado',inativo:'Inativo'})[a.status]}</span></div>
+        <button class="ficha-close" id="fichaCloseBtn">✕</button>
+      </div>
+      <div class="ficha-grid">
+        <div><p class="ficha-field-label">Escola</p><p class="ficha-field-value">${a.escola || '—'}</p></div>
+        <div><p class="ficha-field-label">Assessor</p><p class="ficha-field-value">${a.assessor || '— (site direto)'}</p></div>
+        <div><p class="ficha-field-label">Valor da venda</p><p class="ficha-field-value">${brl(a.valor)}</p></div>
+        <div><p class="ficha-field-label">Forma de pagamento</p><p class="ficha-field-value">${a.formaPagamento === 'parcelado' ? a.numParcelas + 'x' : 'À vista'}</p></div>
+        <div><p class="ficha-field-label">% Assessor / Escola</p><p class="ficha-field-value">${a.percAssessor}% / ${a.percEscola}%</p></div>
+        <div><p class="ficha-field-label">Tempo de curso</p><p class="ficha-field-value">${formatTempo(dias)}</p></div>
+      </div>
+      <p class="ficha-section-title">Editar</p>
+      <div class="ficha-edit-row">
+        <label>Status</label>
+        <select id="fichaStatus">
+          <option value="lead" ${a.status==='lead'?'selected':''}>Lead</option>
+          <option value="negociacao" ${a.status==='negociacao'?'selected':''}>Em negociação</option>
+          <option value="matriculado" ${a.status==='matriculado'?'selected':''}>Matriculado</option>
+          <option value="inativo" ${a.status==='inativo'?'selected':''}>Inativo</option>
+        </select>
+      </div>
+      <div class="ficha-edit-row">
+        <label>Progresso</label>
+        <input type="range" min="0" max="100" id="fichaProgresso" value="${a.progresso != null ? a.progresso : 0}" />
+        <span id="fichaProgressoVal" style="font-size:13px;font-weight:700;width:36px;">${a.progresso != null ? a.progresso : 0}%</span>
+      </div>
+    `;
+    fichaOverlay.classList.add('active');
+    document.getElementById('fichaCloseBtn').addEventListener('click', () => fichaOverlay.classList.remove('active'));
+    document.getElementById('fichaStatus').addEventListener('change', (e) => { a.status = e.target.value; saveAlunos(alunos); renderAll(); openFicha(id); });
+    const progInput = document.getElementById('fichaProgresso');
+    progInput.addEventListener('input', (e) => { document.getElementById('fichaProgressoVal').textContent = e.target.value + '%'; });
+    progInput.addEventListener('change', (e) => { a.progresso = Number(e.target.value); saveAlunos(alunos); renderAll(); });
+  }
+
+  // ============ FILTROS ============
+  const filterState = { escolas: new Set(), assessores: new Set(), status: new Set(), origem: new Set(), progressoMin: 0, progressoMax: 100, tempoMinDias: 0, tempoMaxDias: 3650 };
+  let draft = null;
+
+  function openFilterSheet() {
+    draft = { escolas: new Set(filterState.escolas), assessores: new Set(filterState.assessores), status: new Set(filterState.status), origem: new Set(filterState.origem), progressoMin: filterState.progressoMin, progressoMax: filterState.progressoMax, tempoMinDias: filterState.tempoMinDias, tempoMaxDias: filterState.tempoMaxDias };
+    renderFilterSheetBody();
+    document.getElementById('filterSheetOverlay').classList.add('active');
+  }
+  function closeFilterSheet() { document.getElementById('filterSheetOverlay').classList.remove('active'); }
+  document.getElementById('btnFiltrosAlunos').addEventListener('click', openFilterSheet);
+  document.getElementById('filterSheetClose').addEventListener('click', closeFilterSheet);
+
+  function renderFilterSheetBody() {
+    const escolas = [...new Set(alunos.map(a => a.escola).filter(Boolean))].sort();
+    const assessores = [...new Set(alunos.map(a => a.assessor).filter(Boolean))].sort();
+    const statusList = [{k:'lead',l:'Lead'},{k:'negociacao',l:'Em negociação'},{k:'matriculado',l:'Matriculado'},{k:'inativo',l:'Inativo'}];
+    let html = '';
+    html += `<div class="filter-group open"><div class="filter-group-head"><p>Escola</p><svg class="filter-group-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 9l6 6 6-6"/></svg></div><div class="filter-group-body">${escolas.map(e => `<label class="filter-option"><div class="filter-option-left"><input type="checkbox" data-key="escolas" value="${e}" ${draft.escolas.has(e)?'checked':''}/><span class="filter-option-label">${e}</span></div><span class="filter-option-count">${alunos.filter(a=>a.escola===e).length}</span></label>`).join('') || '<p style="font-size:13px;color:#a0a0a5;padding:8px 0;">Nenhuma escola ainda.</p>'}</div></div>`;
+    html += `<div class="filter-group"><div class="filter-group-head"><p>Assessor</p><svg class="filter-group-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 9l6 6 6-6"/></svg></div><div class="filter-group-body">${assessores.map(a => `<label class="filter-option"><div class="filter-option-left"><input type="checkbox" data-key="assessores" value="${a}" ${draft.assessores.has(a)?'checked':''}/><span class="filter-option-label">${a}</span></div><span class="filter-option-count">${alunos.filter(x=>x.assessor===a).length}</span></label>`).join('') || '<p style="font-size:13px;color:#a0a0a5;padding:8px 0;">Nenhum assessor ainda.</p>'}</div></div>`;
+    html += `<div class="filter-group"><div class="filter-group-head"><p>Status</p><svg class="filter-group-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 9l6 6 6-6"/></svg></div><div class="filter-group-body">${statusList.map(s => `<label class="filter-option"><div class="filter-option-left"><input type="checkbox" data-key="status" value="${s.k}" ${draft.status.has(s.k)?'checked':''}/><span class="filter-option-label">${s.l}</span></div><span class="filter-option-count">${alunos.filter(a=>a.status===s.k).length}</span></label>`).join('')}</div></div>`;
+    html += `<div class="filter-group"><div class="filter-group-head"><p>Origem</p><svg class="filter-group-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 9l6 6 6-6"/></svg></div><div class="filter-group-body"><label class="filter-option"><div class="filter-option-left"><input type="checkbox" data-key="origem" value="assessor" ${draft.origem.has('assessor')?'checked':''}/><span class="filter-option-label">Via assessor</span></div><span class="filter-option-count">${alunos.filter(a=>a.assessor).length}</span></label><label class="filter-option"><div class="filter-option-left"><input type="checkbox" data-key="origem" value="site" ${draft.origem.has('site')?'checked':''}/><span class="filter-option-label">Direto pelo site</span></div><span class="filter-option-count">${alunos.filter(a=>!a.assessor).length}</span></label></div></div>`;
+    html += `<div class="filter-group"><div class="filter-group-head"><p>Progresso</p><svg class="filter-group-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 9l6 6 6-6"/></svg></div><div class="filter-group-body"><div class="range-row"><div class="range-row-label"><span>Mínimo</span><span id="progMinLabel">${draft.progressoMin}%</span></div><input type="range" min="0" max="100" id="rangeProgMin" value="${draft.progressoMin}"/></div><div class="range-row"><div class="range-row-label"><span>Máximo</span><span id="progMaxLabel">${draft.progressoMax}%</span></div><input type="range" min="0" max="100" id="rangeProgMax" value="${draft.progressoMax}"/></div></div></div>`;
+    html += `<div class="filter-group"><div class="filter-group-head"><p>Tempo de curso</p><svg class="filter-group-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 9l6 6 6-6"/></svg></div><div class="filter-group-body"><div class="range-row"><div class="range-row-label"><span>Mínimo</span><span id="tempoMinLabel">${formatTempo(draft.tempoMinDias)}</span></div><input type="range" min="0" max="1095" id="rangeTempoMin" value="${draft.tempoMinDias}"/></div><div class="range-row"><div class="range-row-label"><span>Máximo</span><span id="tempoMaxLabel">${formatTempo(draft.tempoMaxDias)}</span></div><input type="range" min="0" max="1095" id="rangeTempoMax" value="${draft.tempoMaxDias}"/></div></div></div>`;
+    document.getElementById('filterSheetBody').innerHTML = html;
+    document.querySelectorAll('.filter-group-head').forEach(h => h.addEventListener('click', () => h.closest('.filter-group').classList.toggle('open')));
+    document.querySelectorAll('input[data-key]').forEach(cb => cb.addEventListener('change', (e) => { const k = e.target.dataset.key; if (e.target.checked) draft[k].add(e.target.value); else draft[k].delete(e.target.value); }));
+    document.getElementById('rangeProgMin').addEventListener('input', e => { draft.progressoMin = Number(e.target.value); document.getElementById('progMinLabel').textContent = e.target.value + '%'; });
+    document.getElementById('rangeProgMax').addEventListener('input', e => { draft.progressoMax = Number(e.target.value); document.getElementById('progMaxLabel').textContent = e.target.value + '%'; });
+    document.getElementById('rangeTempoMin').addEventListener('input', e => { draft.tempoMinDias = Number(e.target.value); document.getElementById('tempoMinLabel').textContent = formatTempo(Number(e.target.value)); });
+    document.getElementById('rangeTempoMax').addEventListener('input', e => { draft.tempoMaxDias = Number(e.target.value); document.getElementById('tempoMaxLabel').textContent = formatTempo(Number(e.target.value)); });
+  }
+
+  document.getElementById('filterSheetClear').addEventListener('click', () => { draft.escolas.clear(); draft.assessores.clear(); draft.status.clear(); draft.origem.clear(); draft.progressoMin = 0; draft.progressoMax = 100; draft.tempoMinDias = 0; draft.tempoMaxDias = 3650; renderFilterSheetBody(); });
+  document.getElementById('filterSheetApply').addEventListener('click', () => {
+    Object.assign(filterState, draft);
+    filterState.escolas = new Set(draft.escolas); filterState.assessores = new Set(draft.assessores); filterState.status = new Set(draft.status); filterState.origem = new Set(draft.origem);
+    const count = filterState.escolas.size + filterState.assessores.size + filterState.status.size + filterState.origem.size + (filterState.progressoMin > 0 || filterState.progressoMax < 100 ? 1 : 0) + (filterState.tempoMinDias > 0 || filterState.tempoMaxDias < 3650 ? 1 : 0);
+    const badge = document.getElementById('badgeAlunos');
+    if (count > 0) { badge.style.display = 'inline-block'; badge.textContent = count; } else { badge.style.display = 'none'; }
+    closeFilterSheet(); renderAlunos();
+  });
+
+  function applyFilters(list) {
+    return list.filter(a => {
+      if (filterState.escolas.size && !filterState.escolas.has(a.escola)) return false;
+      if (filterState.assessores.size && !filterState.assessores.has(a.assessor)) return false;
+      if (filterState.status.size && !filterState.status.has(a.status)) return false;
+      if (filterState.origem.size) { const mA = filterState.origem.has('assessor') && a.assessor; const mS = filterState.origem.has('site') && !a.assessor; if (!mA && !mS) return false; }
+      const p = a.progresso == null ? 0 : a.progresso;
+      if (p < filterState.progressoMin || p > filterState.progressoMax) return false;
+      const dias = diasDesde(a.dataEntrada) || 0;
+      if (dias < filterState.tempoMinDias || dias > filterState.tempoMaxDias) return false;
+      return true;
+    });
+  }
+
+  // ============ RENDER: FINANCEIRO ============
+  function renderFinanceiro() {
+    const matriculados = alunos.filter(a => a.status === 'matriculado');
+    const total = matriculados.reduce((s, a) => s + a.valor, 0);
+    const aRepassar = matriculados.reduce((s, a) => s + a.valor * (a.percAssessor + a.percEscola) / 100, 0);
+    document.getElementById('statMatriculados').textContent = matriculados.length;
+    document.getElementById('statValorTotal').textContent = brl(total);
+    document.getElementById('statARepassar').textContent = brl(aRepassar);
+    const groupKeyFn = pivotView === 'assessor' ? (a => a.assessor || '— (venda direta pelo site)') : (a => a.escola || '(sem escola)');
+    const percFn = pivotView === 'assessor' ? (a => a.percAssessor) : (a => a.percEscola);
+    const groups = {};
+    matriculados.forEach(a => { const k = groupKeyFn(a); (groups[k] = groups[k] || []).push(a); });
+    let rows = Object.keys(groups).map(nome => { const list = groups[nome]; const valor = list.reduce((s, a) => s + a.valor, 0); const percs = [...new Set(list.map(percFn))]; const repasse = list.reduce((s, a) => s + a.valor * percFn(a) / 100, 0); return { nome, qtd: list.length, valor, pct: percs.length === 1 ? percs[0] + '%' : 'variável', repasse }; });
+    rows.sort((x, y) => { let vx = x[pivotSort.key], vy = y[pivotSort.key]; if (typeof vx === 'string') vx = vx.toLowerCase(); if (typeof vy === 'string') vy = vy.toLowerCase(); if (vx < vy) return pivotSort.dir === 'asc' ? -1 : 1; if (vx > vy) return pivotSort.dir === 'asc' ? 1 : -1; return 0; });
+    const totalR = rows.reduce((s, r) => s + r.repasse, 0); const totalV = rows.reduce((s, r) => s + r.valor, 0); const totalQ = rows.reduce((s, r) => s + r.qtd, 0);
+    const body = document.getElementById('pivotBody');
+    if (!rows.length) { body.innerHTML = ''; document.getElementById('pivotEmpty').style.display = 'block'; return; }
+    document.getElementById('pivotEmpty').style.display = 'none';
+    body.innerHTML = rows.map(r => `<tr><td>${r.nome}</td><td>${r.qtd}</td><td>${brl(r.valor)}</td><td>${r.pct}</td><td>${brl(r.repasse)}</td></tr>`).join('') + `<tr class="pivot-total"><td>Total</td><td>${totalQ}</td><td>${brl(totalV)}</td><td>—</td><td>${brl(totalR)}</td></tr>`;
+  }
+
+  // ============ RENDER: ALUNOS ============
+  function renderAlunos() {
+    document.getElementById('funilLead').textContent = alunos.filter(a => a.status === 'lead').length;
+    document.getElementById('funilNegociacao').textContent = alunos.filter(a => a.status === 'negociacao').length;
+    document.getElementById('funilMatriculado').textContent = alunos.filter(a => a.status === 'matriculado').length;
+    document.getElementById('funilInativo').textContent = alunos.filter(a => a.status === 'inativo').length;
+    const term = document.getElementById('alunoSearch').value.toLowerCase();
+    let base = alunos;
+    if (term) base = base.filter(a => (a.nome + a.escola + a.assessor).toLowerCase().includes(term));
+    base = applyFilters(base);
+    if (alunosView === 'quadro') renderKanban(base); else renderLista(base);
+  }
+
+  function renderKanban(list) {
+    const statuses = ['lead', 'negociacao', 'matriculado', 'inativo'];
+    statuses.forEach(st => {
+      const items = list.filter(a => a.status === st);
+      const label = { lead: 'Lead', negociacao: 'Negociacao', matriculado: 'Matriculado', inativo: 'Inativo' }[st];
+      document.getElementById('kanbanCount' + label).textContent = items.length;
+      const body = document.getElementById('kanbanBody' + label);
+      body.innerHTML = items.map(a => `<div class="kanban-card" draggable="true" data-id="${a.id}"><p class="kanban-card-name">${a.nome}</p><p class="kanban-card-meta">${a.escola || '—'}<br/>${a.assessor || 'Site direto'}</p>${a.status === 'matriculado' ? progressBar(a.progresso) : ''}</div>`).join('') || '<p class="kanban-empty">Nenhum aluno aqui.</p>';
+    });
+    document.querySelectorAll('.kanban-card').forEach(card => {
+      card.addEventListener('click', () => openFicha(card.dataset.id));
+      card.addEventListener('dragstart', (e) => { card.classList.add('dragging'); e.dataTransfer.setData('text/plain', card.dataset.id); });
+      card.addEventListener('dragend', () => card.classList.remove('dragging'));
+    });
+    document.querySelectorAll('.kanban-col').forEach(col => {
+      col.addEventListener('dragover', (e) => { e.preventDefault(); col.classList.add('drag-over'); });
+      col.addEventListener('dragleave', () => col.classList.remove('drag-over'));
+      col.addEventListener('drop', (e) => { e.preventDefault(); col.classList.remove('drag-over'); const id = e.dataTransfer.getData('text/plain'); const aluno = alunos.find(a => a.id === id); if (aluno) { aluno.status = col.dataset.status; saveAlunos(alunos); renderAll(); } });
+    });
+  }
+
+  function renderLista(list) {
+    const enriched = list.map(a => ({ ...a, origem: a.assessor ? 'Assessor' : 'Site direto', tempo: diasDesde(a.dataEntrada) || 0 }));
+    enriched.sort((a, b) => { let va = a[listaSort.key], vb = b[listaSort.key]; if (listaSort.key === 'progresso') { va = a.progresso == null ? -1 : a.progresso; vb = b.progresso == null ? -1 : b.progresso; } if (typeof va === 'string') va = va.toLowerCase(); if (typeof vb === 'string') vb = vb.toLowerCase(); if (va < vb) return listaSort.dir === 'asc' ? -1 : 1; if (va > vb) return listaSort.dir === 'asc' ? 1 : -1; return 0; });
+    const body = document.getElementById('listaBody');
+    body.innerHTML = enriched.map(a => `<tr class="clickable-row" data-id="${a.id}" style="cursor:pointer;"><td>${a.nome}</td><td>${a.escola}</td><td>${a.assessor || '—'}</td><td>${a.origem}</td><td>${({lead:'Lead',negociacao:'Negociação',matriculado:'Matriculado',inativo:'Inativo'})[a.status]}</td><td>${formatTempo(a.tempo)}</td><td>${progressBar(a.progresso)}</td></tr>`).join('');
+    document.getElementById('listaEmpty').style.display = enriched.length ? 'none' : 'block';
+    body.querySelectorAll('tr').forEach(row => row.addEventListener('click', () => openFicha(row.dataset.id)));
+  }
+
+  function renderAll() { renderFinanceiro(); renderAlunos(); }
+  renderAll();
+
+  // ============ MENU MOBILE ============
+  const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+  document.getElementById('mobileMenuClose').addEventListener('click', () => mobileMenuOverlay.classList.remove('active'));
+  navBurgerBtn.addEventListener('click', () => mobileMenuOverlay.classList.add('active'));
+</script>
+
+</body>
+</html>

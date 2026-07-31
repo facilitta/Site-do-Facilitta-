@@ -10,6 +10,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Facilitta</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -33,7 +35,7 @@
       --ls-corpo: 0px;
     }
 
-    /* ── HELVETICA NEUE (fontes próprias) ── */
+    /* ── HELVETICA NEUE (fontes próprias — mantidas como fallback) ── */
     @font-face {
       font-family: 'Helvetica Neue';
       src: url('https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/fonts/HelveticaNeueBold.otf') format('opentype');
@@ -65,28 +67,28 @@
 
     /* ── CLASSES DE TIPOGRAFIA PADRÃO ── */
     .txt-titulo {
-      font-family: 'Helvetica Neue';
+      font-family: 'Inter';
       font-weight: var(--fw-titulo);
       letter-spacing: var(--ls-titulo);
     }
     .txt-subtitulo {
-      font-family: 'Helvetica Neue';
+      font-family: 'Inter';
       font-weight: var(--fw-subtitulo);
       letter-spacing: var(--ls-titulo);
     }
     .txt-corpo {
-      font-family: 'Helvetica Neue';
+      font-family: 'Inter';
       font-weight: var(--fw-corpo);
       letter-spacing: var(--ls-corpo);
     }
     .txt-longo {
-      font-family: 'Helvetica Neue';
+      font-family: 'Inter';
       font-weight: var(--fw-texto-longo);
       letter-spacing: var(--ls-corpo);
     }
 
     html { scroll-behavior: smooth; }
-    body { font-family: "Helvetica Neue"; background: var(--white); color: var(--dark); overflow-x: hidden; }
+    body { font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif; background: var(--white); color: var(--dark); overflow-x: hidden; }
     * { font-style: normal !important; }
 
 /* NAV */
@@ -249,7 +251,7 @@ nav {
   width: 100%;
   display: flex; align-items: center; gap: 12px;
   background: none; border: none;
-  font-family: 'Helvetica Neue'; font-weight: 500; font-size: 21px;
+  font-family: 'Inter'; font-weight: 500; font-size: 21px;
   color: var(--dark);
   padding: 22px 0;
   text-align: left;
@@ -273,7 +275,7 @@ nav {
 .mobile-accordion.open .mobile-accordion-panel { max-height: 260px; opacity: 1; }
 .mobile-accordion-panel a {
   padding: 14px 0 14px 30px;
-  font-family: 'Helvetica Neue'; font-weight: 400; font-size: 16px; color: #555;
+  font-family: 'Inter'; font-weight: 400; font-size: 16px; color: #555;
   text-decoration: none;
 }
 
@@ -413,7 +415,7 @@ nav {
 
     /* ── TÍTULO GRANDE, FORA DO CARD ── */
     .about-title-main {
-      font-family: 'Helvetica Neue';
+      font-family: 'Inter';
       font-weight: 500;
       font-size: clamp(24px, 3.6vw, 48px);
       letter-spacing: -1px;
@@ -502,7 +504,7 @@ nav {
       }
       .about-title-mobile {
         display: block;
-        font-family: 'Helvetica Neue';
+        font-family: 'Inter';
         font-weight: 500;
         font-size: clamp(28px, 8vw, 36px);
         letter-spacing: -1px;
@@ -653,7 +655,7 @@ nav {
         font-weight: 700;
         padding: 10px 22px;
         border-radius: 100px;
-        font-family: 'Helvetica Neue';
+        font-family: 'Inter';
         text-decoration: none;
         transition: opacity .2s, transform .15s;
         white-space: nowrap;
@@ -812,7 +814,7 @@ nav {
   <!-- Vídeo fixo durante o scroll -->
   <div class="hero-video-container">
     <video class="hero-video" autoplay muted loop playsinline webkit-playsinline preload="auto" disablepictureinpicture>
-      <source src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/main/heroindex.MP4" type="video/mp4">
+      <source src="https://raw.githubusercontent.com/facilitta/Site-do-Facilitta-/48109253aa16f5b9d770719aa906fe95757fd5ad/HERO_SITE_PA%CC%81GINA_INICIAL%20%234.mp4" type="video/mp4">
     </video>
     <div class="hero-overlay"></div>
   </div>
